@@ -38,15 +38,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
+  <?php if (!empty(validation_errors())) {?>
+    <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-ban"></i> Erro!</h4>
+                <?=validation_errors()?>
+              </div>             
+   <?php }?>
+   <?php if ($this->session->erro) {?>
+    <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-ban"></i> Erro!</h4>
+                <?=$this->session->erro?>
+              </div>  
+     <?php }?>
+     <?php if ($this->session->logout) {?>
+      <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-check"></i> Volte Sempre!!!</h4>
+                <?=$this->session->logout?>
+              </div>
+     <?php }?>
     <p class="login-box-msg">Sign in to start your session</p>
 
-    <form action="../../index2.html" method="post">
+    <form action="<?=base_url('login/logar')?>" method="post">
       <div class="form-group has-feedback">
-        <input type="email" class="form-control" placeholder="Email">
+        <input name="usuario" type="text" class="form-control" placeholder="usuario">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Password">
+        <input name="senha" type="password" class="form-control" placeholder="Password">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
