@@ -21,9 +21,8 @@ class Login extends CI_Controller {
         $this->session->unset_userdata('usu_id');
         $this->session->unset_userdata('usu_login');
         $this->session->unset_userdata('usu_nome');
-        $this->session->unset_userdata('usu_per_id');
-        $this->session->unset_userdata('usu_email');
-        $this->session->unset_userdata('usu_stat_id');
+        $this->session->unset_userdata('usu_perfil');
+        $this->session->unset_userdata('usu_status');
 
         if ($this->input->server('REQUEST_METHOD') === 'POST') {
             $this->form_validation->set_rules('usuario', 'usuario', 'required');
@@ -34,7 +33,7 @@ class Login extends CI_Controller {
                 $usuario = $this->usuario_model->logar($usuario, $senha);
                 if (is_null($usuario)) {
                     $this->session->set_flashdata('erro', 'Usuario ou senha inválida');
-                    redirect('usuarios/logar');
+                    redirect('login');
                 }
                 $usuarioLogado['usu_usuario'] = $usuario->usu_usuario;
                 $usuarioLogado['usu_id'] = $usuario->usu_id;
