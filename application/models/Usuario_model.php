@@ -13,23 +13,21 @@ class Usuario_model extends CI_Model
         $this->db->insert('usuario', $usuario);
         return $this->db->insert_id();
     }
-    public function getUsuarioPorId($id)
-    {
+
+    public function listar(){
+        $this->db->select('usu_id,usu_nome,usu_login, stu_status, per_perfil');
+        $this->db->join('perfil','usu_perfil = per_id');
+        $this->db->join('usuario_status', 'usu_status = stu_id');
+        return $this->db->get('usuario')->result();
+    }
+
+    public function getUsuarioId($id){
         $this->db->where('usu_id', $id);
         return $this->db->get('usuario')->row();
     }
 
-    public function getSenhaPorId($id)
-    {
-        $this->db->select('usu_senha');
-        $this->db->where('usu_id', $id);
-        return $this->db->get('usuario')->row();
-
-    }
-    public function getUsuarioNvalidadoId($id)
-    {
-        $this->db->where('usu_id', $id);
-        return $this->db->get('usuario')->row();
+    public function getStatus(){
+        return $this->db->get('usuario_status')->result();
     }
 
     public function update($id, $usuario)
@@ -56,8 +54,8 @@ class Usuario_model extends CI_Model
 
     public function contaUsuario($usuario)
     {
-        $this->db->select("count(usu_usuario) as 'total' ");
-        $this->db->where('usu_usuario', $usuario);
+        $this->db->select("count(usu_login) as 'total' ");
+        $this->db->where('usu_login', $usuario);
         return $this->db->get('usuario')->row();
 
     }

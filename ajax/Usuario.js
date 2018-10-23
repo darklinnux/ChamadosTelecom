@@ -1,15 +1,8 @@
-function cadastarUsuario(url, dados, callback,preload) {
+function cadastarUsuario(url, dados, callback) {
     $.ajax({
         url: url,
         type: 'POST',
-        data: { 
-            login: dados.usuario,
-            nome: dados.nome,
-            status: dados.status,
-            perfil: daods.perfil,
-            senha: dados.senha,
-            conf_senha: dados.conf_senha
-        },
+        data: dados,
         success: function(data) {
             callback(data);
 
@@ -20,16 +13,27 @@ function cadastarUsuario(url, dados, callback,preload) {
     });
 }
 
-function listar(id,url){
+function listar(url,callback){
     $.ajax({
         url: url,
-        type: 'POST',
-        data: {listar:'listar'},
         success: function(data) {
-            $(id).html(data);
+            callback(data);
         },
         beforeSend: function() {
             
         }
     });
 };
+
+function modalEditar(url,callback){
+    $.ajax({
+        url: url,
+        success: function(data) {
+            callback(data);
+
+        },
+        beforeSend: function() {
+            
+        }
+    });
+}
