@@ -1,4 +1,4 @@
-function cadastarUsuario(url, dados, callback) {
+function enviarDados(url, dados, callback) {
     $.ajax({
         url: url,
         type: 'POST',
@@ -13,7 +13,7 @@ function cadastarUsuario(url, dados, callback) {
     });
 }
 
-function listar(url,callback){
+function consultar(url,callback){
     $.ajax({
         url: url,
         success: function(data) {
@@ -24,16 +24,3 @@ function listar(url,callback){
         }
     });
 };
-
-function modalEditar(url,callback){
-    $.ajax({
-        url: url,
-        success: function(data) {
-            callback(data);
-
-        },
-        beforeSend: function() {
-            
-        }
-    });
-}

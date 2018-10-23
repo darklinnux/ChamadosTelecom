@@ -26,15 +26,20 @@ class Usuario_model extends CI_Model
         return $this->db->get('usuario')->row();
     }
 
+    public function deletar($id){
+        $this->db->where('usu_id',$id);
+        $this->db->delete('usuario');
+    }
+
     public function getStatus(){
         return $this->db->get('usuario_status')->result();
     }
 
-    public function update($id, $usuario)
+    public function update($usuario)
     {
 
         try {
-            $this->db->where('usu_id', $id);
+            $this->db->where('usu_id', $usuario['usu_id']);
             $this->db->update('usuario', $usuario);
             return true;
         } catch (Exeption $e) {

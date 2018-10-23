@@ -17,7 +17,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
   <!-- Main content -->
   <section class="content">
-
+  <div id="sucesso" class="alert alert-success alert-dismissible hidden">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-check"></i> Sucesso!</h4>
+                Usuario cadastrado com sucesso !!!!
+    </div>
+    <?php if ($this->session->delete) {?>
+    <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-check"></i> Sucesso!</h4>
+                <?=$this->session->delete?>
+    </div>
+    <?php } ?>
     <!-- Default box -->
     <div class="box">
       <div class="box-header">
@@ -41,31 +52,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <th>Ações</th>
             </tr>
           </thead>
-          <tbody id="dados">
+          <tbody>
+            <?php foreach($usuarios as $usuario){ ?>
             <tr>
-              <td>Trident</td>
-              <td>Internet
-                Explorer 5.5
-              </td>
-              <td>Win 95+</td>
-              <td>5.5</td>
+              <td><?=$usuario->usu_nome?></td>
+              <td><?=$usuario->per_perfil?></td>
+              <td><?=$usuario->usu_login?></td>
+              <td><?=$usuario->stu_status?></td>
               <td>
                 <div class="btn-group">
-                  <button type="button" class="btn btn-primary">Opções</button>
-                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                  </button>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">Separated link</a></li>
-                  </ul>
+                    <button type="button" class="btn btn-primary">Opções</button>
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> <span class="sr-only">Toggle Dropdown</span> </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a onclick="modalEditar(<?=$usuario->usu_id?>);" href="#">Editar</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#" onclick="modalRemover(<?=$usuario->usu_id?>)">Remover</a></li>
+                    </ul>
                 </div>
               </td>
             </tr>
+            <?php } ?>
+          </tbody>
           </table>
         </div>
         <!-- /.box-body -->
@@ -180,7 +187,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
           </div>
           <div class="modal-footer text-center">
-            <button id="btnCadastrar" onclick="enviarDados();" type="button" class="btn btn-primary ">Salvar</button>
+            <button id="btnCadastrar" onclick="cadastrar();" type="button" class="btn btn-primary ">Salvar</button>
             <button onclick="closeModal();" type="button" class="btn btn-default " data-dismiss="modal">Fechar</button>
           </div>
         </div>
@@ -189,7 +196,152 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
-    <div id="modalEditar"></div>
+    <!-- Modal editar inicio -->
+    <div class="modal fade" id="modal-editar">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-blue">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Cadastro Usuario</h4>
+          </div>
+          <div id="editar-erro" class="alert alert-danger alert-dismissible hidden">
+            <h4><i class="icon fa fa-ban"></i> Erro!</h4>
+            <span id="editar-erroText"></span>
+          </div> 
+          <div id="editar-sucesso" class="alert alert-success alert-dismissible hidden">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-check"></i> Sucesso!</h4>
+                Usuario atualizado com sucesso !!!!
+          </div>
+          <div class="modal-body">
+            <div id="erro"></div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Nome:</label>
+
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <i class="fa fa-user"></i>
+                    </div>
+                    <input id="editar-nome" type="text" class="form-control">
+                  </div>
+                  <!-- /.input group -->
+                </div>  
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Usuario:</label>
+
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <span>@</span>
+                    </div>
+                    <input id="editar-usuario" type="text" class="form-control">
+                  </div>
+                  <!-- /.input group -->
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Senha:</label>
+
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <i class="fa fa-key"></i>
+                    </div>
+                    <input id="editar-senha" type="text" class="form-control">
+                  </div>
+                  <!-- /.input group -->
+                </div>  
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Confirmar Senha:</label>
+
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <i class="fa fa-key"></i>
+                    </div>
+                    <input id="editar-conf_senha" type="text" class="form-control">
+                  </div>
+                  <!-- /.input group -->
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-5">
+                <div class="form-group">
+                  <label for="">Status</label>
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <i class="fa fa-get-pocket"></i>
+                    </div>
+                    <select id="editar-status" class="form-control">
+                      <?php foreach($status as $statu) { ?>
+                      <option value="<?=$statu->stu_id?>"><?=$statu->stu_status?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-5">
+                <div class="form-group">
+                  <label for="">Perfil</label>
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <i class="fa fa-get-pocket"></i>
+                    </div>
+                    <select id="editar-perfil" class="form-control">
+                      <?php foreach($perfis as $perfil){?>
+                        <option value="<?=$perfil->per_id?>"><?=$perfil->per_perfil?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer text-center">
+            <button id="editar-btnCadastrar" onclick="editar(this.id);" type="button" class="btn btn-primary ">Salvar</button>
+            <button type="button" class="btn btn-default " data-dismiss="modal">Fechar</button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <!--/ modal editar fim -->
+    <!-- Modal Remover -->
+    <div class="modal fade" id="modal-remover">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header bg-red">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Remover Usuario</h4>
+              </div>
+              <div class="modal-body">
+                <p>Deseja realmente deletar esse usuario ?&hellip;</p>
+              </div>
+              <div class="modal-footer">
+                <a id="btn-deletar" href="#" class="btn btn-danger pull-right">Confirmar</a>
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+        <!-- /fim modal remover -->
     <footer class="main-footer">
       <div class="pull-right hidden-xs">
         <b>Version</b> 2.4.0
@@ -226,11 +378,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  <script>
   $(document).ready(function () {
     $('.sidebar-menu').tree();
-    listarUsuarios();
   })
 </script>
 <script>
-  function enviarDados(){
+  function cadastrar(){
     $('#btnCadastrar').prop("disabled",true);
     var dados = {
     login: $('#usuario').val(),
@@ -240,11 +391,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     senha:$('#senha').val(),
     conf_senha: $('#conf_senha').val()
     };
-    cadastarUsuario("<?=base_url('usuario/cadastrar')?>", dados, (retorno)=>{
+    enviarDados("<?=base_url('usuario/cadastrar')?>", dados, (retorno)=>{
       var obj = JSON.parse(retorno);
       if(obj.sucess){
         limparFomeCadastro();
         $('#btnCadastrar').prop("disabled",false);
+        $('#modal-default').modal('hide');
+        $('#sucesso').removeClass('hidden');
+        setTimeout(function(){ window.location.reload() },2000);
         
       }else {
         $('#btnCadastrar').prop("disabled",false);
@@ -254,42 +408,61 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     });
   }
 
-  function listarUsuarios(limpar){
-    listar("<?=base_url('usuario/listar')?>",(retorno)=>{
-      var usuarios = JSON.parse(retorno);
-      $('#dados').html(' '); //limpar a tabela
-      //links
-      remover = "<?=base_url('usuario/remover')?>";
-      permissao = "<?=base_url('usuario/permissao')?>";
-      editar = "<?=base_url('usuario/editar')?>";
-      usuarios.forEach(usuario => {
-        linhas = '<tr>'
-        +'<td>'+usuario.usu_nome+'</td>'
-        +'<td>'+usuario.usu_login+'</td>'
-        +'<td>'+usuario.stu_status+'</td>'
-        +'<td>'+usuario.per_perfil+'</td>'
-        +'<td> <div class="btn-group"> <button type="button" class="btn btn-primary">Opções</button> <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> <span class="sr-only">Toggle Dropdown</span> </button> <ul class="dropdown-menu" role="menu"> <li><a onclick="carregarEditar('+usuario.usu_id+');" href="#">Editar</a></li> <li><a href="#">Permissões</a></li> <li class="divider"></li> <li><a href="">Remover</a></li> </ul> </div></td></tr>';
-        $('#dados').append(linhas);
-        console.log(usuario.usu_nome);
-      });
-      
+  function editar(){
+    $('#btnCadastrar').prop("disabled",true);
+    var dados = {
+    id:$('#editar-btnCadastrar').attr('usuario'),
+    login: $('#editar-usuario').val(),
+    nome:$('#editar-nome').val(),
+    status:$('#editar-status').val(),
+    perfil:$('#editar-perfil').val(),
+    senha:$('#editar-senha').val(),
+    conf_senha: $('#editar-conf_senha').val()
+    };
+    enviarDados("<?=base_url('usuario/editar/')?>"+dados.id, dados, (retorno)=>{
+      var obj = JSON.parse(retorno);
+      if(obj.sucess){
+        limparFomeCadastro();
+        $('#editar-btnCadastrar').prop("disabled",false);
+        $('#editar-sucesso').removeClass('hidden');
+        $('#editar-erro').addClass('hidden');
+      }else {
+        $('#editar-btnCadastrar').prop("disabled",false);
+        $('#editar-sucesso').addClass('hidden');
+        $('#editar-erro').removeClass('hidden');
+        $('#editar-erroText').html(obj.error);
+      }
     });
   }
 
-  function carregarEditar(id){
-    modalEditar("<?=base_url('usuario/gerarmodaleditar/')?>"+id,(retorno) => {
-      $('#modalEditar').html(retorno);
+  function modalRemover(id){
+    $('#btn-deletar').attr('href', "<?=base_url('usuario/remover/')?>"+id)
+    $('#modal-remover').modal('show');
+  }
+  function modalEditar(id){
+    $('#editar-sucesso').addClass('hidden');
+    $('#editar-erro').addClass('hidden');
+    consultar("<?=base_url('usuario/carregarDadosEditar/')?>"+id,(retorno) => {
+      var usuario = JSON.parse(retorno);
+      console.log(usuario.usu_nome);
+      $('#editar-usuario').val(usuario.usu_login);
+      $('#editar-nome').val(usuario.usu_nome);
+      $('#editar-status').val(usuario.usu_status);
+      $('#editar-perfil').val(usuario.usu_perfil);
+      $('#editar-senha').val(' ');
+      $('#editar-conf_senha').val(' ');
+      $('#editar-btnCadastrar').attr('usuario',id);
       $('#modal-editar').modal('show');
     });
   }
 
   function limparFomeCadastro(){
-    $('#usuario').val(' '),
-    $('#nome').val(' '),
-    $('#status').val(' '),
-    $('#perfil').val(' '),
-    $('#senha').val(' '),
-    $('#conf_senha').val(' ')
+    $('#usuario').val(' ');
+    $('#nome').val(' ');
+    $('#status').val(1);
+    $('#perfil').val(1);
+    $('#senha').val(' ');
+    $('#conf_senha').val(' ');
   }
 
   function closeModal(){
