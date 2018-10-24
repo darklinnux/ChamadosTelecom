@@ -40,11 +40,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </tr>
                 </thead>
                 <tbody>
+                <?php foreach($empresas as $empresa) { ?>
                 <tr>
-                  <td>Trident</td>
-                  <td>Internet
-                    Explorer 4.0
-                  </td>
+                  <td><?=$empresa->emp_id?></td>
+                  <td><?=$empresa->emp_nome?></td>
                   <td>
                     <div class="btn-group">
                       <button type="button" class="btn btn-primary">Opções</button>
@@ -62,50 +61,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                   </td>
                 </tr>
-                <tr>
-                  <td>Trident</td>
-                  <td>Internet
-                    Explorer 5.0
-                  </td>
-                  <td>
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-primary">Opções</button>
-                      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                      </button>
-                      <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                      </ul>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Trident</td>
-                  <td>Internet
-                    Explorer 5.5
-                  </td>
-                  <td>
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-primary">Opções</button>
-                      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                      </button>
-                      <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                      </ul>
-                    </div>
-                  </td>
-                </tr>
+                <?php } ?>
+                </tbody>
               </table>
             </div>
             <!-- /.box-body -->
