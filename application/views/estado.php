@@ -24,6 +24,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <?=$this->session->sucess?>
       </div>
       <?php } ?>
+      <?php if($this->session->error){ ?>
+      <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-ban"></i> Erro!</h4>
+                <?=$this->session->error?>
+              </div>
+      <?php } ?>
       <!-- Default box -->
       <div class="box">
             <div class="box-header">
@@ -110,8 +117,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         <!-- /.modal -->
   </form>
-
-  <form action="<?=base_url('estado/cadastrar')?>" method="post">
+  <!-- Modal editar -->
+  <form action="<?=base_url('estado/editar')?>" method="post" onsubmit="validarForm();">
   <div class="modal fade" id="modal-editar">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -119,6 +126,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Cadastro Estado</h4>
+              </div>
+              <div id="editar-erro" class="alert alert-danger alert-dismissible hidden">
+                <h4><i class="icon fa fa-ban"></i> Erro!</h4>
+                <span id="editar-erroText"></span>
               </div>
               <div class="modal-body">
                 <div class="row">
@@ -130,7 +141,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="input-group-addon">
                           <i class="fa fa-user"></i>
                         </div>
-                        <input name="sigla" type="text" class="form-control">
+                        <input id="editar-sigla" name="sigla" type="text" class="form-control">
+                        <input type="text" value=" " id="editar-id" name="id" hidden />
                       </div>
                       <!-- /.input group -->
                     </div>  
@@ -138,7 +150,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
               </div>
               <div class="modal-footer text-center">
-                <button type="submit" class="btn btn-primary ">Salvar</button>
+                <button id="btn-form-editar" type="submit" class="btn btn-primary ">Salvar</button>
                 <button type="button" class="btn btn-default " data-dismiss="modal">Fechar</button>
               </div>
             </div>
@@ -148,3 +160,101 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         <!-- /.modal -->
   </form>
+  <!-- FIm madal editar -->
+
+  <!-- Modal Remover -->
+  <div class="modal fade" id="modal-remover">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header bg-red">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Remover Usuario</h4>
+              </div>
+              <div class="modal-body">
+                <p>Deseja realmente deletar esse usuario ?&hellip;</p>
+              </div>
+              <div class="modal-footer">
+                <a id="btn-deletar" href="#" class="btn btn-danger pull-right">Confirmar</a>
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+        <!-- /fim modal remover -->
+
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>Version</b> 2.4.0
+    </div>
+    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
+    reserved.
+  </footer>
+
+  <!-- Control Sidebar -->
+  
+  <!-- /.control-sidebar -->
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 3 -->
+<script src="<?=base_url('assets/bower_components/jquery/dist/jquery.min.js')?>"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="<?=base_url('assets/bower_components/bootstrap/dist/js/bootstrap.min.js')?>"></script>
+<!-- datatable -->
+<script src="<?=base_url('assets/bower_components/datatables.net/js/jquery.dataTables.min.js')?>"></script>
+<script src="<?=base_url('assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')?>"></script>
+<!-- SlimScroll -->
+<script src="<?=base_url('assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js')?>"></script>
+<!-- FastClick -->
+<script src="<?=base_url('assets/bower_components/fastclick/lib/fastclick.js')?>"></script>
+<!-- AdminLTE App -->
+<script src="<?=base_url('assets/dist/js/adminlte.min.js')?>"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="<?=base_url('assets/dist/js/demo.js')?>"></script>
+<script src="<?=base_url('ajax/ajax_generico.js')?>"></script>
+<script>
+  $(document).ready(function () {
+    $('.sidebar-menu').tree()
+  })
+</script>
+<script>
+  function modalEditar(id){
+    $('#editar-sucesso').addClass('hidden');
+    $('#editar-erro').addClass('hidden');
+    consultar("<?=base_url('estado/carregarDadosEditar/')?>"+id,(retorno) => {
+      var estado = JSON.parse(retorno);
+      console.log(estado.est_id);
+      $('#editar-sigla').val(estado.est_sigla);
+      $('#editar-id').val(estado.est_id);
+      $('#modal-editar').modal('show');
+    });
+  }
+
+  function modalRemover(id){
+    $('#btn-deletar').attr('href', "<?=base_url('estado/remover/')?>"+id)
+    $('#modal-remover').modal('show');
+  }
+</script>
+<script>
+  $(function () {
+    $('#example1').DataTable()
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+  })
+</script>
+</body>
+</html>
