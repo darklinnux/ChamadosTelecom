@@ -309,7 +309,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </div>
           <div class="modal-footer text-center">
             <button id="editar-btnCadastrar" onclick="editar(this.id);" type="button" class="btn btn-primary ">Salvar</button>
-            <button type="button" class="btn btn-default " data-dismiss="modal">Fechar</button>
+            <button onclick="window.location.reload();" type="button" class="btn btn-default " data-dismiss="modal">Fechar</button>
           </div>
         </div>
         <!-- /.modal-content -->
@@ -374,7 +374,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  <script src="<?=base_url('assets/dist/js/adminlte.min.js')?>"></script>
  <!-- AdminLTE for demo purposes -->
  <script src="<?=base_url('assets/dist/js/demo.js')?>"></script>
- <script src="<?=base_url('ajax/Usuario.js')?>"></script>
+ <script src="<?=base_url('ajax/ajax_generico.js')?>"></script>
  <script>
   $(document).ready(function () {
     $('.sidebar-menu').tree();

@@ -41,6 +41,7 @@ class Usuario extends CI_Controller {
     
     if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormEditar()) {
       $usuario = $this->popularUsuario();
+      $this->usuario_model->update($usuario);
         echo json_encode(array(
           'sucess'=> true
         ));

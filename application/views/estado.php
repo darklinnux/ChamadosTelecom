@@ -17,7 +17,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <!-- Main content -->
     <section class="content">
-
+      <?php if($this->session->sucess) {?>
+      <div id="sucesso" class="alert alert-success alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="icon fa fa-check"></i> Sucesso!</h4>
+                  <?=$this->session->sucess?>
+      </div>
+      <?php } ?>
       <!-- Default box -->
       <div class="box">
             <div class="box-header">
@@ -40,72 +46,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </tr>
                 </thead>
                 <tbody>
+                <?php foreach($estados as $estado){ ?>
                 <tr>
-                  <td>Trident</td>
-                  <td>Internet
-                    Explorer 4.0
-                  </td>
+                  
+                  <td><?=$estado->est_id?></td>
+                  <td><?=$estado->est_sigla?></td>
                   <td>
                     <div class="btn-group">
-                      <button type="button" class="btn btn-primary">Opções</button>
-                      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                      </button>
-                      <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                      </ul>
+                        <button type="button" class="btn btn-primary">Opções</button>
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> <span class="sr-only">Toggle Dropdown</span> </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a onclick="modalEditar(<?=$estado->est_id?>);" href="#">Editar</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#" onclick="modalRemover(<?=$estado->est_id?>)">Remover</a></li>
+                        </ul>
                     </div>
                   </td>
+                  
                 </tr>
-                <tr>
-                  <td>Trident</td>
-                  <td>Internet
-                    Explorer 5.0
-                  </td>
-                  <td>
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-primary">Opções</button>
-                      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                      </button>
-                      <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                      </ul>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Trident</td>
-                  <td>Internet
-                    Explorer 5.5
-                  </td>
-                  <td>
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-primary">Opções</button>
-                      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                      </button>
-                      <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                      </ul>
-                    </div>
-                  </td>
-                </tr>
+                <?php } ?>
               </table>
             </div>
             <!-- /.box-body -->
@@ -114,6 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </section>
     <!-- /.content -->
   </div>
+  <form action="<?=base_url('estado/cadastrar')?>" method="post">
   <div class="modal fade" id="modal-default">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -132,7 +92,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="input-group-addon">
                           <i class="fa fa-user"></i>
                         </div>
-                        <input type="text" class="form-control">
+                        <input name="sigla" type="text" class="form-control">
                       </div>
                       <!-- /.input group -->
                     </div>  
@@ -140,7 +100,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
               </div>
               <div class="modal-footer text-center">
-                <button type="button" class="btn btn-primary ">Salvar</button>
+                <button type="submit" class="btn btn-primary ">Salvar</button>
                 <button type="button" class="btn btn-default " data-dismiss="modal">Fechar</button>
               </div>
             </div>
@@ -149,3 +109,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <!-- /.modal-dialog -->
         </div>
         <!-- /.modal -->
+  </form>
+
+  <form action="<?=base_url('estado/cadastrar')?>" method="post">
+  <div class="modal fade" id="modal-editar">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header bg-blue">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Cadastro Estado</h4>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Sigla Estado:</label>
+
+                      <div class="input-group">
+                        <div class="input-group-addon">
+                          <i class="fa fa-user"></i>
+                        </div>
+                        <input name="sigla" type="text" class="form-control">
+                      </div>
+                      <!-- /.input group -->
+                    </div>  
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer text-center">
+                <button type="submit" class="btn btn-primary ">Salvar</button>
+                <button type="button" class="btn btn-default " data-dismiss="modal">Fechar</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+  </form>
