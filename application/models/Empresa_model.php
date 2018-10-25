@@ -8,18 +8,18 @@ class Empresa_model extends CI_Model
         parent::__construct();
     }
 
-    public function inserir($estado)
+    public function inserir($empresa)
     {
-        $this->db->insert('estado', $estado);
+        $this->db->insert('empresa', $empresa);
         return $this->db->insert_id();
     }
 
-    public function update($estado)
+    public function update($empresa)
     {
 
         try {
-            $this->db->where('est_id', $estado['est_id']);
-            $this->db->update('estado', $estado);
+            $this->db->where('emp_id', $empresa['emp_id']);
+            $this->db->update('empresa', $empresa);
             return true;
         } catch (Exeption $e) {
             return false;
@@ -28,16 +28,16 @@ class Empresa_model extends CI_Model
     }
 
     public function deletar($id){
-        $this->db->where('est_id',$id);
-        $this->db->delete('estado');
+        $this->db->where('emp_id',$id);
+        $this->db->delete('empresa');
     }
 
     public function listarTodos(){
         return $this->db->get('empresa')->result();
     }
 
-    public function getEstadoId($id){
-        $this->db->where('est_id', $id);
-        return $this->db->get('estado')->row();
+    public function getEmpresaId($id){
+        $this->db->where('emp_id', $id);
+        return $this->db->get('empresa')->row();
     }
 }
