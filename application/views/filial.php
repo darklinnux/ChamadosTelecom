@@ -34,86 +34,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Filial</th>
+                  <th>Numero</th>
+                  <th>Nome</th>
                   <th>Cidade</th>
                   <th>Estado</th>
                   <th>Ações</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                  <td>Trident</td>
-                  <td>Internet
-                    Explorer 4.0
-                  </td>
-                  <td>Win 95+</td>
-                  <td> 4</td>
-                  <td>
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-primary">Opções</button>
-                      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                      </button>
-                      <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                      </ul>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Trident</td>
-                  <td>Internet
-                    Explorer 5.0
-                  </td>
-                  <td>Win 95+</td>
-                  <td>5</td>
-                  <td>
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-primary">Opções</button>
-                      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                      </button>
-                      <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                      </ul>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Trident</td>
-                  <td>Internet
-                    Explorer 5.5
-                  </td>
-                  <td>Win 95+</td>
-                  <td>5.5</td>
-                  <td>
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-primary">Opções</button>
-                      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                      </button>
-                      <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                      </ul>
-                    </div>
-                  </td>
-                </tr>
+                  <?php foreach($filiais as $filial) {?>
+                  <tr>
+                    <td><?=$filial->fil_numero?></td>
+                    <td><?=$filial->fil_nome?></td>
+                    <td><?=$filial->cid_nome?></td>
+                    <td><?=$filial->est_sigla?></td>
+                    <td>
+                      <div class="btn-group">
+                          <button type="button" class="btn btn-primary">Opções</button>
+                          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> <span class="sr-only">Toggle Dropdown</span> </button>
+                          <ul class="dropdown-menu" role="menu">
+                              <li><a onclick="modalEditar(<?=$filial->fil_id?>);" href="#">Editar</a></li>
+                              <li class="divider"></li>
+                              <li><a href="#" onclick="modalRemover(<?=$filial->fil_id?>)">Remover</a></li>
+                          </ul>
+                      </div>
+                    </td>
+                  </tr>
+                  <?php } ?>
+                </tbody>
               </table>
             </div>
             <!-- /.box-body -->
@@ -147,29 +95,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   </div>
                   <div class="col-sm-6">
                     <div class="form-group">
-                      <label>Cidade:</label>
+                      <label>Numero Filial:</label>
 
                       <div class="input-group">
                         <div class="input-group-addon">
                           <span>@</span>
                         </div>
-                        <input type="text" class="form-control">
+                        <input name="filial" type="text" class="form-control">
                       </div>
                       <!-- /.input group -->
                     </div>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-sm-3">
+                  <div class="col-sm-4">
                     <div class="form-group">
-                      <label>Estado:</label>
+                      <label>Cidade:</label>
 
                       <div class="input-group">
                         <div class="input-group-addon">
                           <i class="fa fa-key"></i>
                         </div>
-                        <select class="form-control">
-                          <option value="PA">PA</option>
+                        <select name="cidade" class="form-control">
+                          <?php foreach($cidades as $cidade) ?>
+                          <option value="<?=$cidade->cid_id?>"><?=$cidade->cid_nome?></option>
                         </select>
                       </div>
                       <!-- /.input group -->
