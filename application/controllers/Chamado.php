@@ -6,13 +6,14 @@ class Chamado extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('chamado_model');
 	}
 	
 	public function index()
 	{
-		$dados['estados'] = $this->estado_model->listarTodos();
+		$dados['chamados'] = $this->chamado_model->listarTodos();
 		$this->load->view('template/header');
-		$this->load->view('estado',$dados);
+		$this->load->view('chamado',$dados);
 		
     }
 }
