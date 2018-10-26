@@ -43,4 +43,12 @@ class Filial_model extends CI_Model
         $this->db->where('fil_id', $id);
         return $this->db->get('filial')->row();
     }
+
+    public function contaFilial($filial)
+    {
+        $this->db->select("count(fil_nome) as 'total' ");
+        $this->db->where('fil_nome', $filial);
+        return $this->db->get('filial')->row();
+
+    }
 }

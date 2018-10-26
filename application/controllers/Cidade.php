@@ -25,6 +25,9 @@ class Cidade extends CI_Controller {
 			$this->cidade_model->inserir($cidade);
 			$this->session->set_flashdata('sucess', 'cidade cadastrada com sucesso!!!');
 			redirect('cidade');
+		}else {
+			$this->session->set_flashdata('error', validation_errors());
+			redirect('cidade');
 		}
 	}
 
