@@ -7,10 +7,12 @@ class Chamado extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('chamado_model');
+		$this->load->model('empresa_model');
 	}
 	
 	public function index()
 	{
+		$dados['empresas'] = $this->empresa_model->listarTodos();
 		$dados['chamados'] = $this->chamado_model->listarTodos();
 		$this->load->view('template/header');
 		$this->load->view('chamado',$dados);

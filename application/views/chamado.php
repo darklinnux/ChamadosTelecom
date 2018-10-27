@@ -88,33 +88,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </section>
     <!-- /.content -->
   </div>
-  <form method="POST" action="<?=base_url('filial/cadastrar')?>">
+  <form method="POST" action="<?=base_url('chamado/cadastrar')?>">
   <div class="modal fade" id="modal-default">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header bg-blue">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Cadastro Filial</h4>
+                <h4 class="modal-title">Cadastro Chamado</h4>
               </div>
               <div class="modal-body">
                 <div class="row">
                   <div class="col-sm-6">
                     <div class="form-group">
-                      <label>Filial:</label>
-
-                      <div class="input-group">
-                        <div class="input-group-addon">
-                          <i class="fa fa-user"></i>
-                        </div>
-                        <input name="nome" type="text" class="form-control">
-                      </div>
-                      <!-- /.input group -->
-                    </div>  
+                      <label>Empresa</label>
+                      <select class="form-control select2" style="width: 100%;">
+                        <?php foreach($empresas as $empresa) { ?>
+                          <option value="<?=$empresa->emp_id?>"><?=$empresa->emp_nome?></option>
+                        <?php } ?>
+                      </select>
+                    </div>
                   </div>
                   <div class="col-sm-6">
                     <div class="form-group">
-                      <label>Numero Filial:</label>
+                      <label>Filiais:</label>
 
                       <div class="input-group">
                         <div class="input-group-addon">
@@ -281,6 +278,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="<?=base_url('assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js')?>"></script>
 <!-- FastClick -->
 <script src="<?=base_url('assets/bower_components/fastclick/lib/fastclick.js')?>"></script>
+
+<!-- Select2 -->
+<script src="<?=base_url("assets/bower_components/select2/dist/js/select2.full.min.js")?>"></script>
 <!-- AdminLTE App -->
 <script src="<?=base_url('assets/dist/js/adminlte.min.js')?>"></script>
 <!-- AdminLTE for demo purposes -->
@@ -288,7 +288,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="<?=base_url('ajax/ajax_generico.js')?>"></script>
 <script>
   $(document).ready(function () {
-    $('.sidebar-menu').tree()
+    $('.sidebar-menu').tree();
+    $('.select2').select2()
   })
 </script>
 <script>
