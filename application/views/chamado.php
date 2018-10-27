@@ -99,7 +99,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               </div>
               <div class="modal-body">
                 <div class="row">
-                  <div class="col-sm-8">
+                  <div class="col-sm-6">
                     <div class="form-group">
                       <label>Protocolo:</label>
                       <div class="input-group">
@@ -107,6 +107,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <i class="fa fa-user"></i>
                         </div>
                         <input placeholder="Digite o protocolo do atendimento" id="protocolo" name="protocolo" type="text" class="form-control">
+                      </div>
+                      <!-- /.input group -->
+                    </div>  
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <label>Inicio:</label>
+                      <div class="input-group">
+                        <div class="input-group-addon">
+                          <i class="fa fa-user"></i>
+                        </div>
+                        <input disabled type="text" class="form-control" value="<?=date('d/m/y')?>">
+                      </div>
+                      <!-- /.input group -->
+                    </div>  
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <label>Previsão:</label>
+                      <div class="input-group">
+                        <div class="input-group-addon">
+                          <i class="fa fa-user"></i>
+                        </div>
+                        <input disabled type="text" class="form-control" value="<?=date('d/m/y')?>">
                       </div>
                       <!-- /.input group -->
                     </div>  
@@ -137,7 +161,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                   </div>
                 </div>
-                <hr>
                 <div class="row">
                   <div class="col-sm-12">
                     <div class="form-group">
@@ -148,6 +171,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <option value="<?=$filial->fil_id?>"><?=$filial->fil_numero?>-<?=$filial->fil_nome?></option>
                         <?php } ?>
                       </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label>Sintomas</label>
+                      <select class="form-control select2" multiple="multiple" data-placeholder="Nome do atendente" 
+                              style="width: 100%;">
+                        <?php foreach($sintomas as $sintoma){ ?>
+                          <option value="<?=$sintoma->sin_id?>"><?=$sintoma->sin_sintoma?></option>
+                        <?php } ?>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label>Motivo:</label>
+                      <textarea style="resize: none;height: 138px;" class="form-control"></textarea>
                     </div>
                   </div>
                 </div>
