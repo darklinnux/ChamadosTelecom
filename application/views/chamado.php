@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
+<link rel="stylesheet" href="<?= base_url("assets/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css")?>">
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -38,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               
               <div>
                 <h3 class="box-title">Cadastros</h3>
-                <button style="float:right;" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-default">Nova Chamado</button>    
+                <button style="float:right;" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-default">Novo Chamado</button>    
               </div>
               
             </div>
@@ -95,11 +96,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="modal-header bg-blue">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Cadastro Chamado</h4>
+                <h4 class="modal-title">Novo Chamado</h4>
               </div>
               <div class="modal-body">
                 <div class="row">
-                  <div class="col-sm-6">
+                  <div class="col-sm-5">
                     <div class="form-group">
                       <label>Protocolo:</label>
                       <div class="input-group">
@@ -123,17 +124,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <!-- /.input group -->
                     </div>  
                   </div>
-                  <div class="col-sm-3">
+                  <div class="col-sm-4">
                     <div class="form-group">
                       <label>Previsão:</label>
-                      <div class="input-group">
+
+                      <div class="input-group date">
                         <div class="input-group-addon">
-                          <i class="fa fa-user"></i>
+                          <i class="fa fa-calendar"></i>
                         </div>
-                        <input disabled type="text" class="form-control" value="<?=date('d/m/y')?>">
+                        <input name="previsao" type="text" class="form-control pull-right" id="datepicker">
                       </div>
                       <!-- /.input group -->
-                    </div>  
+                    </div>
                   </div>
                 </div>
                 <div class="row">
@@ -153,7 +155,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="col-sm-6">
                     <div class="form-group">
                       <label>Empresa</label>
-                      <select class="form-control select2" style="width: 100%;">
+                      <select name="empresa" class="form-control select2" style="width: 100%;">
                         <?php foreach($empresas as $empresa) { ?>
                           <option value="<?=$empresa->emp_id?>"><?=$empresa->emp_nome?></option>
                         <?php } ?>
@@ -165,7 +167,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label>Filiais</label>
-                      <select class="form-control select2" multiple="multiple" data-placeholder="Selecione as filiais"
+                      <select name="filial[]" class="form-control select2" multiple="multiple" data-placeholder="Selecione as filiais"
                               style="width: 100%;">
                         <?php foreach($filiais as $filial){ ?>
                           <option value="<?=$filial->fil_id?>"><?=$filial->fil_numero?>-<?=$filial->fil_nome?></option>
@@ -178,7 +180,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label>Sintomas</label>
-                      <select class="form-control select2" multiple="multiple" data-placeholder="Nome do atendente" 
+                      <select name="sintoma[]" class="form-control select2" multiple="multiple" data-placeholder="Nome do atendente" 
                               style="width: 100%;">
                         <?php foreach($sintomas as $sintoma){ ?>
                           <option value="<?=$sintoma->sin_id?>"><?=$sintoma->sin_sintoma?></option>
@@ -191,7 +193,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label>Motivo:</label>
-                      <textarea style="resize: none;height: 138px;" class="form-control"></textarea>
+                      <textarea name="motivo" style="resize: none;height: 138px;" class="form-control"></textarea>
                     </div>
                   </div>
                 </div>
@@ -331,6 +333,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="<?=base_url('assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js')?>"></script>
 <!-- FastClick -->
 <script src="<?=base_url('assets/bower_components/fastclick/lib/fastclick.js')?>"></script>
+<!-- bootstrap datepicker -->
+<script src="<?=base_url("assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js")?>"></script>
 
 <!-- Select2 -->
 <script src="<?=base_url("assets/bower_components/select2/dist/js/select2.full.min.js")?>"></script>
@@ -342,7 +346,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
   $(document).ready(function () {
     $('.sidebar-menu').tree();
-    $('.select2').select2()
+    $('.select2').select2();
+    $('#datepicker').datepicker({
+      autoclose: true,
+    });
   })
 </script>
 <script>
