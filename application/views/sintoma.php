@@ -5,19 +5,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Chamado
-        <small>Lista de Chamado</small>
+        Sintoma
+        <small>Lista de Sintomas</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?=base_url()?>"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="#">Cadastro</a></li>
-        <li class="active">chamado</li>
+        <li class="active">Sintoma</li>
       </ol>
     </section>
 
     <!-- Main content -->
     <section class="content">
-    <?php if($this->session->sucess) {?>
+      <?php if($this->session->sucess) {?>
       <div id="sucesso" class="alert alert-success alert-dismissible">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                   <h4><i class="icon fa fa-check"></i> Sucesso!</h4>
@@ -31,14 +31,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <?=$this->session->error?>
               </div>
       <?php } ?>
-
       <!-- Default box -->
       <div class="box">
             <div class="box-header">
               
               <div>
                 <h3 class="box-title">Cadastros</h3>
-                <button style="float:right;" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-default">Nova Chamado</button>    
+                <button style="float:right;" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-default">Nova Sintoma</button>    
               </div>
               
             </div>
@@ -48,38 +47,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>Localidade</th>
-                  <th>Chamado</th>
-                  <th>Protocolo</th>
-                  <th>Previsão</th>
-                  <th>Usuario</th>
-                  <th>Status</th>
+                  <th>ID</th>
+                  <th>Sintoma</th>
                   <th>Ações</th>
                 </tr>
                 </thead>
                 <tbody>
-                  <?php foreach($chamados as $chamado) {?>
-                  <tr>
-                    <td><?=$chamado->fil_numero?>-<?=$chamado->fil_nome?></td>
-                    <td><?=$chamado->emp_nome?></td>
-                    <td><?=$chamado->cha_protocolo?></td>
-                    <td><?=$chamado->cha_previsao?></td>
-                    <td><?=$chamado->usu_login?></td>
-                    <td><?=$chamado->stc_status?></td>
-                    <td>
-                      <div class="btn-group">
-                          <button type="button" class="btn btn-primary">Opções</button>
-                          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> <span class="sr-only">Toggle Dropdown</span> </button>
-                          <ul class="dropdown-menu" role="menu">
-                              <li><a onclick="modalEditar(<?=$chamado->cha_id?>);" href="#">Editar</a></li>
-                              <li class="divider"></li>
-                              <li><a href="#" onclick="modalRemover(<?=$chamado->cha_id?>)">Remover</a></li>
-                          </ul>
-                      </div>
-                    </td>
-                  </tr>
-                  <?php } ?>
-                </tbody>
+                <?php foreach($sintomas as $sintoma){ ?>
+                <tr>
+                  
+                  <td><?=$sintoma->sin_id?></td>
+                  <td><?=$sintoma->sin_sintoma?></td>
+                  <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary">Opções</button>
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> <span class="sr-only">Toggle Dropdown</span> </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a onclick="modalEditar(<?=$sintoma->sin_id?>);" href="#">Editar</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#" onclick="modalRemover(<?=$sintoma->sin_id?>)">Remover</a></li>
+                        </ul>
+                    </div>
+                  </td>
+                  
+                </tr>
+                <?php } ?>
               </table>
             </div>
             <!-- /.box-body -->
@@ -88,67 +80,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </section>
     <!-- /.content -->
   </div>
-  <form method="POST" action="<?=base_url('chamado/cadastrar')?>">
+  <form action="<?=base_url('sintoma/cadastrar')?>" method="post">
   <div class="modal fade" id="modal-default">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header bg-blue">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Cadastro Chamado</h4>
+                <h4 class="modal-title">Cadastro Sintoma</h4>
               </div>
               <div class="modal-body">
                 <div class="row">
-                  <div class="col-sm-8">
+                  <div class="col-sm-6">
                     <div class="form-group">
-                      <label>Protocolo:</label>
+                      <label>Sintoma:</label>
+
                       <div class="input-group">
                         <div class="input-group-addon">
                           <i class="fa fa-user"></i>
                         </div>
-                        <input placeholder="Digite o protocolo do atendimento" id="protocolo" name="protocolo" type="text" class="form-control">
+                        <input name="sintoma" type="text" class="form-control">
                       </div>
                       <!-- /.input group -->
                     </div>  
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-6">
-                    <div class="form-group">
-                      <label>Atendente:</label>
-
-                      <div class="input-group">
-                        <div class="input-group-addon">
-                          <i class="fa fa-key"></i>
-                        </div>
-                        <input placeholder="Nome do atendente" id="atendente" name="atendente" type="text" class="form-control">
-                      </div>
-                      <!-- /.input group -->
-                    </div>  
-                  </div>
-                  <div class="col-sm-6">
-                    <div class="form-group">
-                      <label>Empresa</label>
-                      <select class="form-control select2" style="width: 100%;">
-                        <?php foreach($empresas as $empresa) { ?>
-                          <option value="<?=$empresa->emp_id?>"><?=$empresa->emp_nome?></option>
-                        <?php } ?>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-12">
-                    <div class="form-group">
-                      <label>Filiais</label>
-                      <select class="form-control select2" multiple="multiple" data-placeholder="Selecione as filiais"
-                              style="width: 100%;">
-                        <?php foreach($filiais as $filial){ ?>
-                          <option value="<?=$filial->fil_id?>"><?=$filial->fil_numero?>-<?=$filial->fil_nome?></option>
-                        <?php } ?>
-                      </select>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -162,61 +116,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <!-- /.modal-dialog -->
         </div>
         <!-- /.modal -->
-        </form>
-        <!-- inicio modal editar -->
-        <form method="POST" action="<?=base_url('filial/editar')?>">
+  </form>
+  <!-- Modal editar -->
+  <form action="<?=base_url('sintoma/editar')?>" method="post" onsubmit="validarForm();">
   <div class="modal fade" id="modal-editar">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header bg-blue">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Cadastro Filial</h4>
+                <h4 class="modal-title">Editar Sintoma</h4>
+              </div>
+              <div id="editar-erro" class="alert alert-danger alert-dismissible hidden">
+                <h4><i class="icon fa fa-ban"></i> Erro!</h4>
+                <span id="editar-erroText"></span>
               </div>
               <div class="modal-body">
                 <div class="row">
                   <div class="col-sm-6">
                     <div class="form-group">
-                      <label>Filial:</label>
+                      <label>Sintoma:</label>
 
                       <div class="input-group">
                         <div class="input-group-addon">
                           <i class="fa fa-user"></i>
                         </div>
-                        <input id="editar-nome" name="nome" type="text" class="form-control">
-                      </div>
-                      <!-- /.input group -->
-                    </div>  
-                  </div>
-                  <div class="col-sm-6">
-                    <div class="form-group">
-                      <label>Numero Filial:</label>
-
-                      <div class="input-group">
-                        <div class="input-group-addon">
-                          <span>@</span>
-                        </div>
-                        <input id="editar-numero" name="numero" type="text" class="form-control">
+                        <input id="editar-sigla" name="sintoma" type="text" class="form-control">
                         <input type="text" value=" " id="editar-id" name="id" hidden />
-                      </div>
-                      <!-- /.input group -->
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-4">
-                    <div class="form-group">
-                      <label>Cidade:</label>
-
-                      <div class="input-group">
-                        <div class="input-group-addon">
-                          <i class="fa fa-key"></i>
-                        </div>
-                        <select id="editar-cidade" name="cidade" class="form-control">
-                          <?php foreach($cidades as $cidade) {?>
-                          <option value="<?=$cidade->cid_id?>"><?=$cidade->cid_nome?></option>
-                          <?php } ?>
-                        </select>
                       </div>
                       <!-- /.input group -->
                     </div>  
@@ -224,7 +150,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
               </div>
               <div class="modal-footer text-center">
-                <button type="submit" class="btn btn-primary ">Salvar</button>
+                <button id="btn-form-editar" type="submit" class="btn btn-primary ">Salvar</button>
                 <button type="button" class="btn btn-default " data-dismiss="modal">Fechar</button>
               </div>
             </div>
@@ -233,10 +159,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <!-- /.modal-dialog -->
         </div>
         <!-- /.modal -->
-        </form>
-        <!-- fim modal editar -->
-        <!-- inicio modal remover -->
-        <div class="modal fade" id="modal-remover">
+  </form>
+  <!-- FIm madal editar -->
+
+  <!-- Modal Remover -->
+  <div class="modal fade" id="modal-remover">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header bg-red">
@@ -258,8 +185,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <!-- /.modal-dialog -->
         </div>
         <!-- /.modal -->
-        <!-- fim modal remover -->
-        <footer class="main-footer">
+        <!-- /fim modal remover -->
+
+  <footer class="main-footer">
     <div class="pull-right hidden-xs">
       <b>Version</b> 2.4.0
     </div>
@@ -287,9 +215,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="<?=base_url('assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js')?>"></script>
 <!-- FastClick -->
 <script src="<?=base_url('assets/bower_components/fastclick/lib/fastclick.js')?>"></script>
-
-<!-- Select2 -->
-<script src="<?=base_url("assets/bower_components/select2/dist/js/select2.full.min.js")?>"></script>
 <!-- AdminLTE App -->
 <script src="<?=base_url('assets/dist/js/adminlte.min.js')?>"></script>
 <!-- AdminLTE for demo purposes -->
@@ -297,27 +222,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="<?=base_url('ajax/ajax_generico.js')?>"></script>
 <script>
   $(document).ready(function () {
-    $('.sidebar-menu').tree();
-    $('.select2').select2()
+    $('.sidebar-menu').tree()
   })
 </script>
 <script>
   function modalEditar(id){
     $('#editar-sucesso').addClass('hidden');
     $('#editar-erro').addClass('hidden');
-    consultar("<?=base_url('filial/carregarDadosEditar/')?>"+id,(retorno) => {
-      var filial = JSON.parse(retorno);
-      console.log(filial.cha_id);
-      $('#editar-nome').val(filial.fil_nome);
-      $('#editar-numero').val(filial.fil_numero);
-      $('#editar-cidade').val(filial.fil_cidade);
-      $('#editar-id').val(filial.cha_id);
+    consultar("<?=base_url('sintoma/carregarDadosEditar/')?>"+id,(retorno) => {
+      var sintoma = JSON.parse(retorno);
+      console.log(sintoma.sin_id);
+      $('#editar-sigla').val(sintoma.sin_sintoma);
+      $('#editar-id').val(sintoma.sin_id);
       $('#modal-editar').modal('show');
     });
   }
 
   function modalRemover(id){
-    $('#btn-deletar').attr('href', "<?=base_url('filial/remover/')?>"+id)
+    $('#btn-deletar').attr('href', "<?=base_url('sintoma/remover/')?>"+id)
     $('#modal-remover').modal('show');
   }
 </script>
