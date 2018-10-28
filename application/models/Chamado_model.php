@@ -40,8 +40,17 @@ class Chamado_model extends CI_Model
     }
 
     public function deletar($id){
-        $this->db->where('cha_id',$id);
-        $this->db->delete('chamado');
+        $this->db->query("CALL remover_chamado({$id})");
+    }
+
+    public function deletarFiliaisChamado($id){
+        $this->db->where('chf_chamado',$id);
+        $this->db->delete('chamado_filial');
+    }
+
+    public function deletarSintomasChamado($id){
+        $this->db->where('chs_chamado',$id);
+        $this->db->delete('chamado_sintoma');
     }
 
     public function listarTodos(){
@@ -55,17 +64,46 @@ class Chamado_model extends CI_Model
         return $this->db->get('chamado')->result();
     }
 
+    public function listarChamadoId($id){
+        $this->db->select('chamado.*,emp_nome,usu_nome,usu_login, stc_status, cni_nivel');
+        $this->db->join('empresa','cha_empresa = emp_id');
+        $this->db->join('usuario','cha_usuario = usu_id');
+        $this->db->join('chamado_status','cha_status = stc_id');
+        $this->db->join('chamado_nivel','cha_nivel = cni_id');
+        $this->db->where('cha_id',$id);
+        return $this->db->get('chamado')->row();
+    }
+
     public function getNivelChamado(){
         return $this->db->get('chamado_nivel')->result();
     }
 
-    public function getStatusId(){
+    public function getStatusId($id){
+        $this->db->where('stc_id',$id);
         return $this->db->get('chamado_status')->row();
+    }
+
+    public function getStatusChamado(){
+        return $this->db->get('chamado_status')->result();
     }
 
     public function getChamadoId($id){
         $this->db->where('cha_id', $id);
         return $this->db->get('chamado')->row();
+    }
+
+    public function getFilialChamadoId($id){
+        $this->db->select('chf_filial, fil_nome');
+        $this->db->join('filial','chf_filial = fil_id');
+        $this->db->where('chf_chamado', $id);
+        return $this->db->get('chamado_filial')->result();
+    }
+
+    public function getSintomaChamadoId($id){
+        $this->db->select('chs_sintoma,sin_sintoma');
+        $this->db->join('sintoma','chs_sintoma = sin_id');
+        $this->db->where('chs_chamado', $id);
+        return $this->db->get('chamado_sintoma')->result();
     }
 
     public function contaChamado($chamado)

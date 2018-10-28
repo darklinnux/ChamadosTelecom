@@ -68,7 +68,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <div class="inner">
             <h3>1</h3>
 
-            <p>Não Finalizado</p>
+            <p>Pedencias</p>
           </div>
           <div class="icon">
             <i class="ion ion-pie-graph"></i>

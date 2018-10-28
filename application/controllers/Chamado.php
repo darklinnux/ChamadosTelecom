@@ -20,6 +20,7 @@ class Chamado extends CI_Controller {
 		$dados['filiais'] = $this->filial_model->listarTodos();
 		$dados['sintomas'] = $this->sintoma_model->listarTodos();
 		$dados['niveis'] = $this->chamado_model->getNivelChamado();
+		$dados['status'] = $this->chamado_model->getStatusChamado();
 		$dados['chamados'] = $this->chamado_model->listarTodos();
 		$this->load->view('template/header');
 		$this->load->view('chamado',$dados);
@@ -39,7 +40,7 @@ class Chamado extends CI_Controller {
 				$this->chamado_model->inserirListaSintoma($sintomas);
 			});
 			//die('sem erro');
-			sendMessageGrupo($this->getTextMensagem());
+			sendMessageGrupo($this->getTextMensagem($id));
 			$this->session->set_flashdata('sucess', 'chamado cadastrado com sucesso!!!');
 			redirect('chamado');
 		}else {
@@ -51,8 +52,20 @@ class Chamado extends CI_Controller {
 	public function editar(){
 		//var_dump($_POST);die();
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro()) {
-			$chamado = $this->popularChamado();
+			$chamado = $this->popularChamado(true);
 			$this->chamado_model->update($chamado);
+			$id = $chamado['cha_id'];
+			$this->chamado_model->deletarFiliaisChamado($id);
+			$this->chamado_model->deletarSintomasChamado($id);
+
+			$this->inserirFilialChamado($id,function($filiais){
+				$this->chamado_model->inserirListaFilial($filiais);
+			});
+			$this->inserirSintomaChamado($id,function($sintomas){
+				$this->chamado_model->inserirListaSintoma($sintomas);
+			});
+			//die('sem erro');
+			sendMessageGrupo($this->getTextMensagem($id,true));
 			$this->session->set_flashdata('sucess', 'chamado atualizado com sucesso!!!');
 			redirect('chamado');
 		}else {
@@ -66,6 +79,16 @@ class Chamado extends CI_Controller {
 		$chamado = $this->chamado_model->getchamadoId($id);
 		echo json_encode($chamado);
 			
+	}
+
+	public function carregarDadosFilialEditar($id){
+		$chamado = $this->chamado_model->getFilialChamadoId($id);
+		echo json_encode($chamado);
+	}
+
+	public function carregarDadosSintomaEditar($id){
+		$chamado = $this->chamado_model->getSintomaChamadoId($id);
+		echo json_encode($chamado);
 	}
 
 	public function remover($id){
@@ -90,19 +113,27 @@ class Chamado extends CI_Controller {
         return $this->form_validation->run();
 	}
 
-	private function popularChamado(){
+	private function popularChamado($editar = false){
 		$chamado['cha_protocolo'] = $this->input->post('protocolo');
 		$chamado['cha_previsao'] = empty($this->input->post('previsao')) ? '' : date('Y-m-d',strtotime($this->input->post('previsao')));
 		$chamado['cha_atendente'] = $this->input->post('atendente');
 		$chamado['cha_designacao'] = $this->input->post('designacao');
 		$chamado['cha_empresa'] = $this->input->post('empresa');
 		$chamado['cha_motivo'] = $this->input->post('motivo');
-		$chamado['cha_usuario'] = $this->session->usu_id;
-		$chamado['cha_status'] = 1;
 		$chamado['cha_nivel'] = $this->input->post('nivel');
-		$chamado['cha_data_inicio'] = date("Y-m-d H:i:s");
+		
+		if($this->input->post('status')){
+			$chamado['cha_status'] = $this->input->post('status');
+		}else {
+			$chamado['cha_status'] = 1;
+		}
 		if($this->input->post('id')){
 			$chamado['cha_id'] = $this->input->post('id');
+		}
+
+		if(!$editar){
+			$chamado['cha_usuario'] = $this->session->usu_id;
+			$chamado['cha_data_inicio'] = date("Y-m-d H:i:s");
 		}
 		return $chamado;
 	}
@@ -125,45 +156,53 @@ class Chamado extends CI_Controller {
 		}
 	}
 
-	private function getTextMensagem(){
-		$empresa = $this->empresa_model->getEmpresaId($this->input->post('empresa'))->emp_nome;
-		$usuario = $this->session->usu_login;
-		$protocolo = $this->input->post('protocolo');
-		$inicio = date("d-m-y H:i");
-		$previsao = date('d-m-y',strtotime($this->input->post('previsao')));
-		$nivel = "Nivel ".$this->input->post('nivel');
-		$atendente = $this->input->post('atendente');
-		$designacao = $this->input->post('designacao');
-		$motivo = $this->input->post('motivo');
-		$listaFiliais = $this->input->post('filial[]');
-		$listaSintoma = $this->input->post('sintoma[]');
-		$status = $this->chamado_model->getStatusId(1)->stc_status;
+	public function getTextMensagem($id,$editar = false){
+		$chamado = $this->chamado_model->listarChamadoId($id);
 		$filiais = null;
 		$sintomas = null;
-		for($i = 0; $i < count($listaFiliais); $i++){
-			$filiais = $filiais . $this->filial_model->getFilialId($listaFiliais[$i])->fil_nome .', ';
+		$listaSintoma = $this->chamado_model->getSintomaChamadoId($id);
+		$listaFilial = $this->chamado_model->getFilialChamadoId($id);
+		foreach($listaFilial as $filial){
+			$filiais = $filiais.$filial->fil_nome.", ";
 		}
 
-		for($i = 0; $i < count($listaSintoma); $i++){
-			$sintomas = $sintomas . $this->sintoma_model->getSintomaId($listaSintoma[$i])->sin_sintoma .', ';
+		foreach($listaSintoma as $sintoma){
+			$sintomas = $sintomas.$sintoma->sin_sintoma.", ";
 		}
-
-		return 
-		"[Chamado]→".$empresa."
-		[Localidade]→".$filiais."
-		[Designação]→ ".$designacao."
-		[Atendente]→".$atendente."
-		[Protocolo]→".$protocolo."
-		[Data/Hora]→".$inicio."
-		[Sintoma]→".$sintomas."
-		[Motivo]→".$motivo."
-		[Previsão]→".$previsao."
-		[Nivel]→".$nivel."
-		[status]→".$status."
-		[usuario]→".$usuario."";
+		
+		if($editar){
+			return 
+			"Chamado Atualizado
+			
+			Responsavel: ".$this->session->usu_login."
+			".
+			"[Chamado]→".$chamado->emp_nome."
+			[Localidade]→".$filiais."
+			[Designação]→ ".$chamado->cha_designacao."
+			[Atendente]→".$chamado->cha_atendente."
+			[Protocolo]→".$chamado->cha_protocolo."
+			[Data/Hora]→".$chamado->cha_data_inicio."
+			[Sintoma]→".$sintomas."
+			[Motivo]→".$chamado->cha_motivo."
+			[Previsão]→".$chamado->cha_previsao."
+			[Nivel]→Nivel ".$chamado->cha_nivel."
+			[status]→".$this->chamado_model->getStatusId($chamado->cha_status)->stc_status."
+			[usuario]→".$chamado->usu_login."";
+		}else {
+			return 
+			"[Chamado]→".$chamado->emp_nome."
+			[Localidade]→".$filiais."
+			[Designação]→ ".$chamado->cha_designacao."
+			[Atendente]→".$chamado->cha_atendente."
+			[Protocolo]→".$chamado->cha_protocolo."
+			[Data/Hora]→".$chamado->cha_data_inicio."
+			[Sintoma]→".$sintomas."
+			[Motivo]→".$chamado->cha_motivo."
+			[Previsão]→".$chamado->cha_previsao."
+			[Nivel]→Nivel ".$chamado->cha_nivel."
+			[status]→".$this->chamado_model->getStatusId($chamado->cha_status)->stc_status."
+			[usuario]→".$chamado->usu_login."";
+			}
 	}
-
-	public function enviar(){
-		sendMessageGrupo($this->getTextMensagem());
-	}
+	
 }

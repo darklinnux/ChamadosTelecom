@@ -201,7 +201,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                   </div>
                 </div>
-                <hr>
                 <div class="row">
                   <div class="col-sm-12">
                     <div class="form-group">
@@ -224,7 +223,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </form>  
         <!-- inicio modal editar -->
         <form method="POST" action="<?=base_url('chamado/editar')?>">
-  <div class="modal fade" id="modal-default">
+  <div class="modal fade" id="modal-editar">
           <div class="modal-dialog" style="width: 59%;">
             <div class="modal-content">
               <div class="modal-header bg-blue">
@@ -294,6 +293,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <i class="fa fa-key"></i>
                         </div>
                         <input id="editar-atendente" placeholder="Nome do atendente" id="atendente" name="atendente" type="text" class="form-control">
+                        <input name="id" id="editar-id" type="text" value="" hidden>
                       </div>
                       <!-- /.input group -->
                     </div>  
@@ -304,6 +304,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <select id="editar-empresa" name="empresa" class="form-control select2" style="width: 100%;">
                         <?php foreach($empresas as $empresa) { ?>
                           <option value="<?=$empresa->emp_id?>"><?=$empresa->emp_nome?></option>
+                        <?php } ?>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label>Status</label>
+                      <select id="editar-status" name="status" class="form-control">
+                        <?php foreach($status as $statu) { ?>
+                          <option value="<?=$statu->stc_id?>"><?=$statu->stc_status?></option>
                         <?php } ?>
                       </select>
                     </div>
@@ -432,20 +442,54 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   function modalEditar(id){
     $('#editar-sucesso').addClass('hidden');
     $('#editar-erro').addClass('hidden');
-    consultar("<?=base_url('editar/carregarDadosEditar/')?>"+id,(retorno) => {
+    consultar("<?=base_url('chamado/carregarDadosEditar/')?>"+id,(retorno) => {
       var chamado = JSON.parse(retorno);
       console.log(chamado.cha_id);
       $('#editar-protocolo').val(chamado.cha_protocolo);
-      $('#editar-numero').val(chamado.cha_numero);
-      $('#editar-cidade').val(chamado.fil_cidade);
+      $('#editar-nivel').val(chamado.cha_nivel);
+      $('#editar-previsao').val(chamado.cha_previsao);
+      $('#editar-designacao').val(chamado.cha_designacao);
+      $('#editar-atendente').val(chamado.cha_atendente);
+      $('#editar-empresa').val(chamado.cha_empresa);
+      $('#editar-motivo').val(chamado.cha_motivo);
+      $('#editar-status').val(chamado.cha_status);
       $('#editar-id').val(chamado.cha_id);
+      carregarFiliaisEditar(chamado.cha_id);
+      carregarSintomaEditar(chamado.cha_id);
       $('#modal-editar').modal('show');
     });
   }
 
-  function modalRemover(id){
-    $('#btn-deletar').attr('href', "<?=base_url('filial/remover/')?>"+id)
+  function carregarFiliaisEditar(id){
+    consultar("<?=base_url('chamado/carregarDadosFilialEditar/')?>"+id,(retorno) => {
+      var filiais = JSON.parse(retorno);
+      var listaFiliais=[];
+      filiais.forEach(filial => {
+        listaFiliais.push(filial.chf_filial);
+      });
+      console.log(listaFiliais);
+      $('#editar-filiais').val(listaFiliais);
+      $('#editar-filiais').trigger('change');
+    });
+  }
+
+  function carregarSintomaEditar(id){
+    consultar("<?=base_url('chamado/carregarDadosSintomaEditar/')?>"+id,(retorno) => {
+      var sintomas = JSON.parse(retorno);
+      var listaSintomas=[];
+      sintomas.forEach(sintoma => {
+        listaSintomas.push(sintoma.chs_sintoma);
+      });
+      console.log(listaSintomas);
+      $('#editar-sintomas').val(listaSintomas);
+      $('#editar-sintomas').trigger('change');
+    });
+  }
+
+  function modalRemover(id){  
+    $('#btn-deletar').attr('href', "<?=base_url('chamado/remover/')?>"+id)
     $('#modal-remover').modal('show');
+
   }
 </script>
 <script>

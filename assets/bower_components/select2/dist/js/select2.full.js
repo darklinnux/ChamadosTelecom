@@ -1601,7 +1601,7 @@ S2.define('select2/selection/multiple',[
     $selection.addClass('select2-selection--multiple');
 
     $selection.html(
-      '<ul class="select2-selection__rendered"></ul>'
+      '<ul id="teste" class="teste select2-selection__rendered"></ul>'
     );
 
     return $selection;
