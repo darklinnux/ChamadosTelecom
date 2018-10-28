@@ -23,6 +23,7 @@ class Login extends CI_Controller {
         $this->session->unset_userdata('usu_login');
         $this->session->unset_userdata('usu_nome');
         $this->session->unset_userdata('usu_perfil');
+        $this->session->unset_userdata('usu_perfil_id');
         $this->session->unset_userdata('usu_status');
 
         if ($this->input->server('REQUEST_METHOD') === 'POST') {
@@ -39,7 +40,8 @@ class Login extends CI_Controller {
                 $usuarioLogado['usu_id'] = $usuario->usu_id;
                 $usuarioLogado['usu_login'] = $usuario->usu_login;
                 $usuarioLogado['usu_nome'] = $usuario->usu_nome;
-                $usuarioLogado['usu_perfil'] = $usuario->usu_perfil;
+                $usuarioLogado['usu_perfil_id'] = $usuario->usu_perfil;
+                $usuarioLogado['usu_perfil'] = $usuario->per_perfil;
                 $usuarioLogado['usu_status'] = $usuario->usu_status;
                 $this->session->set_userdata($usuarioLogado);
                 redirect('dashboard');
@@ -53,6 +55,7 @@ class Login extends CI_Controller {
         $this->session->unset_userdata('usu_login');
         $this->session->unset_userdata('usu_nome');
         $this->session->unset_userdata('usu_perfil');
+        $this->session->unset_userdata('usu_perfil_id');
         $this->session->unset_userdata('usu_status');
         $this->session->set_flashdata('logout', 'Usuario deslogado com sucesso');
         redirect('login');

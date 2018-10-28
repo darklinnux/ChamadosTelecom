@@ -221,42 +221,64 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <!-- /.modal-dialog -->
         </div>
         <!-- /.modal -->
-        </form>
+        </form>  
         <!-- inicio modal editar -->
-        <form method="POST" action="<?=base_url('filial/editar')?>">
-  <div class="modal fade" id="modal-editar">
-          <div class="modal-dialog">
+        <form method="POST" action="<?=base_url('chamado/editar')?>">
+  <div class="modal fade" id="modal-default">
+          <div class="modal-dialog" style="width: 59%;">
             <div class="modal-content">
               <div class="modal-header bg-blue">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Cadastro Filial</h4>
+                <h4 class="modal-title">Editar Chamado</h4>
               </div>
               <div class="modal-body">
                 <div class="row">
-                  <div class="col-sm-6">
+                  <div class="col-sm-4">
                     <div class="form-group">
-                      <label>Filial:</label>
-
+                        <label>Nivel:</label>
+                        <select id="editar-nivel" name="nivel" class="form-control">
+                          <?php foreach($niveis as $nivel) { ?>
+                            <option value="<?=$nivel->cni_id?>"><?=$nivel->cni_nivel?></option>
+                          <?php } ?>
+                        </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label>Protocolo:</label>
                       <div class="input-group">
                         <div class="input-group-addon">
                           <i class="fa fa-user"></i>
                         </div>
-                        <input id="editar-nome" name="nome" type="text" class="form-control">
+                        <input id="editar-protocolo" placeholder="Protocolo Atendimento" id="protocolo" name="protocolo" type="text" class="form-control">
                       </div>
                       <!-- /.input group -->
                     </div>  
                   </div>
-                  <div class="col-sm-6">
+                  <div class="col-sm-4">
                     <div class="form-group">
-                      <label>Numero Filial:</label>
-
+                      <label>Designação:</label>
                       <div class="input-group">
                         <div class="input-group-addon">
-                          <span>@</span>
+                          <i class="fa fa-user"></i>
                         </div>
-                        <input id="editar-numero" name="numero" type="text" class="form-control">
-                        <input type="text" value=" " id="editar-id" name="id" hidden />
+                        <input id="editar-designacao" name="designacao" type="text" class="form-control" placeholder="AAR/IP/00102">
+                      </div>
+                      <!-- /.input group -->
+                    </div>  
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label>Previsão:</label>
+
+                      <div class="input-group date">
+                        <div class="input-group-addon">
+                          <i class="fa fa-calendar"></i>
+                        </div>
+                        <input id="editar-previsao" name="previsao" type="text" class="form-control pull-right" id="datepicker">
                       </div>
                       <!-- /.input group -->
                     </div>
@@ -265,20 +287,61 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="row">
                   <div class="col-sm-4">
                     <div class="form-group">
-                      <label>Cidade:</label>
+                      <label>Atendente:</label>
 
                       <div class="input-group">
                         <div class="input-group-addon">
                           <i class="fa fa-key"></i>
                         </div>
-                        <select id="editar-cidade" name="cidade" class="form-control">
-                          <?php foreach($cidades as $cidade) {?>
-                          <option value="<?=$cidade->cid_id?>"><?=$cidade->cid_nome?></option>
-                          <?php } ?>
-                        </select>
+                        <input id="editar-atendente" placeholder="Nome do atendente" id="atendente" name="atendente" type="text" class="form-control">
                       </div>
                       <!-- /.input group -->
                     </div>  
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label>Empresa</label>
+                      <select id="editar-empresa" name="empresa" class="form-control select2" style="width: 100%;">
+                        <?php foreach($empresas as $empresa) { ?>
+                          <option value="<?=$empresa->emp_id?>"><?=$empresa->emp_nome?></option>
+                        <?php } ?>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label>Filiais</label>
+                      <select id="editar-filiais" name="filial[]" class="form-control select2" multiple="multiple" data-placeholder="Selecione as filiais"
+                              style="width: 100%;">
+                        <?php foreach($filiais as $filial){ ?>
+                          <option value="<?=$filial->fil_id?>"><?=$filial->fil_numero?>-<?=$filial->fil_nome?></option>
+                        <?php } ?>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label>Sintomas</label>
+                      <select id="editar-sintomas" name="sintoma[]" class="form-control select2" multiple="multiple" data-placeholder="Nome do atendente" 
+                              style="width: 100%;">
+                        <?php foreach($sintomas as $sintoma){ ?>
+                          <option value="<?=$sintoma->sin_id?>"><?=$sintoma->sin_sintoma?></option>
+                        <?php } ?>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label>Motivo:</label>
+                      <textarea id="editar-motivo" name="motivo" style="resize: none;height: 138px;" class="form-control"></textarea>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -292,7 +355,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <!-- /.modal-dialog -->
         </div>
         <!-- /.modal -->
-        </form>
+        </form>  
         <!-- fim modal editar -->
         <!-- inicio modal remover -->
         <div class="modal fade" id="modal-remover">
@@ -369,13 +432,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   function modalEditar(id){
     $('#editar-sucesso').addClass('hidden');
     $('#editar-erro').addClass('hidden');
-    consultar("<?=base_url('filial/carregarDadosEditar/')?>"+id,(retorno) => {
-      var filial = JSON.parse(retorno);
-      console.log(filial.cha_id);
-      $('#editar-nome').val(filial.fil_nome);
-      $('#editar-numero').val(filial.fil_numero);
-      $('#editar-cidade').val(filial.fil_cidade);
-      $('#editar-id').val(filial.cha_id);
+    consultar("<?=base_url('editar/carregarDadosEditar/')?>"+id,(retorno) => {
+      var chamado = JSON.parse(retorno);
+      console.log(chamado.cha_id);
+      $('#editar-protocolo').val(chamado.cha_protocolo);
+      $('#editar-numero').val(chamado.cha_numero);
+      $('#editar-cidade').val(chamado.fil_cidade);
+      $('#editar-id').val(chamado.cha_id);
       $('#modal-editar').modal('show');
     });
   }

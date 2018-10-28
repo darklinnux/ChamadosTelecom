@@ -65,10 +65,10 @@
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
           <li class="dropdown messages-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <!-- <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-envelope-o"></i>
               <span class="label label-success">4</span>
-            </a>
+            </a> -->
             <ul class="dropdown-menu">
               <li class="header">You have 4 messages</li>
               <li>
@@ -77,7 +77,7 @@
                   <li><!-- start message -->
                     <a href="#">
                       <div class="pull-left">
-                        <img src="<?=base_url('assets/dist/img/user2-160x160.jpg')?>" class="img-circle" alt="User Image">
+                        <img src="<?=base_url('assets/dist/img/avatar.png')?>" class="img-circle" alt="User Image">
                       </div>
                       <h4>
                         Support Team
@@ -142,10 +142,10 @@
           </li>
           <!-- Notifications: style can be found in dropdown.less -->
           <li class="dropdown notifications-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <!-- <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-bell-o"></i>
               <span class="label label-warning">10</span>
-            </a>
+            </a> -->
             <ul class="dropdown-menu">
               <li class="header">You have 10 notifications</li>
               <li>
@@ -184,10 +184,10 @@
           </li>
           <!-- Tasks: style can be found in dropdown.less -->
           <li class="dropdown tasks-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <!-- <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-flag-o"></i>
               <span class="label label-danger">9</span>
-            </a>
+            </a> -->
             <ul class="dropdown-menu">
               <li class="header">You have 9 tasks</li>
               <li>
@@ -263,40 +263,22 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="<?=base_url('assets/dist/img/user2-160x160.jpg')?>" class="user-image" alt="User Image">
+              <img src="<?=base_url('assets/dist/img/avatar.png')?>" class="user-image" alt="User Image">
               <span class="hidden-xs">Ramon Lima</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="<?=base_url('assets/dist/img/user2-160x160.jpg')?>" class="img-circle" alt="User Image">
+                <img src="<?=base_url('assets/dist/img/avatar.png')?>" class="img-circle" alt="User Image">
 
                 <p>
-                  Ramon Lima - Web Developer
-                  <small>Member since Nov. 2012</small>
+                  <?=$this->session->usu_nome?>
+                  <small><?=$this->session->usu_perfil?></small>
                 </p>
-              </li>
-              <!-- Menu Body -->
-              <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Followers</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Sales</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Friends</a>
-                  </div>
-                </div>
-                <!-- /.row -->
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
-                <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
-                </div>
-                <div class="pull-right">
+                <div class="text-center">
                   <a href="<?=base_url('login/deslogar')?>" class="btn btn-default btn-flat">Sair</a>
                 </div>
               </li>
@@ -313,14 +295,14 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="<?=base_url('assets/dist/img/user2-160x160.jpg')?>" class="img-circle" alt="User Image">
+          <img src="<?=base_url('assets/dist/img/avatar.png')?>" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Ramon Lima</p>
-          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+          <p><?=$this->session->usu_nome?></p>
+          <a href="#"><i class="fa fa-circle text-success"></i> <?=$this->session->usu_perfil?></a>
         </div>
       </div>
-      <button class="btn btn-block btn-primary">Novo Chamado</button>
+      <a href="<?=base_url('chamado')?>" class="btn btn-block btn-primary" >Novo Chamado</a>
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">Menu de Navegação</li>

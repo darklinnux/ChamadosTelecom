@@ -50,7 +50,8 @@ class Usuario_model extends CI_Model
 
     public function logar($usuario, $senha)
     {
-        $this->db->select('usu_id,usu_nome,usu_perfil,usu_login,usu_status');
+        $this->db->select('usu_id,usu_nome,usu_perfil,usu_login,usu_status,per_perfil,per_id');
+        $this->db->join('perfil','usu_perfil = per_id');
         $this->db->where('usu_senha', $senha);
         $this->db->where('usu_login', $usuario);
         $this->db->where('usu_status = 1');
