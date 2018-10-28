@@ -14,6 +14,18 @@ class Chamado_model extends CI_Model
         return $this->db->insert_id();
     }
 
+    public function inserirListaFilial($listaFiliais)
+    {
+        $this->db->insert('chamado_filial', $listaFiliais);
+        return $this->db->insert_id();
+    }
+
+    public function inserirListaSintoma($listaSintoma)
+    {
+        $this->db->insert('chamado_sintoma', $listaSintoma);
+        return $this->db->insert_id();
+    }
+
     public function update($chamado)
     {
 
@@ -43,12 +55,20 @@ class Chamado_model extends CI_Model
         return $this->db->get('chamado')->result();
     }
 
+    public function getNivelChamado(){
+        return $this->db->get('chamado_nivel')->result();
+    }
+
+    public function getStatusId(){
+        return $this->db->get('chamado_status')->row();
+    }
+
     public function getChamadoId($id){
         $this->db->where('cha_id', $id);
         return $this->db->get('chamado')->row();
     }
 
-    public function contachamado($chamado)
+    public function contaChamado($chamado)
     {
         $this->db->select("count(fil_nome) as 'total' ");
         $this->db->where('fil_nome', $chamado);

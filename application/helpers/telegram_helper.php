@@ -1,6 +1,6 @@
 
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-$token = 1;
+
 function sendMessage($chatID, $messaggio) {
     echo "sending message to " . $chatID . "\n";
 
@@ -18,7 +18,8 @@ function sendMessage($chatID, $messaggio) {
 }
 
 function sendMessageGrupo($messaggio) {
-    $chatID = 'id';
+    $token = '725914784:AAF1v_LmsVaaIKibK4N4jXK2Q-40h1Gh5Uw';
+    $chatID = '-197473256';
     echo "sending message to " . $chatID . "\n";
 
     $url = "https://api.telegram.org/bot" . $token . "/sendMessage?chat_id=" . $chatID;

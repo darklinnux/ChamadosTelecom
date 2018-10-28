@@ -8,6 +8,7 @@ class Cidade extends CI_Controller {
 		parent::__construct();
 		$this->load->model('cidade_model');
 		$this->load->model('estado_model');
+		$this->controleacesso->verificaSeEstaLogado();
 	}
 	
 	public function index()

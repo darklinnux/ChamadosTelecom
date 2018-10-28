@@ -91,7 +91,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   </div>
   <form method="POST" action="<?=base_url('chamado/cadastrar')?>">
   <div class="modal fade" id="modal-default">
-          <div class="modal-dialog">
+          <div class="modal-dialog" style="width: 59%;">
             <div class="modal-content">
               <div class="modal-header bg-blue">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -100,26 +100,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               </div>
               <div class="modal-body">
                 <div class="row">
-                  <div class="col-sm-5">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Nivel:</label>
+                        <select name="nivel" class="form-control">
+                          <?php foreach($niveis as $nivel) { ?>
+                            <option value="<?=$nivel->cni_id?>"><?=$nivel->cni_nivel?></option>
+                          <?php } ?>
+                        </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-4">
                     <div class="form-group">
                       <label>Protocolo:</label>
                       <div class="input-group">
                         <div class="input-group-addon">
                           <i class="fa fa-user"></i>
                         </div>
-                        <input placeholder="Digite o protocolo do atendimento" id="protocolo" name="protocolo" type="text" class="form-control">
+                        <input placeholder="Protocolo Atendimento" id="protocolo" name="protocolo" type="text" class="form-control">
                       </div>
                       <!-- /.input group -->
                     </div>  
                   </div>
-                  <div class="col-sm-3">
+                  <div class="col-sm-4">
                     <div class="form-group">
-                      <label>Inicio:</label>
+                      <label>Designação:</label>
                       <div class="input-group">
                         <div class="input-group-addon">
                           <i class="fa fa-user"></i>
                         </div>
-                        <input disabled type="text" class="form-control" value="<?=date('d/m/y')?>">
+                        <input name="designacao" type="text" class="form-control" placeholder="AAR/IP/00102">
                       </div>
                       <!-- /.input group -->
                     </div>  
@@ -139,7 +151,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-sm-6">
+                  <div class="col-sm-4">
                     <div class="form-group">
                       <label>Atendente:</label>
 
@@ -152,7 +164,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <!-- /.input group -->
                     </div>  
                   </div>
-                  <div class="col-sm-6">
+                  <div class="col-sm-4">
                     <div class="form-group">
                       <label>Empresa</label>
                       <select name="empresa" class="form-control select2" style="width: 100%;">
@@ -189,6 +201,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                   </div>
                 </div>
+                <hr>
                 <div class="row">
                   <div class="col-sm-12">
                     <div class="form-group">
