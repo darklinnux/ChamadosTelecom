@@ -52,9 +52,19 @@ class Empresa extends CI_Controller {
 	}
 
 	public function remover($id){
-		$this->empresa_model->deletar($id);
-		$this->session->set_flashdata('sucess', 'Empresa foi removida com sucesso!!!');
-		redirect('empresa');
+		if($this->empresa_model->deletar($id)){
+			$this->session->set_flashdata('sucess', 'Empresa foi removida com sucesso!!!');
+			redirect('empresa');
+		}else {
+			if($this->db->error()['code'] === 1451){
+				$this->session->set_flashdata('error', 'Empresa não pode ser excluida devido está associada a um chamado existente.');
+			}else {
+				$this->session->set_flashdata('error', 'Erro desconhecido contate o suporte!');
+			}
+			redirect('empresa');
+		}
+		
+		
 	}
 
 	private function validaFormCadastro(){

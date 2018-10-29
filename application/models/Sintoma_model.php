@@ -29,7 +29,7 @@ class Sintoma_model extends CI_Model
 
     public function deletar($id){
         $this->db->where('sin_id',$id);
-        $this->db->delete('sintoma');
+        return $this->db->delete('sintoma');
     }
 
     public function listarTodos(){

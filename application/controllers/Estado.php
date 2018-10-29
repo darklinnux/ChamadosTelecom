@@ -46,12 +46,22 @@ class Estado extends CI_Controller {
 		echo json_encode($estado);
 			
 	}
-
+	
 	public function remover($id){
-		$this->estado_model->deletar($id);
-		$this->session->set_flashdata('sucess', 'Estado foi removido com sucesso!!!');
-		redirect('estado');
-	  }
+		if($this->estado_model->deletar($id)){
+			$this->session->set_flashdata('sucess', 'estado foi removido com sucesso!!!');
+			redirect('estado');
+		}else {
+			if($this->db->error()['code'] === 1451){
+				$this->session->set_flashdata('error', 'estado não pode ser excluido devido está associada a uma cidade existente.');
+			}else {
+				$this->session->set_flashdata('error', 'Erro desconhecido contate o suporte!');
+			}
+			redirect('estado');
+		}
+		
+		
+	}
 
 	private function validaFormCadastro(){
 		

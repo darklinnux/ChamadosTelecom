@@ -53,9 +53,19 @@ class Filial extends CI_Controller {
 	}
 
 	public function remover($id){
-		$this->filial_model->deletar($id);
-		$this->session->set_flashdata('sucess', 'filial foi removida com sucesso!!!');
-		redirect('filial');
+		if($this->filial_model->deletar($id)){
+			$this->session->set_flashdata('sucess', 'Filial foi removida com sucesso!!!');
+			redirect('filial');
+		}else {
+			if($this->db->error()['code'] === 1451){
+				$this->session->set_flashdata('error', 'Filial não pode ser excluida devido está associada a um chamado existente.');
+			}else {
+				$this->session->set_flashdata('error', 'Erro desconhecido contate o suporte!');
+			}
+			redirect('filial');
+		}
+		
+		
 	}
 
 	private function validaFormCadastro($editar = false){

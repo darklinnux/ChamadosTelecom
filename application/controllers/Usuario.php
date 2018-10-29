@@ -117,7 +117,7 @@ class Usuario extends CI_Controller {
 	private function popularUsuario(){
 		$usuario['usu_nome'] = $this->input->post('nome');
 		$usuario['usu_login'] = $this->input->post('login');
-		$usuario['usu_senha'] = $this->input->post('senha');
+		$usuario['usu_senha'] = md5($this->input->post('senha'));
 		$usuario['usu_status'] = $this->input->post('status');
     $usuario['usu_perfil'] = $this->input->post('perfil');
     if($this->input->post('id')){

@@ -29,7 +29,7 @@ class Filial_model extends CI_Model
 
     public function deletar($id){
         $this->db->where('fil_id',$id);
-        $this->db->delete('filial');
+        return $this->db->delete('filial');
     }
 
     public function listarTodos(){

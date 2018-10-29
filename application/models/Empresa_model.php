@@ -29,7 +29,7 @@ class Empresa_model extends CI_Model
 
     public function deletar($id){
         $this->db->where('emp_id',$id);
-        $this->db->delete('empresa');
+        return $this->db->delete('empresa');
     }
 
     public function listarTodos(){

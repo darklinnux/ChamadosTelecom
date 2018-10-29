@@ -52,9 +52,19 @@ class Cidade extends CI_Controller {
 	}
 
 	public function remover($id){
-		$this->cidade_model->deletar($id);
-		$this->session->set_flashdata('sucess', 'Cidade foi removida com sucesso!!!');
-		redirect('cidade');
+		if($this->cidade_model->deletar($id)){
+			$this->session->set_flashdata('sucess', 'Cidade foi removida com sucesso!!!');
+			redirect('cidade');
+		}else {
+			if($this->db->error()['code'] === 1451){
+				$this->session->set_flashdata('error', 'Cidade não pode ser excluida devido está associada a uma filial existente.');
+			}else {
+				$this->session->set_flashdata('error', 'Erro desconhecido contate o suporte!');
+			}
+			redirect('cidade');
+		}
+		
+		
 	}
 
 	private function validaFormCadastro(){

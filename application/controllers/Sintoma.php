@@ -46,12 +46,22 @@ class Sintoma extends CI_Controller {
 		echo json_encode($sintoma);
 			
 	}
-
+	
 	public function remover($id){
-		$this->sintoma_model->deletar($id);
-		$this->session->set_flashdata('sucess', 'sintoma foi removido com sucesso!!!');
-		redirect('sintoma');
-	  }
+		if($this->sintoma_model->deletar($id)){
+			$this->session->set_flashdata('sucess', 'Sintoma foi removida com sucesso!!!');
+			redirect('sintoma');
+		}else {
+			if($this->db->error()['code'] === 1451){
+				$this->session->set_flashdata('error', 'Sintoma não pode ser excluida devido está associada a um chamado existente.');
+			}else {
+				$this->session->set_flashdata('error', 'Erro desconhecido contate o suporte!');
+			}
+			redirect('sintoma');
+		}
+		
+		
+	}
 
 	private function validaFormCadastro(){
 		

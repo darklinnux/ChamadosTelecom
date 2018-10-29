@@ -29,7 +29,7 @@ class Cidade_model extends CI_Model
 
     public function deletar($id){
         $this->db->where('cid_id',$id);
-        $this->db->delete('cidade');
+        return $this->db->delete('cidade');
     }
 
     public function listarTodos(){

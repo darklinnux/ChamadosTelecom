@@ -329,10 +329,29 @@ $pagina = ($this->uri->segment(1)) ? $this->uri->segment(1): "dashboard";
             <li class="<?=($pagina == "empresa") ? "active" : null?>"><a href="<?=base_url("empresa")?>"><i class="fa fa-circle-o"></i> Empresa</a></li>
           </ul>
         </li>
-        <li class="<?=($pagina == "chamado") ? "active" : null?>">
-          <a href="<?=base_url("chamado")?>">
+        <li class="treeview <?=($pagina !== "dashboard" && $pagina == "chamado") ? "active menu-open" : null?>">
+          <a href="#">
             <i class="fa fa-archive"></i> <span>Chamados</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
+          <ul class="treeview-menu">
+            <li class="<?=($pagina == "") ? "active" : null?>"><a href="<?=base_url("usuario")?>"><i class="fa fa-circle-o"></i> Aberto/Andamento</a></li>
+            <li class="<?=($pagina == "") ? "active" : null?>"><a href="<?=base_url("sintoma")?>"><i class="fa fa-circle-o"></i> Fechados</a></li>
+          </ul>
+        </li>
+        <li class="treeview <?=($pagina !== "dashboard") ? "active menu-open" : null?>">
+          <a href="#">
+            <i class="fa fa-archive"></i> <span>Chamados Internos</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="<?=($pagina == "") ? "active" : null?>"><a href="<?=base_url("usuario")?>"><i class="fa fa-circle-o"></i> Aberto/Andamento</a></li>
+            <li class="<?=($pagina == "") ? "active" : null?>"><a href="<?=base_url("sintoma")?>"><i class="fa fa-circle-o"></i> Fechados</a></li>
+          </ul>
         </li>
         <li class="">
           <a href="#">

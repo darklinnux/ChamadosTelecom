@@ -40,7 +40,7 @@ class Chamado extends CI_Controller {
 				$this->chamado_model->inserirListaSintoma($sintomas);
 			});
 			//die('sem erro');
-			sendMessageGrupo($this->getTextMensagem($id));
+			//sendMessageGrupo($this->getTextMensagem($id));
 			$this->session->set_flashdata('sucess', 'chamado cadastrado com sucesso!!!');
 			redirect('chamado');
 		}else {
@@ -65,7 +65,7 @@ class Chamado extends CI_Controller {
 				$this->chamado_model->inserirListaSintoma($sintomas);
 			});
 			//die('sem erro');
-			sendMessageGrupo($this->getTextMensagem($id,true));
+			//sendMessageGrupo($this->getTextMensagem($id,true));
 			$this->session->set_flashdata('sucess', 'chamado atualizado com sucesso!!!');
 			redirect('chamado');
 		}else {
