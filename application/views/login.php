@@ -36,6 +36,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   
   <!-- /.login-logo -->
   <div class="login-box-body">
+     <div class="login-logo">
+    <a href="#"><b>Chamados</b>Telecom</a>
+  </div>
   <?php if (!empty(validation_errors())) {?>
     <div class="alert alert-danger alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -57,24 +60,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <?=$this->session->logout?>
               </div>
      <?php }?>
-     <div class="login-logo">
-    <a href="#"><b>Chamados</b>Telecom</a>
-  </div>
+     
     <p class="login-box-msg">Login</p>
 
-    <form action="<?=base_url('login/logar')?>" method="post">
+    <form action="<?=base_url('login/logar')?>" method="post" autocomplete="off">
       <div class="form-group has-feedback">
-        <input name="usuario" type="text" class="form-control" placeholder="usuario">
+        <input name="usuario" type="text" class="form-control" placeholder="Usuário">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input name="senha" type="password" class="form-control" placeholder="Password">
+        <input name="senha" type="password" class="form-control" placeholder="Senha">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
+
       <div class="row">
         <!-- /.col -->
         <div class="col-xs-12">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+          <button type="submit" class="btn btn-primary btn-block bt-login">Conectar</button>
         </div>
         <!-- /.col -->
       </div>
