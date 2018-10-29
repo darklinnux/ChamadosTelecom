@@ -1,10 +1,12 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+$pagina = ($this->uri->segment(1)) ? $this->uri->segment(1): "dashboard";
+?>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Chamados | Dashboard</title>
+  <title>Chamados | <?=ucfirst($pagina) ?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -306,12 +308,12 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">Menu de Navegação</li>
-        <li class="active">
-          <a href="#">
+        <li class="<?=($pagina == "dashboard") ? "active" : null?>">
+          <a href="<?=base_url()?>">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
           </a>
         </li>
-        <li class="treeview">
+        <li class="treeview <?=($pagina !== "dashboard" && $pagina !== "chamado") ? "active menu-open" : null?>">
           <a href="#">
             <i class="fa fa-edit"></i> <span>Cadastros</span>
             <span class="pull-right-container">
@@ -319,12 +321,18 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<?=base_url("usuario")?>"><i class="fa fa-circle-o"></i> Usuário</a></li>
-            <li><a href="<?=base_url("filial")?>"><i class="fa fa-circle-o"></i> Filial</a></li>
-            <li><a href="<?=base_url("cidade")?>"><i class="fa fa-circle-o"></i> Cidade</a></li>
-            <li><a href="<?=base_url("estado")?>"><i class="fa fa-circle-o"></i> Estado</a></li>
-            <li><a href="<?=base_url("empresa")?>"><i class="fa fa-circle-o"></i> empresa</a></li>
+            <li class="<?=($pagina == "usuario") ? "active" : null?>"><a href="<?=base_url("usuario")?>"><i class="fa fa-circle-o"></i> Usuário</a></li>
+            <li class="<?=($pagina == "sintoma") ? "active" : null?>"><a href="<?=base_url("sintoma")?>"><i class="fa fa-circle-o"></i> Sintoma</a></li>
+            <li class="<?=($pagina == "filial") ? "active" : null?>"><a href="<?=base_url("filial")?>"><i class="fa fa-circle-o"></i> Filial</a></li>
+            <li class="<?=($pagina == "cidade") ? "active" : null?>"><a href="<?=base_url("cidade")?>"><i class="fa fa-circle-o"></i> Cidade</a></li>
+            <li class="<?=($pagina == "estado") ? "active" : null?>"><a href="<?=base_url("estado")?>"><i class="fa fa-circle-o"></i> Estado</a></li>
+            <li class="<?=($pagina == "empresa") ? "active" : null?>"><a href="<?=base_url("empresa")?>"><i class="fa fa-circle-o"></i> Empresa</a></li>
           </ul>
+        </li>
+        <li class="<?=($pagina == "chamado") ? "active" : null?>">
+          <a href="<?=base_url("chamado")?>">
+            <i class="fa fa-archive"></i> <span>Chamados</span>
+          </a>
         </li>
         <li class="">
           <a href="#">

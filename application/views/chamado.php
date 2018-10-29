@@ -89,7 +89,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </section>
     <!-- /.content -->
   </div>
-  <form method="POST" action="<?=base_url('chamado/cadastrar')?>">
+  <form method="POST" action="<?=base_url('chamado/cadastrar')?>" autocomplete="off">
   <div class="modal fade" id="modal-default">
           <div class="modal-dialog" style="width: 59%;">
             <div class="modal-content">
@@ -179,7 +179,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label>Filiais</label>
-                      <select name="filial[]" class="form-control select2" multiple="multiple" data-placeholder="Selecione as filiais"
+                      <select id="filiais" name="filial[]" class="form-control select2" multiple="multiple" data-placeholder="Selecione as filiais"
                               style="width: 100%;">
                         <?php foreach($filiais as $filial){ ?>
                           <option value="<?=$filial->fil_id?>"><?=$filial->fil_numero?>-<?=$filial->fil_nome?></option>
@@ -192,7 +192,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label>Sintomas</label>
-                      <select name="sintoma[]" class="form-control select2" multiple="multiple" data-placeholder="Nome do atendente" 
+                      <select id="sintomas" name="sintoma[]" class="form-control select2" multiple="multiple" data-placeholder="Nome do atendente" 
                               style="width: 100%;">
                         <?php foreach($sintomas as $sintoma){ ?>
                           <option value="<?=$sintoma->sin_id?>"><?=$sintoma->sin_sintoma?></option>
@@ -222,7 +222,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <!-- /.modal -->
         </form>  
         <!-- inicio modal editar -->
-        <form method="POST" action="<?=base_url('chamado/editar')?>">
+        <form method="POST" action="<?=base_url('chamado/editar')?>" autocomplete="off">
   <div class="modal fade" id="modal-editar">
           <div class="modal-dialog" style="width: 59%;">
             <div class="modal-content">
@@ -374,10 +374,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="modal-header bg-red">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Remover Usuario</h4>
+                <h4 class="modal-title">Remover Chamado</h4>
               </div>
               <div class="modal-body">
-                <p>Deseja realmente deletar esse usuario ?&hellip;</p>
+                <p>Deseja realmente deletar esse Chamado ?&hellip;</p>
               </div>
               <div class="modal-footer">
                 <a id="btn-deletar" href="#" class="btn btn-danger pull-right">Confirmar</a>
@@ -420,7 +420,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- FastClick -->
 <script src="<?=base_url('assets/bower_components/fastclick/lib/fastclick.js')?>"></script>
 <!-- bootstrap datepicker -->
-<script src="<?=base_url("assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js")?>"></script>
+<script src="<?=base_url("assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js")?>"></script>
 
 <!-- Select2 -->
 <script src="<?=base_url("assets/bower_components/select2/dist/js/select2.full.min.js")?>"></script>
@@ -435,6 +435,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $('.select2').select2();
     $('#datepicker').datepicker({
       autoclose: true,
+      format: 'dd/mm/yyyy',        
     });
   })
 </script>
@@ -494,16 +495,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </script>
 <script>
   $(function () {
-    $('#example1').DataTable()
-    $('#example2').DataTable({
-      'paging'      : true,
-      'lengthChange': false,
-      'searching'   : false,
-      'ordering'    : true,
-      'info'        : true,
-      'autoWidth'   : false
-    })
-  })
+    $('#example1').DataTable({
+      "language": {
+        "sEmptyTable": "Nenhum registro encontrado",
+        "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+        "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+        "sInfoPostFix": "",
+        "sInfoThousands": ".",
+        "sLengthMenu": "_MENU_ resultados por página",
+        "sLoadingRecords": "Carregando...",
+        "sProcessing": "Processando...",
+        "sZeroRecords": "Nenhum registro encontrado",
+        "sSearch": "Pesquisar",
+        "oPaginate": {
+            "sNext": "Próximo",
+            "sPrevious": "Anterior",
+            "sFirst": "Primeiro",
+            "sLast": "Último"
+        },
+        "oAria": {
+            "sSortAscending": ": Ordenar colunas de forma ascendente",
+            "sSortDescending": ": Ordenar colunas de forma descendente"
+        }
+      }
+    });
+    
+  });
 </script>
 </body>
 </html>
