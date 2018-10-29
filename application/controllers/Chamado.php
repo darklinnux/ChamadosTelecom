@@ -115,7 +115,7 @@ class Chamado extends CI_Controller {
 
 	private function popularChamado($editar = false){
 		$chamado['cha_protocolo'] = $this->input->post('protocolo');
-		$chamado['cha_previsao'] = empty($this->input->post('previsao')) ? '' : date('Y-m-d',strtotime($this->input->post('previsao')));
+		$chamado['cha_previsao'] = empty($this->input->post('previsao')) ? '' : date('Y-m-d',strtotime(str_replace("/","-",$this->input->post('previsao'))));
 		$chamado['cha_atendente'] = $this->input->post('atendente');
 		$chamado['cha_designacao'] = $this->input->post('designacao');
 		$chamado['cha_empresa'] = $this->input->post('empresa');

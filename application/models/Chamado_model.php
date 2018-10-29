@@ -113,4 +113,12 @@ class Chamado_model extends CI_Model
         return $this->db->get('chamado')->row();
 
     }
+
+    public function contaChamadoStatus($status)
+    {
+        $this->db->select("count(cha_id) as 'total' ");
+        $this->db->where('cha_status', $status);
+        return $this->db->get('chamado')->row();
+
+    }
 }

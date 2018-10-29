@@ -21,14 +21,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <!-- small box -->
         <div class="small-box bg-aqua">
           <div class="inner">
-            <h3>05</h3>
+            <h3><?=$total_aberto?></h3>
 
             <p>Novos Chamados</p>
           </div>
           <div class="icon">
             <i class="ion ion-bag"></i>
           </div>
-          <a href="#" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+          <a href="<?=base_url("chamado")?>" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
         </div>
       </div>
       <!-- ./col -->
@@ -36,14 +36,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <!-- small box -->
         <div class="small-box bg-green">
           <div class="inner">
-            <h3>10</h3>
+            <h3><?=$total_fechado?></h3>
 
             <p>Chamados Finalizados</p>
           </div>
           <div class="icon">
             <i class="ion ion-stats-bars"></i>
           </div>
-          <a href="#" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+          <a href="<?=base_url("chamado")?>" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
         </div>
       </div>
       <!-- ./col -->
@@ -51,14 +51,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <!-- small box -->
         <div class="small-box bg-yellow">
           <div class="inner">
-            <h3>3</h3>
+            <h3><?=$total_andamento?></h3>
 
             <p>Chamados em andamento</p>
           </div>
           <div class="icon">
             <i class="ion ion-person-add"></i>
           </div>
-          <a href="#" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+          <a href="<?=base_url("chamado")?>" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
         </div>
       </div>
       <!-- ./col -->

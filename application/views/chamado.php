@@ -131,7 +131,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="input-group-addon">
                           <i class="fa fa-user"></i>
                         </div>
-                        <input name="designacao" type="text" class="form-control" placeholder="AAR/IP/00102">
+                        <input name="designacao" type="text" class="form-control designacao" placeholder="AAR/IP/00102">
                       </div>
                       <!-- /.input group -->
                     </div>  
@@ -264,7 +264,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="input-group-addon">
                           <i class="fa fa-user"></i>
                         </div>
-                        <input id="editar-designacao" name="designacao" type="text" class="form-control" placeholder="AAR/IP/00102">
+                        <input id="editar-designacao" name="designacao" type="text" class="form-control designacao" placeholder="AAR/IP/00102">
                       </div>
                       <!-- /.input group -->
                     </div>  
@@ -277,7 +277,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="input-group-addon">
                           <i class="fa fa-calendar"></i>
                         </div>
-                        <input id="editar-previsao" name="previsao" type="text" class="form-control pull-right" id="datepicker">
+                        <input id="editar-previsao" name="previsao" type="text" class="form-control pull-right" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
                       </div>
                       <!-- /.input group -->
                     </div>
@@ -419,6 +419,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="<?=base_url('assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js')?>"></script>
 <!-- FastClick -->
 <script src="<?=base_url('assets/bower_components/fastclick/lib/fastclick.js')?>"></script>
+<!-- Mask -->
+<script src="<?=base_url('assets/dist/js/jquery.mask.min.js')?>"></script>
 <!-- bootstrap datepicker -->
 <script src="<?=base_url("assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js")?>"></script>
 
@@ -433,13 +435,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   $(document).ready(function () {
     $('.sidebar-menu').tree();
     $('.select2').select2();
+    $('#editar-previsao').mask('00/00/0000',{placeholder: "__/__/____"});
+    $('.designacao').mask('AAA/AA/00000');
     $('#datepicker').datepicker({
+      autoclose: true,
+      format: 'dd/mm/yyyy',        
+    });
+    $('#datepicker-editar').datepicker({
       autoclose: true,
       format: 'dd/mm/yyyy',        
     });
   })
 </script>
 <script>
+  function formatarData(data){
+    data = data.split("-");
+    ano = data[0];
+    mes = data[1];
+    dia = data[2];
+    return dia+"/"+mes+"/"+ano;
+  }
   function modalEditar(id){
     $('#editar-sucesso').addClass('hidden');
     $('#editar-erro').addClass('hidden');
@@ -448,7 +463,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       console.log(chamado.cha_id);
       $('#editar-protocolo').val(chamado.cha_protocolo);
       $('#editar-nivel').val(chamado.cha_nivel);
-      $('#editar-previsao').val(chamado.cha_previsao);
+      $('#editar-previsao').val(formatarData(chamado.cha_previsao));
       $('#editar-designacao').val(chamado.cha_designacao);
       $('#editar-atendente').val(chamado.cha_atendente);
       $('#editar-empresa').val(chamado.cha_empresa);
