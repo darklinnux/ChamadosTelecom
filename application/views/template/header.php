@@ -1,5 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 $pagina = ($this->uri->segment(1)) ? $this->uri->segment(1): "dashboard";
+$metodo = $this->uri->segment(2);
 ?>
 <!DOCTYPE html>
 <html>
@@ -313,7 +314,7 @@ $pagina = ($this->uri->segment(1)) ? $this->uri->segment(1): "dashboard";
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
           </a>
         </li>
-        <li class="treeview <?=($pagina !== "dashboard" && $pagina !== "chamado") ? "active menu-open" : null?>">
+        <li class="treeview <?=($pagina !== "dashboard" && $pagina !== "chamado" && $pagina !== "ChamadoInterno") ? "active menu-open" : null?>">
           <a href="#">
             <i class="fa fa-edit"></i> <span>Cadastros</span>
             <span class="pull-right-container">
@@ -327,6 +328,7 @@ $pagina = ($this->uri->segment(1)) ? $this->uri->segment(1): "dashboard";
             <li class="<?=($pagina == "cidade") ? "active" : null?>"><a href="<?=base_url("cidade")?>"><i class="fa fa-circle-o"></i> Cidade</a></li>
             <li class="<?=($pagina == "estado") ? "active" : null?>"><a href="<?=base_url("estado")?>"><i class="fa fa-circle-o"></i> Estado</a></li>
             <li class="<?=($pagina == "empresa") ? "active" : null?>"><a href="<?=base_url("empresa")?>"><i class="fa fa-circle-o"></i> Empresa</a></li>
+            <li class="<?=($pagina == "setor") ? "active" : null?>"><a href="<?=base_url("setor")?>"><i class="fa fa-circle-o"></i> Setor</a></li>
           </ul>
         </li>
         <li class="treeview <?=($pagina !== "dashboard" && $pagina == "chamado") ? "active menu-open" : null?>">
@@ -341,7 +343,7 @@ $pagina = ($this->uri->segment(1)) ? $this->uri->segment(1): "dashboard";
             <li class="<?=($pagina == "") ? "active" : null?>"><a href="<?=base_url("sintoma")?>"><i class="fa fa-circle-o"></i> Fechados</a></li>
           </ul>
         </li>
-        <li class="treeview <?=($pagina !== "dashboard") ? "active menu-open" : null?>">
+        <li class="treeview <?=($pagina == "ChamadoInterno") ? "active menu-open" : null?>">
           <a href="#">
             <i class="fa fa-archive"></i> <span>Chamados Internos</span>
             <span class="pull-right-container">
@@ -349,8 +351,8 @@ $pagina = ($this->uri->segment(1)) ? $this->uri->segment(1): "dashboard";
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="<?=($pagina == "") ? "active" : null?>"><a href="<?=base_url("usuario")?>"><i class="fa fa-circle-o"></i> Aberto/Andamento</a></li>
-            <li class="<?=($pagina == "") ? "active" : null?>"><a href="<?=base_url("sintoma")?>"><i class="fa fa-circle-o"></i> Fechados</a></li>
+            <li class="<?=($metodo == "aberto") ? "active" : null?>"><a href="<?=base_url("ChamadoInterno/aberto")?>"><i class="fa fa-circle-o"></i> Aberto/Andamento</a></li>
+            <li class="<?=($metodo == "fechado") ? "active" : null?>"><a href="<?=base_url("ChamadoInterno/fechado")?>"><i class="fa fa-circle-o"></i> Fechados</a></li>
           </ul>
         </li>
         <li class="">
