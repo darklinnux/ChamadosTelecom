@@ -329,6 +329,7 @@ $metodo = $this->uri->segment(2);
             <li class="<?=($pagina == "estado") ? "active" : null?>"><a href="<?=base_url("estado")?>"><i class="fa fa-circle-o"></i> Estado</a></li>
             <li class="<?=($pagina == "empresa") ? "active" : null?>"><a href="<?=base_url("empresa")?>"><i class="fa fa-circle-o"></i> Empresa</a></li>
             <li class="<?=($pagina == "setor") ? "active" : null?>"><a href="<?=base_url("setor")?>"><i class="fa fa-circle-o"></i> Setor</a></li>
+            <li class="<?=($pagina == "categoria") ? "active" : null?>"><a href="<?=base_url("categoria")?>"><i class="fa fa-circle-o"></i> Categoria</a></li>
           </ul>
         </li>
         <li class="treeview <?=($pagina !== "dashboard" && $pagina == "chamado") ? "active menu-open" : null?>">
