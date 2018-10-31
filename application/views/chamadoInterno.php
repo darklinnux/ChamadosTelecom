@@ -89,14 +89,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </section>
     <!-- /.content -->
   </div>
-  <form method="POST" action="<?=base_url('chamado/cadastrar')?>" autocomplete="off">
+  <form method="POST" action="<?=base_url('ChamadoInterno/cadastrar')?>" autocomplete="off">
   <div class="modal fade" id="modal-default">
           <div class="modal-dialog" style="width: 59%;">
             <div class="modal-content">
               <div class="modal-header bg-blue">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Novo Chamado</h4>
+                <h4 class="modal-title">Novo Chamado Interno</h4>
               </div>
               <div class="modal-body">
                 <div class="row">
@@ -109,32 +109,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <?php } ?>
                         </select>
                     </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-4">
-                    <div class="form-group">
-                      <label>Protocolo:</label>
-                      <div class="input-group">
-                        <div class="input-group-addon">
-                          <i class="fa fa-user"></i>
-                        </div>
-                        <input placeholder="Protocolo Atendimento" id="protocolo" name="protocolo" type="text" class="form-control">
-                      </div>
-                      <!-- /.input group -->
-                    </div>  
-                  </div>
-                  <div class="col-sm-4">
-                    <div class="form-group">
-                      <label>Designação:</label>
-                      <div class="input-group">
-                        <div class="input-group-addon">
-                          <i class="fa fa-user"></i>
-                        </div>
-                        <input name="designacao" type="text" class="form-control designacao" placeholder="AAR/IP/00102">
-                      </div>
-                      <!-- /.input group -->
-                    </div>  
                   </div>
                   <div class="col-sm-4">
                     <div class="form-group">
@@ -153,59 +127,54 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="row">
                   <div class="col-sm-4">
                     <div class="form-group">
-                      <label>Atendente:</label>
-
+                      <label>Categoria:</label>
+                      <select name="categoria" class="form-control select2" style="width: 100%;">
+                        <?php foreach($categorias as $categoria) { ?>
+                          <option value="<?=$categoria->cat_id?>"><?=$categoria->cat_nome?></option>
+                        <?php } ?>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label>Setor:</label>
+                      <select name="setor" class="form-control select2" style="width: 100%;">
+                        <?php foreach($setores as $setor) { ?>
+                          <option value="<?=$setor->set_id?>"><?=$setor->set_nome?></option>
+                        <?php } ?>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label>Filial</label>
+                      <select name="filial" class="form-control select2" style="width: 100%;">
+                        <?php foreach($filiais as $filial) { ?>
+                          <option value="<?=$filial->fil_id?>"><?=$filial->fil_nome?></option>
+                        <?php } ?>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-8">
+                    <div class="form-group">
+                      <label>Assunto:</label>
                       <div class="input-group">
                         <div class="input-group-addon">
-                          <i class="fa fa-key"></i>
+                          <i class="fa fa-book"></i>
                         </div>
-                        <input placeholder="Nome do atendente" id="atendente" name="atendente" type="text" class="form-control">
+                        <input placeholder="Assunto do chamado" id="assunto" name="assunto" type="text" class="form-control">
                       </div>
                       <!-- /.input group -->
                     </div>  
                   </div>
-                  <div class="col-sm-4">
-                    <div class="form-group">
-                      <label>Empresa</label>
-                      <select name="empresa" class="form-control select2" style="width: 100%;">
-                        <?php foreach($empresas as $empresa) { ?>
-                          <option value="<?=$empresa->emp_id?>"><?=$empresa->emp_nome?></option>
-                        <?php } ?>
-                      </select>
-                    </div>
-                  </div>
                 </div>
                 <div class="row">
                   <div class="col-sm-12">
                     <div class="form-group">
-                      <label>Filiais</label>
-                      <select id="filiais" name="filial[]" class="form-control select2" multiple="multiple" data-placeholder="Selecione as filiais"
-                              style="width: 100%;">
-                        <?php foreach($filiais as $filial){ ?>
-                          <option value="<?=$filial->fil_id?>"><?=$filial->fil_numero?>-<?=$filial->fil_nome?></option>
-                        <?php } ?>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-12">
-                    <div class="form-group">
-                      <label>Sintomas</label>
-                      <select id="sintomas" name="sintoma[]" class="form-control select2" multiple="multiple" data-placeholder="Nome do atendente" 
-                              style="width: 100%;">
-                        <?php foreach($sintomas as $sintoma){ ?>
-                          <option value="<?=$sintoma->sin_id?>"><?=$sintoma->sin_sintoma?></option>
-                        <?php } ?>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-12">
-                    <div class="form-group">
-                      <label>Motivo:</label>
-                      <textarea name="motivo" style="resize: none;height: 138px;" class="form-control"></textarea>
+                      <label>Descrição:</label>
+                      <textarea placeholder="Descreva sua solicitação" name="descricao" style="resize: none;height: 138px;" class="form-control"></textarea>
                     </div>
                   </div>
                 </div>

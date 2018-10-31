@@ -8,9 +8,9 @@ class ChamadoInterno extends CI_Controller {
 		parent::__construct();
 		$this->controleacesso->verificaSeEstaLogado();
 		$this->load->model('ChamadoInterno_model');
-		$this->load->model('empresa_model');
+		$this->load->model('categoria_model');
 		$this->load->model('filial_model');
-		$this->load->model('sintoma_model');
+		$this->load->model('setor_model');
 		$this->load->helper('telegram');
 	}
 	
@@ -22,9 +22,9 @@ class ChamadoInterno extends CI_Controller {
     
     public function aberto(){
         $dados['titulo'] = "Abertos/Andamento";
-        $dados['empresas'] = $this->empresa_model->listarTodos();
+        $dados['categorias'] = $this->categoria_model->listarTodos();
 		$dados['filiais'] = $this->filial_model->listarTodos();
-		$dados['sintomas'] = $this->sintoma_model->listarTodos();
+		$dados['setores'] = $this->setor_model->listarTodos();
 		$dados['niveis'] = $this->ChamadoInterno_model->getNivelChamado();
 		$dados['status'] = $this->ChamadoInterno_model->getStatusChamado();
 		$dados['chamados'] = $this->ChamadoInterno_model->listarTodos();
@@ -116,14 +116,14 @@ class ChamadoInterno extends CI_Controller {
 
 	private function validaFormCadastro(){
 		
-		$this->form_validation->set_rules('protocolo', 'Previsão','trim|required');
-		$this->form_validation->set_rules('previsao', 'Previsão','trim');
+		$this->form_validation->set_rules('categoria', 'Categoria','trim|required');
+		$this->form_validation->set_rules('setor', 'Setor','trim|required');
 		$this->form_validation->set_rules('designacao', 'Designação','trim|required');
 		$this->form_validation->set_rules('atendente', 'Atendente','trim|required');
 		$this->form_validation->set_rules('empresa', 'Empresa','trim|required');
-		$this->form_validation->set_rules('filial[]', 'Filiais','trim|required');
-		$this->form_validation->set_rules('sintoma[]', 'Sintomas','trim|required');
-		$this->form_validation->set_rules('motivo', 'Motivo','trim|required');
+		$this->form_validation->set_rules('filial', 'Filial','trim|required');
+		$this->form_validation->set_rules('assunto', 'Assunto','trim|required');
+		$this->form_validation->set_rules('descricao', 'Descrição','trim|required');
 		$this->form_validation->set_rules('nivel', 'Nivel','trim|required');
 
 		//$this->form_validation->set_rules('sigla', 'Sigla', 'trim|required|is_unique[chamado.est_sigla]');
