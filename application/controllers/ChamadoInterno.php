@@ -27,19 +27,19 @@ class ChamadoInterno extends CI_Controller {
 		$dados['setores'] = $this->setor_model->listarTodos();
 		$dados['niveis'] = $this->ChamadoInterno_model->getNivelChamado();
 		$dados['status'] = $this->ChamadoInterno_model->getStatusChamado();
-		$dados['chamados'] = $this->ChamadoInterno_model->listarTodos();
+		$dados['chamados'] = $this->ChamadoInterno_model->listarTodosAberto();
 		$this->load->view('template/header');
 		$this->load->view('chamadoInterno',$dados);
     }
 
     public function fechado(){
         $dados['titulo'] = "Fechados";
-        $dados['empresas'] = $this->empresa_model->listarTodos();
+        $dados['categorias'] = $this->categoria_model->listarTodos();
 		$dados['filiais'] = $this->filial_model->listarTodos();
-		$dados['sintomas'] = $this->sintoma_model->listarTodos();
+		$dados['setores'] = $this->setor_model->listarTodos();
 		$dados['niveis'] = $this->ChamadoInterno_model->getNivelChamado();
-		$dados['status'] = $this->ChamadoInterno_model->getStatusChamado();
-		$dados['chamados'] = $this->ChamadoInterno_model->listarTodos();
+		$dados['status'] = $this->ChamadoInterno_model->getStatusChamado();;
+		$dados['chamados'] = $this->ChamadoInterno_model->listarTodosFechado();
 		$this->load->view('template/header');
 		$this->load->view('chamadoInterno',$dados);
     }
@@ -48,21 +48,14 @@ class ChamadoInterno extends CI_Controller {
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro()) {
 			$chamado = $this->popularChamado();
 			$this->ChamadoInterno_model->inserir($chamado);
-			//Pega o utimo id e inseri na tabela de lista filiais do chamado
 			$id = $this->db->insert_id();
-			$this->inserirFilialChamado($id,function($filiais){
-				$this->ChamadoInterno_model->inserirListaFilial($filiais);
-			});
-			$this->inserirSintomaChamado($id,function($sintomas){
-				$this->ChamadoInterno_model->inserirListaSintoma($sintomas);
-			});
 			//die('sem erro');
-			//sendMessageGrupo($this->getTextMensagem($id));
+			sendMessageGrupoInterno($this->getTextMensagem($id));
 			$this->session->set_flashdata('sucess', 'chamado cadastrado com sucesso!!!');
-			redirect('chamado');
+			redirect('ChamadoInterno/aberto');
 		}else {
 			$this->session->set_flashdata('error', validation_errors());
-			redirect('chamado');
+			redirect('ChamadoInterno/aberto');
 		}
 	}
 
@@ -72,22 +65,13 @@ class ChamadoInterno extends CI_Controller {
 			$chamado = $this->popularChamado(true);
 			$this->ChamadoInterno_model->update($chamado);
 			$id = $chamado['cha_id'];
-			$this->ChamadoInterno_model->deletarFiliaisChamado($id);
-			$this->ChamadoInterno_model->deletarSintomasChamado($id);
-
-			$this->inserirFilialChamado($id,function($filiais){
-				$this->ChamadoInterno_model->inserirListaFilial($filiais);
-			});
-			$this->inserirSintomaChamado($id,function($sintomas){
-				$this->ChamadoInterno_model->inserirListaSintoma($sintomas);
-			});
 			//die('sem erro');
-			//sendMessageGrupo($this->getTextMensagem($id,true));
+			sendMessageGrupoInterno($this->getTextMensagem($id,true));
 			$this->session->set_flashdata('sucess', 'chamado atualizado com sucesso!!!');
-			redirect('chamado');
+			redirect('ChamadoInterno/aberto');
 		}else {
 			$this->session->set_flashdata('error', validation_errors());
-			redirect('chamado');
+			redirect('ChamadoInterno/aberto');
 		}
 	}
 
@@ -98,32 +82,30 @@ class ChamadoInterno extends CI_Controller {
 			
 	}
 
-	public function carregarDadosFilialEditar($id){
-		$chamado = $this->ChamadoInterno_model->getFilialChamadoId($id);
-		echo json_encode($chamado);
-	}
-
-	public function carregarDadosSintomaEditar($id){
-		$chamado = $this->ChamadoInterno_model->getSintomaChamadoId($id);
-		echo json_encode($chamado);
-	}
-
 	public function remover($id){
-		$this->ChamadoInterno_model->deletar($id);
-		$this->session->set_flashdata('sucess', 'chamado foi removido com sucesso!!!');
-		redirect('chamado');
-	  }
-
+		if($this->ChamadoInterno_model->deletar($id)){
+			$this->session->set_flashdata('sucess', 'Chamado foi removido com sucesso!!!');
+			redirect('ChamadoInterno/aberto');
+		}else {
+			if($this->db->error()['code'] === 1451){
+				//$this->session->set_flashdata('error', 'Chamado não pode ser excluida devido está associada a um chamado existente.');
+				$this->session->set_flashdata('error', 'Erro desconhecido contate o suporte!');
+			}else {
+				$this->session->set_flashdata('error', 'Erro desconhecido contate o suporte!');
+			}
+			redirect('ChamadoInterno/aberto');
+		}
+		
+		
+	}
 	private function validaFormCadastro(){
 		
 		$this->form_validation->set_rules('categoria', 'Categoria','trim|required');
 		$this->form_validation->set_rules('setor', 'Setor','trim|required');
-		$this->form_validation->set_rules('designacao', 'Designação','trim|required');
-		$this->form_validation->set_rules('atendente', 'Atendente','trim|required');
-		$this->form_validation->set_rules('empresa', 'Empresa','trim|required');
-		$this->form_validation->set_rules('filial', 'Filial','trim|required');
 		$this->form_validation->set_rules('assunto', 'Assunto','trim|required');
 		$this->form_validation->set_rules('descricao', 'Descrição','trim|required');
+		$this->form_validation->set_rules('filial', 'Filial','trim|required');
+		$this->form_validation->set_rules('previsao', 'Previsão','trim|required');
 		$this->form_validation->set_rules('nivel', 'Nivel','trim|required');
 
 		//$this->form_validation->set_rules('sigla', 'Sigla', 'trim|required|is_unique[chamado.est_sigla]');
@@ -131,12 +113,12 @@ class ChamadoInterno extends CI_Controller {
 	}
 
 	private function popularChamado($editar = false){
-		$chamado['cha_protocolo'] = $this->input->post('protocolo');
-		$chamado['cha_previsao'] = empty($this->input->post('previsao')) ? '' : date('Y-m-d',strtotime(str_replace("/","-",$this->input->post('previsao'))));
-		$chamado['cha_atendente'] = $this->input->post('atendente');
-		$chamado['cha_designacao'] = $this->input->post('designacao');
-		$chamado['cha_empresa'] = $this->input->post('empresa');
-		$chamado['cha_motivo'] = $this->input->post('motivo');
+		$chamado['cha_categoria'] = $this->input->post('categoria');
+		$chamado['cha_previsao'] = empty($this->input->post('previsao')) ? null : date('Y-m-d',strtotime(str_replace("/","-",$this->input->post('previsao'))));
+		$chamado['cha_setor'] = $this->input->post('setor');
+		$chamado['cha_assunto'] = $this->input->post('assunto');
+		$chamado['cha_descricao'] = $this->input->post('descricao');
+		$chamado['cha_filial'] = $this->input->post('filial');
 		$chamado['cha_nivel'] = $this->input->post('nivel');
 		
 		if($this->input->post('status')){
@@ -155,37 +137,8 @@ class ChamadoInterno extends CI_Controller {
 		return $chamado;
 	}
 
-	private function inserirFilialChamado($idChamado,$callback){
-		$listaFiliais = $this->input->post('filial[]');
-		for ($i = 0 ; $i < count($listaFiliais);$i++){
-			$filiais['chf_chamado'] = $idChamado;
-			$filiais['chf_filial'] = $listaFiliais[$i];
-			$callback($filiais);
-		}
-	}
-
-	private function inserirSintomaChamado($idChamado,$callback){
-		$listaSintoma = $this->input->post('sintoma[]');
-		for ($i = 0 ; $i < count($listaSintoma);$i++){
-			$sintomas['chs_chamado'] = $idChamado;
-			$sintomas['chs_sintoma'] = $listaSintoma[$i];
-			$callback($sintomas);
-		}
-	}
-
 	public function getTextMensagem($id,$editar = false){
 		$chamado = $this->ChamadoInterno_model->listarChamadoId($id);
-		$filiais = null;
-		$sintomas = null;
-		$listaSintoma = $this->ChamadoInterno_model->getSintomaChamadoId($id);
-		$listaFilial = $this->ChamadoInterno_model->getFilialChamadoId($id);
-		foreach($listaFilial as $filial){
-			$filiais = $filiais.$filial->fil_nome.", ";
-		}
-
-		foreach($listaSintoma as $sintoma){
-			$sintomas = $sintomas.$sintoma->sin_sintoma.", ";
-		}
 		
 		if($editar){
 			return 
@@ -193,32 +146,30 @@ class ChamadoInterno extends CI_Controller {
 			
 			Responsavel: ".$this->session->usu_login."
 			".
-			"[Chamado]→".$chamado->emp_nome."
-			[Localidade]→".$filiais."
-			[Designação]→ ".$chamado->cha_designacao."
-			[Atendente]→".$chamado->cha_atendente."
-			[Protocolo]→".$chamado->cha_protocolo."
+			"[Chamado]→Chamado Interno
+			[Filial]→".$chamado->fil_numero."-".$chamado->fil_nome."
+			[Nivel]→ ".$chamado->cha_nivel."
+			[Categoria]→".$chamado->cat_nome."
+			[Setor]→".$chamado->set_nome."
 			[Data/Hora]→".$chamado->cha_data_inicio."
-			[Sintoma]→".$sintomas."
-			[Motivo]→".$chamado->cha_motivo."
+			[assunto]→".$chamado->cha_assunto."
 			[Previsão]→".$chamado->cha_previsao."
-			[Nivel]→Nivel ".$chamado->cha_nivel."
 			[status]→".$this->ChamadoInterno_model->getStatusId($chamado->cha_status)->stc_status."
-			[usuario]→".$chamado->usu_login."";
+			[usuario]→".$chamado->usu_login."
+			[Link]→".base_url("ChamadoInterno/andamento/".$chamado->cha_id)."";
 		}else {
 			return 
-			"[Chamado]→".$chamado->emp_nome."
-			[Localidade]→".$filiais."
-			[Designação]→ ".$chamado->cha_designacao."
-			[Atendente]→".$chamado->cha_atendente."
-			[Protocolo]→".$chamado->cha_protocolo."
+			" [Chamado]→Chamado Interno
+			[Filial]→".$chamado->fil_numero."-".$chamado->fil_nome."
+			[Nivel]→ ".$chamado->cha_nivel."
+			[Categoria]→".$chamado->cat_nome."
+			[Setor]→".$chamado->set_nome."
 			[Data/Hora]→".$chamado->cha_data_inicio."
-			[Sintoma]→".$sintomas."
-			[Motivo]→".$chamado->cha_motivo."
+			[assunto]→".$chamado->cha_assunto."
 			[Previsão]→".$chamado->cha_previsao."
-			[Nivel]→Nivel ".$chamado->cha_nivel."
 			[status]→".$this->ChamadoInterno_model->getStatusId($chamado->cha_status)->stc_status."
-			[usuario]→".$chamado->usu_login."";
+			[usuario]→".$chamado->usu_login."
+			[Link]→".base_url("ChamadoInterno/andamento/".$chamado->cha_id)."";
 			}
 	}
 	

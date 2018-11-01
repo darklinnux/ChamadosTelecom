@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="box-header">
               
               <div>
-                <h3 class="box-title">Cadastros</h3>
+                <h3 class="box-title"><?=$titulo?></h3>
                 <button style="float:right;" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-default">Novo Chamado</button>    
               </div>
               

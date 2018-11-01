@@ -53,7 +53,7 @@ class Chamado_model extends CI_Model
         $this->db->delete('chamado_sintoma');
     }
 
-    public function listarTodos(){
+    public function listarTodosAberto(){
         $this->db->select('chamado.*,fil_nome,fil_numero,emp_nome,usu_nome,usu_login, stc_status, cni_nivel');
         $this->db->join('empresa','cha_empresa = emp_id');
         $this->db->join('usuario','cha_usuario = usu_id');
@@ -61,6 +61,19 @@ class Chamado_model extends CI_Model
         $this->db->join('chamado_nivel','cha_nivel = cni_id');
         $this->db->join('chamado_filial','chf_chamado = cha_id');
         $this->db->join('filial','chf_filial = fil_id');
+        $this->db->where('cha_status != 3');
+        return $this->db->get('chamado')->result();
+    }
+
+    public function listarTodosFechado(){
+        $this->db->select('chamado.*,fil_nome,fil_numero,emp_nome,usu_nome,usu_login, stc_status, cni_nivel');
+        $this->db->join('empresa','cha_empresa = emp_id');
+        $this->db->join('usuario','cha_usuario = usu_id');
+        $this->db->join('chamado_status','cha_status = stc_id');
+        $this->db->join('chamado_nivel','cha_nivel = cni_id');
+        $this->db->join('chamado_filial','chf_chamado = cha_id');
+        $this->db->join('filial','chf_filial = fil_id');
+        $this->db->where('cha_status = 3');
         return $this->db->get('chamado')->result();
     }
 

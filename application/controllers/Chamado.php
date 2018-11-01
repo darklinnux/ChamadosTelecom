@@ -16,15 +16,31 @@ class Chamado extends CI_Controller {
 	
 	public function index()
 	{
+		redirect('chamado/aberto');
+	}
+
+	public function aberto(){
+		$dados['titulo'] = "Abertos/Andamento";
 		$dados['empresas'] = $this->empresa_model->listarTodos();
 		$dados['filiais'] = $this->filial_model->listarTodos();
 		$dados['sintomas'] = $this->sintoma_model->listarTodos();
 		$dados['niveis'] = $this->chamado_model->getNivelChamado();
 		$dados['status'] = $this->chamado_model->getStatusChamado();
-		$dados['chamados'] = $this->chamado_model->listarTodos();
+		$dados['chamados'] = $this->chamado_model->listarTodosAberto();
 		$this->load->view('template/header');
 		$this->load->view('chamado',$dados);
-		
+	}
+
+	public function fechado(){
+		$dados['titulo'] = "Fechados";
+		$dados['empresas'] = $this->empresa_model->listarTodos();
+		$dados['filiais'] = $this->filial_model->listarTodos();
+		$dados['sintomas'] = $this->sintoma_model->listarTodos();
+		$dados['niveis'] = $this->chamado_model->getNivelChamado();
+		$dados['status'] = $this->chamado_model->getStatusChamado();
+		$dados['chamados'] = $this->chamado_model->listarTodosFechado();
+		$this->load->view('template/header');
+		$this->load->view('chamado',$dados);
 	}
 	
 	public function cadastrar(){
@@ -42,10 +58,10 @@ class Chamado extends CI_Controller {
 			//die('sem erro');
 			//sendMessageGrupo($this->getTextMensagem($id));
 			$this->session->set_flashdata('sucess', 'chamado cadastrado com sucesso!!!');
-			redirect('chamado');
+			redirect('chamado/aberto');
 		}else {
 			$this->session->set_flashdata('error', validation_errors());
-			redirect('chamado');
+			redirect('chamado/aberto');
 		}
 	}
 
@@ -67,10 +83,10 @@ class Chamado extends CI_Controller {
 			//die('sem erro');
 			//sendMessageGrupo($this->getTextMensagem($id,true));
 			$this->session->set_flashdata('sucess', 'chamado atualizado com sucesso!!!');
-			redirect('chamado');
+			redirect('chamado/aberto');
 		}else {
 			$this->session->set_flashdata('error', validation_errors());
-			redirect('chamado');
+			redirect('chamado/aberto');
 		}
 	}
 
@@ -94,7 +110,7 @@ class Chamado extends CI_Controller {
 	public function remover($id){
 		$this->chamado_model->deletar($id);
 		$this->session->set_flashdata('sucess', 'chamado foi removido com sucesso!!!');
-		redirect('chamado');
+		redirect('chamado/aberto');
 	  }
 
 	private function validaFormCadastro(){

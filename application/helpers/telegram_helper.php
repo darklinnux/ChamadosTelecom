@@ -34,3 +34,21 @@ function sendMessageGrupo($messaggio) {
     curl_close($ch);
     return $result;
 }
+
+function sendMessageGrupoInterno($messaggio) {
+    $token = '656447903:AAFjwmCmaHYwEfYQ_kDi-0dou5MP7ldUHaU';
+    $chatID = '-304576409';
+    echo "sending message to " . $chatID . "\n";
+
+    $url = "https://api.telegram.org/bot" . $token . "/sendMessage?chat_id=" . $chatID;
+    $url = $url . "&text=" . urlencode($messaggio);
+    $ch = curl_init();
+    $optArray = array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true
+    );
+    curl_setopt_array($ch, $optArray);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    return $result;
+}
