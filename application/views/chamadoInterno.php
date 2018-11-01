@@ -72,6 +72,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <button type="button" class="btn btn-primary">Opções</button>
                           <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> <span class="sr-only">Toggle Dropdown</span> </button>
                           <ul class="dropdown-menu" role="menu">
+                              <li><a href="<?=base_url("ChamadoInterno/andamento/{$chamado->cha_id}")?>">Andamento</a></li>
                               <li><a onclick="modalEditar(<?=$chamado->cha_id?>);" href="#">Editar</a></li>
                               <li class="divider"></li>
                               <li><a href="#" onclick="modalRemover(<?=$chamado->cha_id?>)">Remover</a></li>

@@ -352,7 +352,7 @@ $metodo = $this->uri->segment(2);
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="<?=($metodo == "aberto" && $pagina == "ChamadoInterno") ? "active" : null?>"><a href="<?=base_url("ChamadoInterno/aberto")?>"><i class="fa fa-circle-o"></i> Aberto/Andamento</a></li>
+            <li class="<?=(($metodo == "aberto" || $metodo == "andamento") && $pagina == "ChamadoInterno") ? "active" : null?>"><a href="<?=base_url("ChamadoInterno/aberto")?>"><i class="fa fa-circle-o"></i> Aberto/Andamento</a></li>
             <li class="<?=($metodo == "fechado" && $pagina == "ChamadoInterno") ? "active" : null?>"><a href="<?=base_url("ChamadoInterno/fechado")?>"><i class="fa fa-circle-o"></i> Fechados</a></li>
           </ul>
         </li>

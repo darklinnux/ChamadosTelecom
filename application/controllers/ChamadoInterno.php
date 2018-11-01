@@ -42,7 +42,26 @@ class ChamadoInterno extends CI_Controller {
 		$dados['chamados'] = $this->ChamadoInterno_model->listarTodosFechado();
 		$this->load->view('template/header');
 		$this->load->view('chamadoInterno',$dados);
-    }
+	}
+	
+	public function andamento($id = false){
+		$parametro = (int) $id;
+		if($parametro !== 0){
+			$dados['titulo'] = "Fechados";
+			$dados['categorias'] = $this->categoria_model->listarTodos();
+			$dados['filiais'] = $this->filial_model->listarTodos();
+			$dados['setores'] = $this->setor_model->listarTodos();
+			$dados['niveis'] = $this->ChamadoInterno_model->getNivelChamado();
+			$dados['status'] = $this->ChamadoInterno_model->getStatusChamado();;
+			$dados['chamados'] = $this->ChamadoInterno_model->listarTodosFechado();
+			$this->load->view('template/header');
+			$this->load->view('andamento',$dados);
+		}else {
+			$this->session->set_flashdata('error', 'Chamado Invalido');
+			redirect('ChamadoInterno/aberto');
+		}
+		
+	}
 	
 	public function cadastrar(){
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro()) {
