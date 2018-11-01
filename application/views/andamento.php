@@ -1,7 +1,7 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
-<link rel="stylesheet" href="<?= base_url("assets/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css")?>">
+<link rel="stylesheet" href="<?=base_url("assets/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css")?>">
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -23,11 +23,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <!-- Default box -->
       <div class="box">
             <div class="box-header">
-              
+
               <div>
-                <h3 class="box-title">Assunto do chamado carregado do banco</h3>    
+                <h3 class="box-title">Assunto do chamado carregado do banco</h3>
               </div>
-              
+
             </div>
             <hr>
             <!-- /.box-header -->
@@ -37,9 +37,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                         <label>Nivel:</label>
                         <select name="nivel" class="form-control">
-                          <?php foreach($niveis as $nivel) { ?>
+                          <?php foreach ($niveis as $nivel) {?>
                             <option value="<?=$nivel->cni_id?>"><?=$nivel->cni_nivel?></option>
-                          <?php } ?>
+                          <?php }?>
                         </select>
                     </div>
                   </div>
@@ -60,9 +60,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                       <label>Status:</label>
                       <select name="filial" class="form-control select2" style="width: 100%;">
-                        <?php foreach($filiais as $filial) { ?>
+                        <?php foreach ($filiais as $filial) {?>
                           <option value="<?=$filial->fil_id?>"><?=$filial->fil_nome?></option>
-                        <?php } ?>
+                        <?php }?>
                       </select>
                     </div>
                   </div>
@@ -72,9 +72,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                       <label>Categoria:</label>
                       <select name="categoria" class="form-control select2" style="width: 100%;">
-                        <?php foreach($categorias as $categoria) { ?>
+                        <?php foreach ($categorias as $categoria) {?>
                           <option value="<?=$categoria->cat_id?>"><?=$categoria->cat_nome?></option>
-                        <?php } ?>
+                        <?php }?>
                       </select>
                     </div>
                   </div>
@@ -82,9 +82,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                       <label>Setor:</label>
                       <select name="setor" class="form-control select2" style="width: 100%;">
-                        <?php foreach($setores as $setor) { ?>
+                        <?php foreach ($setores as $setor) {?>
                           <option value="<?=$setor->set_id?>"><?=$setor->set_nome?></option>
-                        <?php } ?>
+                        <?php }?>
                       </select>
                     </div>
                   </div>
@@ -92,9 +92,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                       <label>Filial</label>
                       <select name="filial" class="form-control select2" style="width: 100%;">
-                        <?php foreach($filiais as $filial) { ?>
+                        <?php foreach ($filiais as $filial) {?>
                           <option value="<?=$filial->fil_id?>"><?=$filial->fil_nome?></option>
-                        <?php } ?>
+                        <?php }?>
                       </select>
                     </div>
                   </div>
@@ -121,19 +121,77 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                   </div>
                 </div>
+
                 <hr>
                 <div>
-                    <h3 class="">Comentários:</h3>    
+                    <h3 class="text-center">Comentários</h3>
+                    <br>
+                    <div class="post clearfix">
+                      <div class="user-block">
+                        <img class="img-circle img-bordered-sm" src="<?=base_url('assets/dist/img/avatar.png')?>" alt="User Image">
+                        <a href="#" title="Remover comentário" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
+                        <span class="username">
+                          Caio Felipe.
+                        </span>
+                        <span class="description">Enviado em: 01/11/2018 ás 19:43.</span>
+                      </div>
+                      <!-- /.user-block -->
+                      <p>
+                      Lorem ipsum represents a long-held tradition for designers,
+                      typographers and the like. Some people hate it and argue for
+                      its demise, but others ignore the hate as they create awesome
+                      tools to help create filler text for this is a everyone from bacon lovers
+                      to Charlie Sheen fans.
+                      </p>
+                    </div>
                 </div>
-            </div>
+                <hr>
+
+                <div>
+                    <div class="post clearfix">
+                      <div class="user-block">
+                        <img class="img-circle img-bordered-sm" src="<?=base_url('assets/dist/img/avatar.png')?>" alt="User Image">
+                            <a href="#" title="Remover comentário" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
+                            <span class="username">
+                              Ramon Lima.
+                            </span>
+                        <span class="description">Enviado em: 01/11/2018 ás 19:45.</span>
+                      </div>
+                      <!-- /.user-block -->
+                      <p>
+                      Lorem ipsum represents a long-held tradition for designers,
+                      typographers and the like. Some people hate it and argue for
+                      its demise, but others ignore the hate as they create awesome
+                      tools to help create filler text for this is a everyone from bacon lovers
+                      to Charlie Sheen fans.
+                      </p>
+                    </div>
+                </div>
+                <hr>
+                
+              <div class="post clearfix">
+                <div class="user-block">
+                  <form class="form-horizontal">
+                    <div class="form-group margin-bottom-none">
+                      <div class="col-sm-12" style="margin-bottom: 10px;">
+                        <textarea class="form-control" rows="3" placeholder="Escreva um comentário ..."></textarea>
+                      </div>
+                      <div class="pull-right col-xs-12 col-lg-2">
+                        <button type="submit" class="btn btn-primary btn-block btn-sm">Enviar</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
             <!-- /.box-body -->
           </div>
 
     </section>
     <!-- /.content -->
   </div>
-  
-        
+
+
         <footer class="main-footer">
     <div class="pull-right hidden-xs">
       <b>Version</b> 2.4.0
@@ -143,7 +201,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   </footer>
 
   <!-- Control Sidebar -->
-  
+
   <!-- /.control-sidebar -->
   <!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
@@ -182,11 +240,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $('.designacao').mask('AAA/AA/00000');
     $('#datepicker').datepicker({
       autoclose: true,
-      format: 'dd/mm/yyyy',        
+      format: 'dd/mm/yyyy',
     });
     $('#datepicker-editar').datepicker({
       autoclose: true,
-      format: 'dd/mm/yyyy',        
+      format: 'dd/mm/yyyy',
     });
   })
 </script>
@@ -245,7 +303,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     });
   }
 
-  function modalRemover(id){  
+  function modalRemover(id){
     $('#btn-deletar').attr('href', "<?=base_url('chamado/remover/')?>"+id)
     $('#modal-remover').modal('show');
 
@@ -278,7 +336,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }
       }
     });
-    
+
   });
 </script>
 </body>
