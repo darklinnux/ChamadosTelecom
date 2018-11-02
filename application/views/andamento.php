@@ -10,7 +10,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <small>Chamado Inteno</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url()?>"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="<?=base_url('dashboard')?>"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="#">Chamado Interno</a></li>
         <li><a href="<?=base_url('ChamadoInterno/aberto')?>">Aberto/andamento</a></li>
         <li class="active">andamento</li>

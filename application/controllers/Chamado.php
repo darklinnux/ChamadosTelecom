@@ -115,15 +115,15 @@ class Chamado extends CI_Controller {
 
 	private function validaFormCadastro(){
 		
-		$this->form_validation->set_rules('protocolo', 'Previsão','trim|required');
+		$this->form_validation->set_rules('protocolo', 'Previsão','trim|required');/* 
 		$this->form_validation->set_rules('previsao', 'Previsão','trim');
 		$this->form_validation->set_rules('designacao', 'Designação','trim|required');
-		$this->form_validation->set_rules('atendente', 'Atendente','trim|required');
+		$this->form_validation->set_rules('atendente', 'Atendente','trim|required'); */
 		$this->form_validation->set_rules('empresa', 'Empresa','trim|required');
 		$this->form_validation->set_rules('filial[]', 'Filiais','trim|required');
-		$this->form_validation->set_rules('sintoma[]', 'Sintomas','trim|required');
+		$this->form_validation->set_rules('sintoma[]', 'Sintomas','trim|required');/* 
 		$this->form_validation->set_rules('motivo', 'Motivo','trim|required');
-		$this->form_validation->set_rules('nivel', 'Nivel','trim|required');
+		$this->form_validation->set_rules('nivel', 'Nivel','trim|required'); */
 
 		//$this->form_validation->set_rules('sigla', 'Sigla', 'trim|required|is_unique[chamado.est_sigla]');
         return $this->form_validation->run();

@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <small>Lista de Chamado</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url()?>"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="<?=base_url('dashboard')?>"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="#">Cadastro</a></li>
         <li class="active">chamado</li>
       </ol>
@@ -119,7 +119,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="input-group-addon">
                           <i class="fa fa-user"></i>
                         </div>
-                        <input placeholder="Protocolo Atendimento" id="protocolo" name="protocolo" type="text" class="form-control">
+                        <input required placeholder="Protocolo Atendimento" id="protocolo" name="protocolo" type="text" class="form-control">
                       </div>
                       <!-- /.input group -->
                     </div>  
@@ -167,7 +167,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label>Empresa</label>
-                      <select name="empresa" class="form-control select2" style="width: 100%;">
+                      <select required name="empresa" class="form-control select2" style="width: 100%;">
                         <?php foreach($empresas as $empresa) { ?>
                           <option value="<?=$empresa->emp_id?>"><?=$empresa->emp_nome?></option>
                         <?php } ?>
@@ -179,7 +179,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label>Filiais</label>
-                      <select id="filiais" name="filial[]" class="form-control select2" multiple="multiple" data-placeholder="Selecione as filiais"
+                      <select required id="filiais" name="filial[]" class="form-control select2" multiple="multiple" data-placeholder="Selecione as filiais"
                               style="width: 100%;">
                         <?php foreach($filiais as $filial){ ?>
                           <option value="<?=$filial->fil_id?>"><?=$filial->fil_numero?>-<?=$filial->fil_nome?></option>
@@ -192,7 +192,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label>Sintomas</label>
-                      <select id="sintomas" name="sintoma[]" class="form-control select2" multiple="multiple" data-placeholder="Nome do atendente" 
+                      <select required id="sintomas" name="sintoma[]" class="form-control select2" multiple="multiple" data-placeholder="Nome do atendente" 
                               style="width: 100%;">
                         <?php foreach($sintomas as $sintoma){ ?>
                           <option value="<?=$sintoma->sin_id?>"><?=$sintoma->sin_sintoma?></option>
@@ -252,7 +252,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="input-group-addon">
                           <i class="fa fa-user"></i>
                         </div>
-                        <input id="editar-protocolo" placeholder="Protocolo Atendimento" id="protocolo" name="protocolo" type="text" class="form-control">
+                        <input required id="editar-protocolo" placeholder="Protocolo Atendimento" id="protocolo" name="protocolo" type="text" class="form-control">
                       </div>
                       <!-- /.input group -->
                     </div>  
@@ -301,7 +301,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label>Empresa</label>
-                      <select id="editar-empresa" name="empresa" class="form-control select2" style="width: 100%;">
+                      <select required id="editar-empresa" name="empresa" class="form-control select2" style="width: 100%;">
                         <?php foreach($empresas as $empresa) { ?>
                           <option value="<?=$empresa->emp_id?>"><?=$empresa->emp_nome?></option>
                         <?php } ?>
@@ -311,7 +311,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label>Status</label>
-                      <select id="editar-status" name="status" class="form-control">
+                      <select required id="editar-status" name="status" class="form-control">
                         <?php foreach($status as $statu) { ?>
                           <option value="<?=$statu->stc_id?>"><?=$statu->stc_status?></option>
                         <?php } ?>
@@ -323,7 +323,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label>Filiais</label>
-                      <select id="editar-filiais" name="filial[]" class="form-control select2" multiple="multiple" data-placeholder="Selecione as filiais"
+                      <select required id="editar-filiais" name="filial[]" class="form-control select2" multiple="multiple" data-placeholder="Selecione as filiais"
                               style="width: 100%;">
                         <?php foreach($filiais as $filial){ ?>
                           <option value="<?=$filial->fil_id?>"><?=$filial->fil_numero?>-<?=$filial->fil_nome?></option>
@@ -336,7 +336,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label>Sintomas</label>
-                      <select id="editar-sintomas" name="sintoma[]" class="form-control select2" multiple="multiple" data-placeholder="Nome do atendente" 
+                      <select required id="editar-sintomas" name="sintoma[]" class="form-control select2" multiple="multiple" data-placeholder="Nome do atendente" 
                               style="width: 100%;">
                         <?php foreach($sintomas as $sintoma){ ?>
                           <option value="<?=$sintoma->sin_id?>"><?=$sintoma->sin_sintoma?></option>

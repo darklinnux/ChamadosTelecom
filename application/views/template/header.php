@@ -51,7 +51,7 @@ $metodo = $this->uri->segment(2);
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="<?=base_url()?>" class="logo">
+    <a href="<?=base_url('dashboard')?>" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>A</b>LT</span>
       <!-- logo for regular state and mobile devices -->
@@ -310,7 +310,7 @@ $metodo = $this->uri->segment(2);
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">Menu de Navegação</li>
         <li class="<?=($pagina == "dashboard") ? "active" : null?>">
-          <a href="<?=base_url()?>">
+          <a href="<?=base_url('dashboard')?>">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
           </a>
         </li>

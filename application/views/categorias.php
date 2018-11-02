@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <small>Lista de Categorias</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url()?>"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="<?=base_url('dashboard')?>"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="#">Cadastro</a></li>
         <li class="active">categoria</li>
       </ol>
