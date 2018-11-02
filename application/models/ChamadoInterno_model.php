@@ -65,11 +65,12 @@ class ChamadoInterno_model extends CI_Model
     }
 
     public function listarChamadoId($id){
-        $this->db->select('chamado_interno.*, fil_numero, fil_nome, set_nome, niv_nivel, stc_status, usu_login, cat_nome');
+        $this->db->select('chamado_interno.*, fil_numero, fil_nome, set_nome, niv_nivel, stc_status, a.usu_login, cat_nome, r.usu_login as responsavel');
         $this->db->join('filial','cha_filial = fil_id');
         $this->db->join('setor','cha_setor = set_id');
         $this->db->join('nivel_interno','cha_nivel = niv_id');
-        $this->db->join('usuario','cha_usuario = usu_id');
+        $this->db->join('usuario as a','cha_usuario = a.usu_id');
+        $this->db->join('usuario as r','cha_responsavel = r.usu_id','left');
         $this->db->join('status_interno','cha_status = stc_id');
         $this->db->join('categoria','cha_categoria = cat_id');
         $this->db->where('cha_id',$id);

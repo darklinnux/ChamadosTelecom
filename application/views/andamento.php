@@ -25,7 +25,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <div class="box-header">
 
               <div>
-                <h3 class="box-title">Assunto do chamado carregado do banco</h3>
+                <h3 class="box-title">Assunto: <?=$chamado->cha_assunto?></h3>
               </div>
 
             </div>
@@ -38,7 +38,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <label>Nivel:</label>
                         <select name="nivel" class="form-control">
                           <?php foreach ($niveis as $nivel) {?>
-                            <option value="<?=$nivel->cni_id?>"><?=$nivel->cni_nivel?></option>
+                            <option <?=($nivel->cni_id == $chamado->cha_nivel) ? 'selected' : null?> value="<?=$nivel->cni_id?>"><?=$nivel->cni_nivel?></option>
                           <?php }?>
                         </select>
                     </div>
@@ -51,7 +51,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <div class="input-group-addon">
                           <i class="fa fa-calendar"></i>
                         </div>
-                        <input name="previsao" type="text" class="form-control pull-right" id="datepicker">
+                        <input value="<?=date("d/m/Y",strtotime($chamado->cha_previsao))?>" name="previsao" type="text" class="form-control pull-right" id="datepicker">
                       </div>
                       <!-- /.input group -->
                     </div>
@@ -59,9 +59,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label>Status:</label>
-                      <select name="filial" class="form-control select2" style="width: 100%;">
-                        <?php foreach ($filiais as $filial) {?>
-                          <option value="<?=$filial->fil_id?>"><?=$filial->fil_nome?></option>
+                      <select name="status" class="form-control">
+                        <?php foreach ($status as $statu) {?>
+                          <option value="<?=$statu->stc_id?>"><?=$statu->stc_status?></option>
                         <?php }?>
                       </select>
                     </div>
@@ -93,7 +93,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                       <label>Filial</label>
                       <select name="filial" class="form-control select2" style="width: 100%;">
                         <?php foreach ($filiais as $filial) {?>
-                          <option value="<?=$filial->fil_id?>"><?=$filial->fil_nome?></option>
+                          <option value="<?=$filial->fil_id?>"><?=$filial->fil_numero.'-'.$filial->fil_nome?></option>
                         <?php }?>
                       </select>
                     </div>
@@ -103,13 +103,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label>Autor:</label>
-                      <input type="text" class="form-control">
+                      <input disabled value="<?=$chamado->usu_login?>" type="text" class="form-control">
                     </div>
                   </div>
                   <div class="col-sm-4">
                     <div class="form-group">
-                      <label>Responsável:</label>
-                      <input type="text" class="form-control">
+                      <label>Responsavel:</label>
+                      <select name="responsavel" class="form-control select2" style="width: 100%;">
+                          <option value="0">Selecione um Responsavel</option>
+                        <?php foreach ($usuarios as $usuario) {?>
+                          <option <?=($usuario->usu_id == $chamado->cha_responsavel) ? 'selected' : null?> value="<?=$usuario->usu_id?>"><?=$usuario->usu_nome?></option>
+                        <?php }?>
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -117,7 +122,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label>Descrição:</label>
-                      <textarea placeholder="Descreva sua solicitação" name="descricao" style="resize: none;height: 138px;" class="form-control"></textarea>
+                      <textarea disabled placeholder="Descreva sua solicitação" name="descricao" style="resize: none;height: 138px;" class="form-control"><?=$chamado->cha_descricao?></textarea>
                     </div>
                   </div>
                 </div>
@@ -245,6 +250,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $('#datepicker-editar').datepicker({
       autoclose: true,
       format: 'dd/mm/yyyy',
+    }).on("picker_event", function(e){
+      alert('teste');
     });
   })
 </script>

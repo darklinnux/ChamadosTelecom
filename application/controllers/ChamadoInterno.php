@@ -11,6 +11,7 @@ class ChamadoInterno extends CI_Controller {
 		$this->load->model('categoria_model');
 		$this->load->model('filial_model');
 		$this->load->model('setor_model');
+		$this->load->model('usuario_model');
 		$this->load->helper('telegram');
 	}
 	
@@ -38,7 +39,7 @@ class ChamadoInterno extends CI_Controller {
 		$dados['filiais'] = $this->filial_model->listarTodos();
 		$dados['setores'] = $this->setor_model->listarTodos();
 		$dados['niveis'] = $this->ChamadoInterno_model->getNivelChamado();
-		$dados['status'] = $this->ChamadoInterno_model->getStatusChamado();;
+		$dados['status'] = $this->ChamadoInterno_model->getStatusChamado();
 		$dados['chamados'] = $this->ChamadoInterno_model->listarTodosFechado();
 		$this->load->view('template/header');
 		$this->load->view('chamadoInterno',$dados);
@@ -52,8 +53,9 @@ class ChamadoInterno extends CI_Controller {
 			$dados['filiais'] = $this->filial_model->listarTodos();
 			$dados['setores'] = $this->setor_model->listarTodos();
 			$dados['niveis'] = $this->ChamadoInterno_model->getNivelChamado();
-			$dados['status'] = $this->ChamadoInterno_model->getStatusChamado();;
-			$dados['chamados'] = $this->ChamadoInterno_model->listarTodosFechado();
+			$dados['status'] = $this->ChamadoInterno_model->getStatusChamado();
+			$dados['usuarios'] = $this->usuario_model->listar();
+			$dados['chamado'] = $this->ChamadoInterno_model->listarChamadoId($id);
 			$this->load->view('template/header');
 			$this->load->view('andamento',$dados);
 		}else {
