@@ -56,6 +56,7 @@ class ChamadoInterno extends CI_Controller {
 			$dados['status'] = $this->ChamadoInterno_model->getStatusChamado();
 			$dados['usuarios'] = $this->usuario_model->listar();
 			$dados['chamado'] = $this->ChamadoInterno_model->listarChamadoId($id);
+			$dados['comentarios'] = $this->ChamadoInterno_model->listarComentarios($id);
 			$this->load->view('template/header');
 			$this->load->view('andamento',$dados);
 		}else {
@@ -101,6 +102,59 @@ class ChamadoInterno extends CI_Controller {
 		$chamado = $this->ChamadoInterno_model->getchamadoId($id);
 		echo json_encode($chamado);
 			
+	}
+
+	public function atualizarAndamento(){
+		$chamado['cha_id'] = $this->input->post("id");
+
+		switch ($this->input->post("campo")) {
+			case 'nivel':
+				$chamado['cha_nivel'] = $this->input->post("nivel");
+				break;
+			case 'status':
+				$chamado['cha_status'] = $this->input->post("status");
+				break;
+			case 'previsao':
+				$chamado['cha_previsao'] = empty($this->input->post('previsao')) ? null : date('Y-m-d',strtotime(str_replace("/","-",$this->input->post('previsao'))));
+				break;
+			case 'responsavel':
+				$chamado['cha_responsavel'] = $this->input->post('responsavel');
+				break;
+			
+			default:
+				# code...
+				break;
+		}
+		/* var_dump($chamado);die(); */
+		if($this->ChamadoInterno_model->update($chamado)){
+			sendMessageGrupoInterno($this->getTextMensagem($chamado['cha_id'],true));
+			echo json_encode(true);
+		}else {
+			echo json_encode(false);
+		}
+	}
+
+	public function comentar(){
+		$this->form_validation->set_rules('comentario', 'Comentario','trim|required');
+		$this->form_validation->set_rules('idChamado', 'ID Chamado','trim|required');
+        
+		if($this->input->server('REQUEST_METHOD') === 'POST' && $this->form_validation->run()){
+			$comentario['com_comentario'] = $this->input->post('comentario');
+			$comentario['com_chamado'] = $this->input->post('idChamado');
+			$comentario['com_usuario'] = $this->session->usu_id;
+			$comentario['com_data'] = date('Y-m-d H:i:s');
+			if($this->ChamadoInterno_model->inserirComentario($comentario)){
+				$this->session->set_flashdata('sucess', 'Comentário Adicionado');
+			}else {
+				$this->session->set_flashdata('error', 'Comentário Não foi adicionado');
+			}
+			redirect("ChamadoInterno/andamento/{$this->input->post('idChamado')}");
+		}else {
+			$this->session->set_flashdata('error', validation_errors());
+			echo 'n validou';
+			echo validation_errors();
+			redirect("ChamadoInterno/andamento/{$this->input->post('idChamado')}");
+		}
 	}
 
 	public function remover($id){

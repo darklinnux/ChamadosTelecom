@@ -13,18 +13,16 @@ class ChamadoInterno_model extends CI_Model
         $this->db->insert('chamado_interno', $chamado);
         return $this->db->insert_id();
     }
+    
+    public function inserirComentario($comentario)
+    {
+        return $this->db->insert('comentario_interno', $comentario);
+    }
 
     public function update($chamado)
     {
-
-        try {
-            $this->db->where('cha_id', $chamado['cha_id']);
-            $this->db->update('chamado_interno', $chamado);
-            return true;
-        } catch (Exeption $e) {
-            return false;
-        }
-
+        $this->db->where('cha_id', $chamado['cha_id']);
+        return $this->db->update('chamado_interno', $chamado); 
     }
 
     public function deletar($id){
@@ -75,6 +73,13 @@ class ChamadoInterno_model extends CI_Model
         $this->db->join('categoria','cha_categoria = cat_id');
         $this->db->where('cha_id',$id);
         return $this->db->get('chamado_interno')->row();
+    }
+
+    public function listarComentarios($id){
+        $this->db->select('com_id, com_comentario, com_data, usu_nome');
+        $this->db->join('usuario','com_usuario = usu_id');
+        $this->db->where('com_chamado',$id);
+        return $this->db->get('comentario_interno')->result();
     }
 
     public function getNivelChamado(){

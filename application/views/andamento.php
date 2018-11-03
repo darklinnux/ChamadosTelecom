@@ -19,7 +19,30 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     <!-- Main content -->
     <section class="content">
-
+    <?php if($this->session->sucess) {?>
+      <div id="sucesso" class="alert alert-success alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="icon fa fa-check"></i> Sucesso!</h4>
+                  <?=$this->session->sucess?>
+      </div>
+      <?php } ?>
+      <?php if($this->session->error){ ?>
+      <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-ban"></i> Erro!</h4>
+                <?=$this->session->error?>
+              </div>
+      <?php } ?>
+          <div id="erro" class="alert alert-danger alert-dismissible hidden">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-ban"></i> Erro!</h4>
+                <span id="erroMessage"></span>
+          </div>
+          <div id="sucesso" class="alert alert-success alert-dismissible hidden">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-check"></i> Sucesso!</h4>
+                <span id="sucessoMessage"></span>
+          </div>
       <!-- Default box -->
       <div class="box">
             <div class="box-header">
@@ -36,7 +59,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   <div class="col-sm-4">
                     <div class="form-group">
                         <label>Nivel:</label>
-                        <select name="nivel" class="form-control">
+                        <input id="idChamado" type="text" value="<?=$chamado->cha_id?>" hidden  />
+                        <select name="nivel" class="form-control nivel">
                           <?php foreach ($niveis as $nivel) {?>
                             <option <?=($nivel->cni_id == $chamado->cha_nivel) ? 'selected' : null?> value="<?=$nivel->cni_id?>"><?=$nivel->cni_nivel?></option>
                           <?php }?>
@@ -51,7 +75,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <div class="input-group-addon">
                           <i class="fa fa-calendar"></i>
                         </div>
-                        <input value="<?=date("d/m/Y",strtotime($chamado->cha_previsao))?>" name="previsao" type="text" class="form-control pull-right" id="datepicker">
+                        <input value="<?=date("d/m/Y",strtotime($chamado->cha_previsao))?>" name="previsao" type="text" class="form-control pull-right previsao" id="datepicker">
                       </div>
                       <!-- /.input group -->
                     </div>
@@ -59,9 +83,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label>Status:</label>
-                      <select name="status" class="form-control">
+                      <select name="status" class="form-control status">
                         <?php foreach ($status as $statu) {?>
-                          <option value="<?=$statu->stc_id?>"><?=$statu->stc_status?></option>
+                          <option <?=($statu->stc_id == $chamado->cha_status) ? 'selected' : null?> value="<?=$statu->stc_id?>"><?=$statu->stc_status?></option>
                         <?php }?>
                       </select>
                     </div>
@@ -71,7 +95,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label>Categoria:</label>
-                      <select name="categoria" class="form-control select2" style="width: 100%;">
+                      <select disabled name="categoria" class="form-control select2" style="width: 100%;">
                         <?php foreach ($categorias as $categoria) {?>
                           <option value="<?=$categoria->cat_id?>"><?=$categoria->cat_nome?></option>
                         <?php }?>
@@ -81,7 +105,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label>Setor:</label>
-                      <select name="setor" class="form-control select2" style="width: 100%;">
+                      <select disabled name="setor" class="form-control select2" style="width: 100%;">
                         <?php foreach ($setores as $setor) {?>
                           <option value="<?=$setor->set_id?>"><?=$setor->set_nome?></option>
                         <?php }?>
@@ -91,7 +115,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label>Filial</label>
-                      <select name="filial" class="form-control select2" style="width: 100%;">
+                      <select disabled name="filial" class="form-control select2" style="width: 100%;">
                         <?php foreach ($filiais as $filial) {?>
                           <option value="<?=$filial->fil_id?>"><?=$filial->fil_numero.'-'.$filial->fil_nome?></option>
                         <?php }?>
@@ -109,7 +133,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label>Responsavel:</label>
-                      <select name="responsavel" class="form-control select2" style="width: 100%;">
+                      <select name="responsavel" class="form-control select2 responsavel" style="width: 100%;">
                           <option value="0">Selecione um Responsavel</option>
                         <?php foreach ($usuarios as $usuario) {?>
                           <option <?=($usuario->usu_id == $chamado->cha_responsavel) ? 'selected' : null?> value="<?=$usuario->usu_id?>"><?=$usuario->usu_nome?></option>
@@ -131,55 +155,33 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <div>
                     <h3 class="text-center">Comentários</h3>
                     <br>
+
+                <?php foreach($comentarios as $comentario) {?>
                     <div class="post clearfix">
                       <div class="user-block">
                         <img class="img-circle img-bordered-sm" src="<?=base_url('assets/dist/img/avatar.png')?>" alt="User Image">
                         <a href="#" title="Remover comentário" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
-                        <span class="username">
-                          Caio Felipe.
+                        <span id="com-<?=$comentario->com_id?>" class="username">
+                          <?=$comentario->usu_nome?>.
                         </span>
-                        <span class="description">Enviado em: 01/11/2018 ás 19:43.</span>
+                        <span class="description">Enviado em: <?=date('d/m/Y',strtotime($comentario->com_data))?> ás <?=date('H:i',strtotime($comentario->com_data))?>.</span>
                       </div>
                       <!-- /.user-block -->
                       <p>
-                      Lorem ipsum represents a long-held tradition for designers,
-                      typographers and the like. Some people hate it and argue for
-                      its demise, but others ignore the hate as they create awesome
-                      tools to help create filler text for this is a everyone from bacon lovers
-                      to Charlie Sheen fans.
+                      <?=$comentario->com_comentario?>
                       </p>
                     </div>
+                    <?php } ?>
                 </div>
-                <hr>
-
-                <div>
-                    <div class="post clearfix">
-                      <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="<?=base_url('assets/dist/img/avatar.png')?>" alt="User Image">
-                            <a href="#" title="Remover comentário" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
-                            <span class="username">
-                              Ramon Lima.
-                            </span>
-                        <span class="description">Enviado em: 01/11/2018 ás 19:45.</span>
-                      </div>
-                      <!-- /.user-block -->
-                      <p>
-                      Lorem ipsum represents a long-held tradition for designers,
-                      typographers and the like. Some people hate it and argue for
-                      its demise, but others ignore the hate as they create awesome
-                      tools to help create filler text for this is a everyone from bacon lovers
-                      to Charlie Sheen fans.
-                      </p>
-                    </div>
-                </div>
-                <hr>
-                
+                <hr> 
+                               
               <div class="post clearfix">
                 <div class="user-block">
-                  <form class="form-horizontal">
+                  <form method="POST" action="<?=base_url("ChamadoInterno/comentar")?>" class="form-horizontal">
                     <div class="form-group margin-bottom-none">
                       <div class="col-sm-12" style="margin-bottom: 10px;">
-                        <textarea class="form-control" rows="3" placeholder="Escreva um comentário ..."></textarea>
+                        <input name="idChamado" value="<?=$chamado->cha_id?>" hidden>
+                        <textarea required name="comentario" class="form-control" rows="3" placeholder="Escreva um comentário ..."></textarea>
                       </div>
                       <div class="pull-right col-xs-12 col-lg-2">
                         <button type="submit" class="btn btn-primary btn-block btn-sm">Enviar</button>
@@ -263,87 +265,65 @@ defined('BASEPATH') or exit('No direct script access allowed');
     dia = data[2];
     return dia+"/"+mes+"/"+ano;
   }
-  function modalEditar(id){
-    $('#editar-sucesso').addClass('hidden');
-    $('#editar-erro').addClass('hidden');
-    consultar("<?=base_url('chamado/carregarDadosEditar/')?>"+id,(retorno) => {
-      var chamado = JSON.parse(retorno);
-      console.log(chamado.cha_id);
-      $('#editar-protocolo').val(chamado.cha_protocolo);
-      $('#editar-nivel').val(chamado.cha_nivel);
-      $('#editar-previsao').val(formatarData(chamado.cha_previsao));
-      $('#editar-designacao').val(chamado.cha_designacao);
-      $('#editar-atendente').val(chamado.cha_atendente);
-      $('#editar-empresa').val(chamado.cha_empresa);
-      $('#editar-motivo').val(chamado.cha_motivo);
-      $('#editar-status').val(chamado.cha_status);
-      $('#editar-id').val(chamado.cha_id);
-      carregarFiliaisEditar(chamado.cha_id);
-      carregarSintomaEditar(chamado.cha_id);
-      $('#modal-editar').modal('show');
+
+  function atualizar(dados,mensagem){
+    $("#sucesso").addClass("hidden");
+    $("#erro").addClass("hidden");
+    enviarDados("<?=base_url("ChamadoInterno/atualizarAndamento")?>",dados,(retorno)=>{
+      var retorno = JSON.parse(retorno);
+      if(retorno){
+        $("#sucesso").removeClass("hidden");
+        $("#sucessoMessage").html(mensagem);
+      }else {
+        $("#erro").removeClass("hidden");
+        $("#erroMessage").html("Não foi possivel atualizar o chamado");
+      }
     });
   }
 
-  function carregarFiliaisEditar(id){
-    consultar("<?=base_url('chamado/carregarDadosFilialEditar/')?>"+id,(retorno) => {
-      var filiais = JSON.parse(retorno);
-      var listaFiliais=[];
-      filiais.forEach(filial => {
-        listaFiliais.push(filial.chf_filial);
-      });
-      console.log(listaFiliais);
-      $('#editar-filiais').val(listaFiliais);
-      $('#editar-filiais').trigger('change');
-    });
-  }
+  $( ".nivel" ).change(function() {
+    mensagem = "Nível atualizado com sucesso";
+    dados = {
+      id : $("#idChamado").val(),
+      nivel : $(".nivel").val(),
+      campo: "nivel"
+    }
+    atualizar(dados,mensagem);
+  });
 
-  function carregarSintomaEditar(id){
-    consultar("<?=base_url('chamado/carregarDadosSintomaEditar/')?>"+id,(retorno) => {
-      var sintomas = JSON.parse(retorno);
-      var listaSintomas=[];
-      sintomas.forEach(sintoma => {
-        listaSintomas.push(sintoma.chs_sintoma);
-      });
-      console.log(listaSintomas);
-      $('#editar-sintomas').val(listaSintomas);
-      $('#editar-sintomas').trigger('change');
-    });
-  }
+  $( ".status" ).change(function() {
+    mensagem = "Status atualizado com sucesso";
+    dados = {
+      id : $("#idChamado").val(),
+      status : $(".status").val(),
+      campo: "status"
+    }
+    atualizar(dados,mensagem);
+  });
 
-  function modalRemover(id){
-    $('#btn-deletar').attr('href', "<?=base_url('chamado/remover/')?>"+id)
-    $('#modal-remover').modal('show');
+  $(".previsao").change(function() {
+    mensagem = "Previsão atualizada com sucesso";
+    dados = {
+      id : $("#idChamado").val(),
+      previsao : $(".previsao").val(),
+      campo: "previsao"
+    }
+    atualizar(dados,mensagem);
+  });
 
-  }
+  $(".responsavel").change(function() {
+    mensagem = "Responsavel atualizado com sucesso";
+    dados = {
+      id : $("#idChamado").val(),
+      responsavel : $(".responsavel").val(),
+      campo: "responsavel"
+    }
+    atualizar(dados,mensagem);
+  });
 </script>
 <script>
   $(function () {
-    $('#example1').DataTable({
-      "language": {
-        "sEmptyTable": "Nenhum registro encontrado",
-        "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
-        "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
-        "sInfoFiltered": "(Filtrados de _MAX_ registros)",
-        "sInfoPostFix": "",
-        "sInfoThousands": ".",
-        "sLengthMenu": "_MENU_ resultados por página",
-        "sLoadingRecords": "Carregando...",
-        "sProcessing": "Processando...",
-        "sZeroRecords": "Nenhum registro encontrado",
-        "sSearch": "Pesquisar",
-        "oPaginate": {
-            "sNext": "Próximo",
-            "sPrevious": "Anterior",
-            "sFirst": "Primeiro",
-            "sLast": "Último"
-        },
-        "oAria": {
-            "sSortAscending": ": Ordenar colunas de forma ascendente",
-            "sSortDescending": ": Ordenar colunas de forma descendente"
-        }
-      }
-    });
-
+    
   });
 </script>
 </body>
