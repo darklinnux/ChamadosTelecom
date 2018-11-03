@@ -78,6 +78,7 @@ class ChamadoInterno_model extends CI_Model
     public function listarComentarios($id){
         $this->db->select('com_id, com_comentario, com_data, usu_nome');
         $this->db->join('usuario','com_usuario = usu_id');
+        $this->db->order_by("com_data", "asc");
         $this->db->where('com_chamado',$id);
         return $this->db->get('comentario_interno')->result();
     }

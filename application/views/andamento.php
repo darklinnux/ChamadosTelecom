@@ -152,30 +152,24 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 </div>
 
                 <hr>
-                <div>
-                    <h3 class="text-center">Comentários</h3>
-                    <br>
-                    
-                </div>
+                <h3 class="text-center">Comentários</h3>
+                <br>
+                <br>
                 
                 <?php foreach ($comentarios as $comentario){ ?>
                 <div>
-                    <div class="post clearfix">
+                <div class="post clearfix">
                       <div class="user-block">
                         <img class="img-circle img-bordered-sm" src="<?=base_url('assets/dist/img/avatar.png')?>" alt="User Image">
-                            <a href="#" title="Remover comentário" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
-                            <span class="username">
-                              Ramon Lima.
-                            </span>
-                        <span class="description">Enviado em: 01/11/2018 ás 19:45.</span>
+                        <a href="#" title="Remover comentário" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
+                        <span id="com-<?=$comentario->com_id?>" class="username">
+                          <?=$comentario->usu_nome?>.
+                        </span>
+                        <span class="description">Enviado em: <?=date('d/m/Y',strtotime($comentario->com_data))?> ás <?=date('H:i',strtotime($comentario->com_data))?>.</span>
                       </div>
                       <!-- /.user-block -->
                       <p>
-                      Lorem ipsum represents a long-held tradition for designers,
-                      typographers and the like. Some people hate it and argue for
-                      its demise, but others ignore the hate as they create awesome
-                      tools to help create filler text for this is a everyone from bacon lovers
-                      to Charlie Sheen fans.
+                      <?=$comentario->com_comentario?>
                       </p>
                     </div>
                 </div>

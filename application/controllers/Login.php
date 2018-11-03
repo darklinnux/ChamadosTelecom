@@ -44,6 +44,9 @@ class Login extends CI_Controller {
                 $usuarioLogado['usu_perfil'] = $usuario->per_perfil;
                 $usuarioLogado['usu_status'] = $usuario->usu_status;
                 $this->session->set_userdata($usuarioLogado);
+                if($this->session->andamento){
+                    redirect($this->session->andamento);
+                }
                 redirect('dashboard');
             }
         }

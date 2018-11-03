@@ -7,6 +7,7 @@ class ChamadoInterno extends CI_Controller {
 	{
 		parent::__construct();
 		$this->controleacesso->verificaSeEstaLogado();
+		$this->session->unset_userdata('andamento');
 		$this->load->model('ChamadoInterno_model');
 		$this->load->model('categoria_model');
 		$this->load->model('filial_model');
