@@ -2,6 +2,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <link rel="stylesheet" href="<?= base_url("assets/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css")?>">
+
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" />
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -421,6 +423,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="<?=base_url('assets/bower_components/fastclick/lib/fastclick.js')?>"></script>
 <!-- Mask -->
 <script src="<?=base_url('assets/dist/js/jquery.mask.min.js')?>"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 <!-- bootstrap datepicker -->
 <script src="<?=base_url("assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js")?>"></script>
 
@@ -511,6 +514,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
   $(function () {
     $('#example1').DataTable({
+      responsive: true,
       "language": {
         "sEmptyTable": "Nenhum registro encontrado",
         "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",

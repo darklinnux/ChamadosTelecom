@@ -8,29 +8,17 @@ class Permissao_model extends CI_Model
         parent::__construct();
     }
 
-    public function inserir($perfil,$funcionalidade)
+    public function inserir($permissoes)
     {
-        $permissao['perm_cadastrar'] = false;
-        $permissao['perm_listar'] = false;
-        $permissao['perm_editar'] = false;
-        $permissao['perm_remover'] = false;
-        $permissao['perm_funcionalidade'] = $funcionalidade;
-        $permissao['perm_perfil'] = $perfil;
-        $this->db->insert('permissao', $permissao);
+        $this->db->insert('permissao', $permissoes);
         return $this->db->insert_id();
     }
 
-    public function update($permissao)
+    public function update($permissao,$funcionalidade)
     {
-
-        try {
-            $this->db->where('perm_id', $permissao['perm_id']);
-            $this->db->update('permissao', $permissao);
-            return true;
-        } catch (Exeption $e) {
-            return false;
-        }
-
+        $this->db->where('perm_perfil', $permissao['perm_perfil']);
+        $this->db->where('perm_funcionalidade', $funcionalidade);
+        $this->db->update('permissao', $permissao);
     }
 
     public function listarTodos(){

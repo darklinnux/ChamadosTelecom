@@ -28,7 +28,13 @@ class Perfil extends CI_Controller {
 			//Todo perfil é criado com todas as permissões zeradas!
 			$funcionalidades = $this->permissao_model->getFuncionalidades();
 			foreach($funcionalidades as $func){
-				$this->permissao_model->inserir($id,$func->fun_id);
+				$permissao['perm_cadastrar'] = empty($this->input->post("func{$func->fun_id}Cadastrar") ? false : true);
+				$permissao['perm_listar'] = empty($this->input->post("func{$func->fun_id}Listar") ? false : true);
+				$permissao['perm_editar'] = empty($this->input->post("func{$func->fun_id}Editar") ? false : true);
+				$permissao['perm_remover'] = empty($this->input->post("func{$func->fun_id}Remover") ? false : true);
+				$permissao['perm_funcionalidade'] = $func->fun_id;
+				$permissao['perm_perfil'] = $id;
+				$this->permissao_model->inserir($permissao);
 			}
 			$this->session->set_flashdata('sucess', 'Perfil cadastrado com sucesso!!!');
 			redirect('perfil');
@@ -37,9 +43,22 @@ class Perfil extends CI_Controller {
 
 	public function editar(){
 		//var_dump($_POST);die();
-		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro()) {
+		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro(true)) {
 			$perfil = $this->popularPerfil();
 			$this->perfil_model->update($perfil);
+			$funcionalidades = $this->permissao_model->getFuncionalidades();
+			foreach($funcionalidades as $func){
+				$permissao['perm_cadastrar'] = empty($this->input->post("func{$func->fun_id}Cadastrar") ? false : true);
+				$permissao['perm_listar'] = empty($this->input->post("func{$func->fun_id}Listar") ? false : true);
+				$permissao['perm_editar'] = empty($this->input->post("func{$func->fun_id}Editar") ? false : true);
+				$permissao['perm_remover'] = empty($this->input->post("func{$func->fun_id}Remover") ? false : true);
+				$permissao['perm_perfil'] = $perfil['per_id'];
+				/* echo '<pre>';
+			var_dump($permissao);
+			echo '</pre>'; */
+				$this->permissao_model->update($permissao,$func->fun_id);
+			}
+			 //die();
 			$this->session->set_flashdata('sucess', 'Perfil atualizado com sucesso!!!');
 			redirect('perfil');
 		}else {
@@ -50,14 +69,12 @@ class Perfil extends CI_Controller {
 
 
 	public function carregarDadosEditar($id){
-		$perfil = $this->perfil_model->getperfilId($id);
-		echo json_encode($perfil);
-			
-	}
-
-	public function carregarPermissõesId($id){
-		$perfil = $this->perfil_model->getperfilId($id);
-		echo json_encode($perfil);
+		$perfil = $this->perfil_model->getPerfilId($id);
+		$permissoes = $this->perfil_model->getPermissaoPerfilId($id);
+		echo json_encode(array(
+			'perfil' => $perfil,
+			'permissao' => $permissoes
+		));
 			
 	}
 	
@@ -77,10 +94,38 @@ class Perfil extends CI_Controller {
 		
 	}
 
-	private function validaFormCadastro(){
+	private function validaFormCadastro($editar = false){
 		
 		$this->form_validation->set_rules('perfil', 'Perfil','trim|required');
-		$this->form_validation->set_rules('perfil', 'Perfil', 'trim|required|is_unique[perfil.per_perfil]');
+		if($editar){
+			$this->form_validation->set_message('perfil_callable', 'Perfil já em uso');
+			$this->form_validation->set_rules(
+				'perfil', 'perfil',
+				array(
+					'required',
+					array(
+						'perfil_callable',
+						function ($perfil) {
+							$id= $this->input->post('id');
+							$dadosAnteriores = $this->perfil_model->getPerfilId($id);
+							if ($perfil === $dadosAnteriores->per_perfil) {
+								return true;
+							}
+
+							$perfil = $this->perfil_model->contaUsuario($perfil);
+
+							if ($perfil->total == 0) {
+								return true;
+							} else {
+								return false;
+							}
+						},
+					),
+				)
+			);
+		}else {
+			$this->form_validation->set_rules('perfil', 'Perfil', 'trim|required|is_unique[perfil.per_perfil]');
+		}
         return $this->form_validation->run();
 	}
 

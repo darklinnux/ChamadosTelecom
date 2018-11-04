@@ -28,6 +28,8 @@ class Perfil_model extends CI_Model
     }
 
     public function deletar($id){
+        $this->db->where('perm_perfil',$id);
+        $this->db->delete('permissao');
         $this->db->where('per_id',$id);
         return $this->db->delete('perfil');
     }
@@ -38,6 +40,17 @@ class Perfil_model extends CI_Model
 
     public function getPerfilId($id){
         $this->db->where('per_id', $id);
+        return $this->db->get('perfil')->row();
+    }
+
+    public function getPermissaoPerfilId($id){
+        $this->db->where('perm_perfil', $id);
+        return $this->db->get('permissao')->result();
+    }
+
+    public function contaPerfil($perfil){
+        $this->db->select("count(per_perfil) as 'total' ");
+        $this->db->where('per_perfil', $perfil);
         return $this->db->get('perfil')->row();
     }
 }
