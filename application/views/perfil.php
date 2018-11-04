@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
+<link rel="stylesheet" href="<?=base_url("assets/plugins/iCheck/all.css")?>">
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -63,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <button type="button" class="btn btn-primary">Opções</button>
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> <span class="sr-only">Toggle Dropdown</span> </button>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Permissões</a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#modal-permissao">Permissões</a></li>
                             <li><a onclick="modalEditar(<?=$perfil->per_id?>);" href="#">Editar</a></li>
                             <li class="divider"></li>
                             <li><a href="#" onclick="modalRemover(<?=$perfil->per_id?>)">Remover</a></li>
@@ -163,6 +164,68 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   </form>
   <!-- FIm madal editar -->
 
+  <!-- Modal Permissão -->
+  <div class="modal fade" id="modal-permissao">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header bg-blue">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Permissões</h4>
+              </div>
+              <div class="modal-body">
+                <!-- Inicio colapse -->
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                  <?php foreach ($funcionalidades as $func) { ?>
+                  <div class="panel panel-primary">
+                    <div class="panel-heading" role="tab" id="heading<?=$func->fun_id?>">
+                      <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse<?=$func->fun_id?>" aria-expanded="true" aria-controls="collapse<?=$func->fun_id?>">
+                        <a href="#collapse<?=$func->fun_id?>">
+                          <?=ucwords($func->fun_funcionalidade)?>
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapse<?=$func->fun_id?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading<?=$func->fun_id?>">
+                      <div class="panel-body">
+                        <div id="func<?=$func->fun_id?>" >
+                          <label>
+                            Cadastro 
+                            <input type="checkbox" class="flat-red"><br>
+                          </label>
+                          <label>
+                            Editar 
+                            <input type="checkbox" class="flat-red"><br>
+                          </label>
+                          <label>
+                            Listar 
+                            <input type="checkbox" class="flat-red"><br>
+                          </label>
+                          <label>
+                            Remover 
+                            <input type="checkbox" class="flat-red"><br>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <?php } ?>
+                </div>
+
+                <!-- Fim Colapse -->
+              </div>
+              <div class="modal-footer">
+                <a id="btn-deletar" href="#" class="btn btn-danger pull-right">Confirmar</a>
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+        <!-- /fim modal Permissao -->
+
   <!-- Modal Remover -->
   <div class="modal fade" id="modal-remover">
           <div class="modal-dialog">
@@ -214,6 +277,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="<?=base_url('assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')?>"></script>
 <!-- SlimScroll -->
 <script src="<?=base_url('assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js')?>"></script>
+<!-- Icheck -->
+<script src="<?=base_url("assets/plugins/iCheck/icheck.min.js")?>"></script>
 <!-- FastClick -->
 <script src="<?=base_url('assets/bower_components/fastclick/lib/fastclick.js')?>"></script>
 <!-- AdminLTE App -->
@@ -223,7 +288,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="<?=base_url('ajax/ajax_generico.js')?>"></script>
 <script>
   $(document).ready(function () {
-    $('.sidebar-menu').tree()
+    $('.sidebar-menu').tree();
+    $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+      checkboxClass: 'icheckbox_flat-blue',
+      radioClass   : 'iradio_flat-green'
+    });
   })
 </script>
 <script>

@@ -7,12 +7,14 @@ class Perfil extends CI_Controller {
 	{
 		parent::__construct();
 		$this->controleacesso->verificaSeEstaLogado();
-        $this->load->model('perfil_model');
+		$this->load->model('perfil_model');
+		$this->load->model('permissao_model');
 	}
 	
 	public function index()
 	{
 		$dados['perfis'] = $this->perfil_model->listarTodos();
+		$dados['funcionalidades'] = $this->permissao_model->getFuncionalidades();
 		$this->load->view('template/header');
 		$this->load->view('perfil',$dados);
 		
@@ -22,6 +24,12 @@ class Perfil extends CI_Controller {
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro()) {
 			$perfil = $this->popularPerfil();
 			$this->perfil_model->inserir($perfil);
+			$id = $this->db->insert_id();
+			//Todo perfil é criado com todas as permissões zeradas!
+			$funcionalidades = $this->permissao_model->getFuncionalidades();
+			foreach($funcionalidades as $func){
+				$this->permissao_model->inserir($id,$func->fun_id);
+			}
 			$this->session->set_flashdata('sucess', 'Perfil cadastrado com sucesso!!!');
 			redirect('perfil');
 		}
@@ -42,6 +50,12 @@ class Perfil extends CI_Controller {
 
 
 	public function carregarDadosEditar($id){
+		$perfil = $this->perfil_model->getperfilId($id);
+		echo json_encode($perfil);
+			
+	}
+
+	public function carregarPermissõesId($id){
 		$perfil = $this->perfil_model->getperfilId($id);
 		echo json_encode($perfil);
 			

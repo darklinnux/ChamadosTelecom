@@ -3,9 +3,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class ControleAcesso
 {
     private $CI;
+    private $perfil;
     public function __construct()
     {
         $this->CI = &get_instance();
+        $this->perfil = $this->CI->session->usu_perfil_id;
     }
 
     private function is_logado()
@@ -33,8 +35,43 @@ class ControleAcesso
         }
     }
 
-    public function verficaPerfil()
+    public function verficaPermisaoCadastrar($funcionalidade)
     {
+        $this->CI->load->model('permissao_model');
+        $permissao = $this->CI->permissao_model->getPermissaoIdPerfil($this->perfil,$funcionalidade)->perm_cadastrar;
+        if(!$permissao){
+            $this->CI->session->set_flashdata('erro', 'Seu usuário não tem permissão para essa funcionalidade.');
+            redirect('dashboard');
+        }else {
+            return true;
+        }
+
+    }
+
+    public function verficaPermisaoListar($funcionalidade)
+    {
+        $this->CI->load->model('permissao_model');
+        $permissao = $this->CI->permissao_model->getPermissaoIdPerfil($this->perfil,$funcionalidade)->perm_listar;
+        //var_dump($permissao);die();
+        if(!$permissao){
+            $this->CI->session->set_flashdata('error', 'Seu usuário não tem permissão para essa funcionalidade.');
+            redirect('dashboard');
+        }else {
+            return true;
+        }
+
+    }
+
+    public function verficaPermisaoRemover($funcionalidade)
+    {
+        $this->CI->load->model('permissao_model');
+        $permissao = $this->CI->permissao_model->getPermissaoIdPerfil($this->perfil,$funcionalidade)->perm_remover;
+        if(!$permissao){
+            $this->CI->session->set_flashdata('erro', 'Seu usuário não tem permissão para essa funcionalidade.');
+            redirect('dashboard');
+        }else {
+            return true;
+        }
 
     }
 }

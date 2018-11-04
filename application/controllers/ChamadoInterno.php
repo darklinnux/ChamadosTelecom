@@ -23,6 +23,7 @@ class ChamadoInterno extends CI_Controller {
     }
     
     public function aberto(){
+		$this->controleacesso->verficaPermisaoListar(11);
         $dados['titulo'] = "Abertos/Andamento";
         $dados['categorias'] = $this->categoria_model->listarTodos();
 		$dados['filiais'] = $this->filial_model->listarTodos();
@@ -35,6 +36,7 @@ class ChamadoInterno extends CI_Controller {
     }
 
     public function fechado(){
+		$this->controleacesso->verficaPermisaoListar(11);
         $dados['titulo'] = "Fechados";
         $dados['categorias'] = $this->categoria_model->listarTodos();
 		$dados['filiais'] = $this->filial_model->listarTodos();
@@ -47,6 +49,7 @@ class ChamadoInterno extends CI_Controller {
 	}
 	
 	public function andamento($id = false){
+		$this->controleacesso->verficaPermisaoListar(12);
 		$parametro = (int) $id;
 		if($parametro !== 0){
 			$dados['titulo'] = "Fechados";
