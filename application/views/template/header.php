@@ -323,6 +323,7 @@ $metodo = $this->uri->segment(2);
           </a>
           <ul class="treeview-menu">
             <li class="<?=($pagina == "usuario") ? "active" : null?>"><a href="<?=base_url("usuario")?>"><i class="fa fa-circle-o"></i> Usuário</a></li>
+            <li class="<?=($pagina == "perfil") ? "active" : null?>"><a href="<?=base_url("perfil")?>"><i class="fa fa-circle-o"></i> Perfil</a></li>
             <li class="<?=($pagina == "sintoma") ? "active" : null?>"><a href="<?=base_url("sintoma")?>"><i class="fa fa-circle-o"></i> Sintoma</a></li>
             <li class="<?=($pagina == "filial") ? "active" : null?>"><a href="<?=base_url("filial")?>"><i class="fa fa-circle-o"></i> Filial</a></li>
             <li class="<?=($pagina == "cidade") ? "active" : null?>"><a href="<?=base_url("cidade")?>"><i class="fa fa-circle-o"></i> Cidade</a></li>
