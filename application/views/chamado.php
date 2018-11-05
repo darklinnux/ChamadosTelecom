@@ -529,6 +529,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   $(function () {
     $('#example1').DataTable({
       responsive: true,
+      "ordering": false,
       "language": {
         "sEmptyTable": "Nenhum registro encontrado",
         "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",

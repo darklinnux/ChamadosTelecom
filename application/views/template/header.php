@@ -354,7 +354,7 @@ $metodo = $this->uri->segment(2);
         <?php if($this->controleacesso->verficaPermisaoListar(10,true)){ ?>
         <li class="treeview <?=($pagina !== "dashboard" && $pagina == "chamado") ? "active menu-open" : null?>">
           <a href="#">
-            <i class="fa fa-archive"></i> <span>Chamados</span>
+            <i class="fa fa-archive"></i> <span>Chamados Provedor</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>

@@ -35,7 +35,7 @@ class Chamado extends CI_Controller {
 		$this->controleacesso->verficaPermisaoListar(10);
 		$dados = $this->loadDadosViewDefault('aberto');
 		if($this->controleacesso->verificarPermissaoVerTodos(10)){
-			$dados['chamados'] = $this->chamado_model->listarTodosAberto();	
+			$dados['chamados'] = $this->chamado_model->listarTodosFechado();	
 		}else{
 			$dados['chamados'] = $this->chamado_model->listarFechadoUsuario();
 		}

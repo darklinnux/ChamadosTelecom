@@ -30,16 +30,6 @@ class ChamadoInterno_model extends CI_Model
         return $this->db->delete('chamado_interno');
     }
 
-    public function deletarFiliaisChamado($id){
-        $this->db->where('chf_chamado',$id);
-        $this->db->delete('chamado_filial');
-    }
-
-    public function deletarSintomasChamado($id){
-        $this->db->where('chs_chamado',$id);
-        $this->db->delete('chamado_sintoma');
-    }
-
     public function listarTodosAberto(){
         $this->db->select('chamado_interno.*, fil_numero, fil_nome, set_nome, niv_nivel, stc_status, usu_login');
         $this->db->join('filial','cha_filial = fil_id');
@@ -60,7 +50,7 @@ class ChamadoInterno_model extends CI_Model
         $this->db->join('status_interno','cha_status = stc_id');
         $this->db->where('cha_status != 3');
         $this->db->where('cha_usuario',$this->session->usu_id);
-        $this->db->or_where('cha_responsavel',$this->session->usu_id);
+        //$this->db->or_where('cha_responsavel',$this->session->usu_id);
         return $this->db->get('chamado_interno')->result();
     }
 
@@ -73,7 +63,7 @@ class ChamadoInterno_model extends CI_Model
         $this->db->join('status_interno','cha_status = stc_id');
         $this->db->where('cha_status = 3');
         $this->db->where('cha_usuario',$this->session->usu_id);
-        $this->db->or_where('cha_responsavel',$this->session->usu_id);
+        //$this->db->or_where('cha_responsavel',$this->session->usu_id);
         return $this->db->get('chamado_interno')->result();
     }
 
@@ -110,7 +100,7 @@ class ChamadoInterno_model extends CI_Model
     }
 
     public function getNivelChamado(){
-        return $this->db->get('chamado_nivel')->result();
+        return $this->db->get('nivel_interno')->result();
     }
 
     public function getStatusId($id){
@@ -119,26 +109,12 @@ class ChamadoInterno_model extends CI_Model
     }
 
     public function getStatusChamado(){
-        return $this->db->get('chamado_status')->result();
+        return $this->db->get('status_interno')->result();
     }
 
     public function getChamadoId($id){
         $this->db->where('cha_id', $id);
         return $this->db->get('chamado_interno')->row();
-    }
-
-    public function getFilialChamadoId($id){
-        $this->db->select('chf_filial, fil_nome');
-        $this->db->join('filial','chf_filial = fil_id');
-        $this->db->where('chf_chamado', $id);
-        return $this->db->get('chamado_filial')->result();
-    }
-
-    public function getSintomaChamadoId($id){
-        $this->db->select('chs_sintoma,sin_sintoma');
-        $this->db->join('sintoma','chs_sintoma = sin_id');
-        $this->db->where('chs_chamado', $id);
-        return $this->db->get('chamado_sintoma')->result();
     }
 
     public function contaChamadoUsuario($id,$usuario)

@@ -127,7 +127,7 @@ class Perfil extends CI_Controller {
 								return true;
 							}
 
-							$perfil = $this->perfil_model->contaUsuario($perfil);
+							$perfil = $this->perfil_model->contaPerfil($perfil);
 
 							if ($perfil->total == 0) {
 								return true;

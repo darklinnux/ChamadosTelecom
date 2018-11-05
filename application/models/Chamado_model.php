@@ -62,6 +62,7 @@ class Chamado_model extends CI_Model
         $this->db->join('chamado_filial','chf_chamado = cha_id');
         $this->db->join('filial','chf_filial = fil_id');
         $this->db->where('cha_status != 3');
+        $this->db->order_by("cha_data_inicio", "desc");
         return $this->db->get('chamado')->result();
     }
 
@@ -75,6 +76,7 @@ class Chamado_model extends CI_Model
         $this->db->join('filial','chf_filial = fil_id');
         $this->db->where('cha_status != 3');
         $this->db->where('cha_usuario',$this->session->usu_id);
+        $this->db->order_by("cha_data_inicio", "desc");
         return $this->db->get('chamado')->result();
     }
 
@@ -88,6 +90,7 @@ class Chamado_model extends CI_Model
         $this->db->join('filial','chf_filial = fil_id');
         $this->db->where('cha_status = 3');
         $this->db->where('cha_usuario',$this->session->usu_id);
+        $this->db->order_by("cha_data_inicio", "desc");
         return $this->db->get('chamado')->result();
     }
 
@@ -100,6 +103,7 @@ class Chamado_model extends CI_Model
         $this->db->join('chamado_filial','chf_chamado = cha_id');
         $this->db->join('filial','chf_filial = fil_id');
         $this->db->where('cha_status = 3');
+        $this->db->order_by("cha_data_inicio", "desc");
         return $this->db->get('chamado')->result();
     }
 
