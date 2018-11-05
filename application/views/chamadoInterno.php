@@ -2,6 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <link rel="stylesheet" href="<?= base_url("assets/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css")?>">
+<link rel="stylesheet" href="<?=base_url("assets/plugins/datable/css/responsive.dataTables.min.css")?>" />
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -97,7 +98,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   </div>
   <form method="POST" action="<?=base_url('ChamadoInterno/cadastrar')?>" autocomplete="off">
   <div class="modal fade" id="modal-default">
-          <div class="modal-dialog" style="width: 59%;">
+          <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header bg-blue">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -199,7 +200,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <!-- inicio modal editar -->
         <form method="POST" action="<?=base_url('ChamadoInterno/editar')?>" autocomplete="off">
   <div class="modal fade" id="modal-editar">
-          <div class="modal-dialog" style="width: 59%;">
+          <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header bg-blue">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -354,6 +355,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="<?=base_url('assets/bower_components/fastclick/lib/fastclick.js')?>"></script>
 <!-- Mask -->
 <script src="<?=base_url('assets/dist/js/jquery.mask.min.js')?>"></script>
+<script src="<?=base_url('assets/plugins/datable/js/dataTables.responsive.min.js')?>"></script>
 <!-- bootstrap datepicker -->
 <script src="<?=base_url("assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js")?>"></script>
 
@@ -425,6 +427,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
   $(function () {
     $('#example1').DataTable({
+      responsive: true,
       "language": {
         "sEmptyTable": "Nenhum registro encontrado",
         "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
