@@ -24,26 +24,24 @@ class ChamadoInterno extends CI_Controller {
     
     public function aberto(){
 		$this->controleacesso->verficaPermisaoListar(11);
-        $dados['titulo'] = "Abertos/Andamento";
-        $dados['categorias'] = $this->categoria_model->listarTodos();
-		$dados['filiais'] = $this->filial_model->listarTodos();
-		$dados['setores'] = $this->setor_model->listarTodos();
-		$dados['niveis'] = $this->ChamadoInterno_model->getNivelChamado();
-		$dados['status'] = $this->ChamadoInterno_model->getStatusChamado();
-		$dados['chamados'] = $this->ChamadoInterno_model->listarTodosAberto();
+		$dados = $this->loadDadosViewDefault('aberto');
+		if($this->controleacesso->verificarPermissaoVerTodos(11)){
+			$dados['chamados'] = $this->ChamadoInterno_model->listarTodosAberto();	
+		}else{
+			$dados['chamados'] = $this->ChamadoInterno_model->listarAbertoUsuario();
+		}
 		$this->load->view('template/header');
 		$this->load->view('chamadoInterno',$dados);
     }
 
     public function fechado(){
 		$this->controleacesso->verficaPermisaoListar(11);
-        $dados['titulo'] = "Fechados";
-        $dados['categorias'] = $this->categoria_model->listarTodos();
-		$dados['filiais'] = $this->filial_model->listarTodos();
-		$dados['setores'] = $this->setor_model->listarTodos();
-		$dados['niveis'] = $this->ChamadoInterno_model->getNivelChamado();
-		$dados['status'] = $this->ChamadoInterno_model->getStatusChamado();
-		$dados['chamados'] = $this->ChamadoInterno_model->listarTodosFechado();
+		$dados = $this->loadDadosViewDefault('fechado');
+		if($this->controleacesso->verificarPermissaoVerTodos(11)){
+			$dados['chamados'] = $this->ChamadoInterno_model->listarTodosFechado();
+		}else {
+			$dados['chamados'] = $this->ChamadoInterno_model->listarFechadoUsuario();
+		}
 		$this->load->view('template/header');
 		$this->load->view('chamadoInterno',$dados);
 	}
@@ -52,6 +50,7 @@ class ChamadoInterno extends CI_Controller {
 		$this->controleacesso->verficaPermisaoListar(12);
 		$parametro = (int) $id;
 		if($parametro !== 0){
+			$this->verificarAndamentoPermissao($id);
 			$dados['titulo'] = "Fechados";
 			$dados['categorias'] = $this->categoria_model->listarTodos();
 			$dados['filiais'] = $this->filial_model->listarTodos();
@@ -188,7 +187,7 @@ class ChamadoInterno extends CI_Controller {
 		$this->form_validation->set_rules('assunto', 'Assunto','trim|required');
 		$this->form_validation->set_rules('descricao', 'Descrição','trim|required');
 		$this->form_validation->set_rules('filial', 'Filial','trim|required');
-		$this->form_validation->set_rules('previsao', 'Previsão','trim|required');
+		//$this->form_validation->set_rules('previsao', 'Previsão','trim|required');
 		$this->form_validation->set_rules('nivel', 'Nivel','trim|required');
 
 		//$this->form_validation->set_rules('sigla', 'Sigla', 'trim|required|is_unique[chamado.est_sigla]');
@@ -254,6 +253,44 @@ class ChamadoInterno extends CI_Controller {
 			[usuario]→".$chamado->usu_login."
 			[Link]→".base_url("ChamadoInterno/andamento/".$chamado->cha_id)."";
 			}
+	}
+
+	private function loadDadosViewDefault($view){
+		
+		if($view == 'aberto'){
+			$dados['titulo'] = "Abertos/Andamento";
+			$dados['categorias'] = $this->categoria_model->listarTodos();
+			$dados['filiais'] = $this->filial_model->listarTodos();
+			$dados['setores'] = $this->setor_model->listarTodos();
+			$dados['niveis'] = $this->ChamadoInterno_model->getNivelChamado();
+			$dados['status'] = $this->ChamadoInterno_model->getStatusChamado();
+		}
+
+		if($view == 'fechado'){
+			$dados['titulo'] = "Fechados";
+			$dados['categorias'] = $this->categoria_model->listarTodos();
+			$dados['filiais'] = $this->filial_model->listarTodos();
+			$dados['setores'] = $this->setor_model->listarTodos();
+			$dados['niveis'] = $this->ChamadoInterno_model->getNivelChamado();
+			$dados['status'] = $this->ChamadoInterno_model->getStatusChamado();
+		}
+		
+		return $dados;
+	}
+
+	private function verificarAndamentoPermissao($id){
+		$chamado = $this->ChamadoInterno_model->contaChamadoUsuario($id,$this->session->usu_id);
+		$permissao = $this->controleacesso->verificarPermissaoVerTodos(12);
+		if(!$permissao){
+			if($chamado->total == 0){
+				$this->session->set_flashdata('error','Não tem permissão para acessar esse andamento');
+				redirect('ChamadoInterno/aberto');
+
+			}
+			return true;
+		}
+		return true;
+
 	}
 	
 }

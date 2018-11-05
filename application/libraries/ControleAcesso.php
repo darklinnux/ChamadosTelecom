@@ -106,4 +106,15 @@ class ControleAcesso
         }
 
     }
+
+    public function verificarPermissaoVerTodos($funcionalidade){
+        $this->CI->load->model('permissao_model');
+        $permissao = $this->CI->permissao_model->getPermissaoIdPerfil($this->perfil,$funcionalidade)->perm_todos;
+        //echo $permissao;die();
+        if($permissao == 0){
+            return false;
+        }else{
+            return true;
+        }
+    }
 }

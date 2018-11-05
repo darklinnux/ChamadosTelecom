@@ -34,6 +34,7 @@ class Perfil extends CI_Controller {
 				$permissao['perm_listar'] = empty($this->input->post("func{$func->fun_id}Listar") ? false : true);
 				$permissao['perm_editar'] = empty($this->input->post("func{$func->fun_id}Editar") ? false : true);
 				$permissao['perm_remover'] = empty($this->input->post("func{$func->fun_id}Remover") ? false : true);
+				$permissao['perm_todos'] = empty($this->input->post("func{$func->fun_id}VerTodos") ? false : true);
 				$permissao['perm_funcionalidade'] = $func->fun_id;
 				$permissao['perm_perfil'] = $id;
 				$this->permissao_model->inserir($permissao);
@@ -55,6 +56,7 @@ class Perfil extends CI_Controller {
 				$permissao['perm_listar'] = empty($this->input->post("func{$func->fun_id}Listar") ? false : true);
 				$permissao['perm_editar'] = empty($this->input->post("func{$func->fun_id}Editar") ? false : true);
 				$permissao['perm_remover'] = empty($this->input->post("func{$func->fun_id}Remover") ? false : true);
+				$permissao['perm_todos'] = empty($this->input->post("func{$func->fun_id}VerTodos") ? false : true);
 				$permissao['perm_perfil'] = $perfil['per_id'];
 				/* echo '<pre>';
 			var_dump($permissao);

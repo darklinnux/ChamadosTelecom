@@ -51,6 +51,32 @@ class ChamadoInterno_model extends CI_Model
         return $this->db->get('chamado_interno')->result();
     }
 
+    public function listarAbertoUsuario(){
+        $this->db->select('chamado_interno.*, fil_numero, fil_nome, set_nome, niv_nivel, stc_status, usu_login');
+        $this->db->join('filial','cha_filial = fil_id');
+        $this->db->join('setor','cha_setor = set_id');
+        $this->db->join('nivel_interno','cha_nivel = niv_id');
+        $this->db->join('usuario','cha_usuario = usu_id');
+        $this->db->join('status_interno','cha_status = stc_id');
+        $this->db->where('cha_status != 3');
+        $this->db->where('cha_usuario',$this->session->usu_id);
+        $this->db->or_where('cha_responsavel',$this->session->usu_id);
+        return $this->db->get('chamado_interno')->result();
+    }
+
+    public function listarFechadoUsuario(){
+        $this->db->select('chamado_interno.*, fil_numero, fil_nome, set_nome, niv_nivel, stc_status, usu_login');
+        $this->db->join('filial','cha_filial = fil_id');
+        $this->db->join('setor','cha_setor = set_id');
+        $this->db->join('nivel_interno','cha_nivel = niv_id');
+        $this->db->join('usuario','cha_usuario = usu_id');
+        $this->db->join('status_interno','cha_status = stc_id');
+        $this->db->where('cha_status = 3');
+        $this->db->where('cha_usuario',$this->session->usu_id);
+        $this->db->or_where('cha_responsavel',$this->session->usu_id);
+        return $this->db->get('chamado_interno')->result();
+    }
+
     public function listarTodosFechado(){
         $this->db->select('chamado_interno.*, fil_numero, fil_nome, set_nome, niv_nivel, stc_status, usu_login');
         $this->db->join('filial','cha_filial = fil_id');
@@ -115,19 +141,13 @@ class ChamadoInterno_model extends CI_Model
         return $this->db->get('chamado_sintoma')->result();
     }
 
-    public function contaChamado($chamado)
-    {
-        $this->db->select("count(fil_nome) as 'total' ");
-        $this->db->where('fil_nome', $chamado);
-        return $this->db->get('chamado')->row();
-
-    }
-
-    public function contaChamadoStatus($status)
+    public function contaChamadoUsuario($id,$usuario)
     {
         $this->db->select("count(cha_id) as 'total' ");
-        $this->db->where('cha_status', $status);
-        return $this->db->get('chamado')->row();
+        $this->db->where('cha_id', $id);
+        $this->db->where('cha_usuario', $usuario);
+        $this->db->or_where('cha_responsavel',$usuario);
+        return $this->db->get('chamado_interno')->row();
 
     }
 }

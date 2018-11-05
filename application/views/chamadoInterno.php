@@ -171,7 +171,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="input-group-addon">
                           <i class="fa fa-book"></i>
                         </div>
-                        <input placeholder="Assunto do chamado" id="assunto" name="assunto" type="text" class="form-control">
+                        <input required placeholder="Assunto do chamado" id="assunto" name="assunto" type="text" class="form-control">
                       </div>
                       <!-- /.input group -->
                     </div>  
@@ -181,7 +181,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label>Descrição:</label>
-                      <textarea placeholder="Descreva sua solicitação" name="descricao" style="resize: none;height: 138px;" class="form-control"></textarea>
+                      <textarea required placeholder="Descreva sua solicitação" name="descricao" style="resize: none;height: 138px;" class="form-control"></textarea>
                     </div>
                   </div>
                 </div>

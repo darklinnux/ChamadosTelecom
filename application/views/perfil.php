@@ -270,7 +270,7 @@ $listar = $this->controleacesso->verficaPermisaoListar(2,true);
                                 <?php if($func->fun_id == 12 || $func->fun_id == 11 || $func->fun_id == 10){?>
                                   <label>
                                     Ver Todos 
-                                    <input id="func<?=$func->fun_id?>Remover" name="func<?=$func->fun_id?>VerTodos" type="checkbox" class="flat-red"><br>
+                                    <input id="func<?=$func->fun_id?>VerTodos" name="func<?=$func->fun_id?>VerTodos" type="checkbox" class="flat-red"><br>
                                   </label>
                                 <?php } ?>
                               </div>
@@ -390,6 +390,7 @@ $listar = $this->controleacesso->verficaPermisaoListar(2,true);
         $("#func"+perm.perm_funcionalidade+"Editar").iCheck((perm.perm_editar == 1) ? 'check' : 'uncheck');
         $("#func"+perm.perm_funcionalidade+"Listar").iCheck((perm.perm_listar == 1) ? 'check' : 'uncheck');
         $("#func"+perm.perm_funcionalidade+"Remover").iCheck((perm.perm_remover == 1) ? 'check' : 'uncheck');
+        $("#func"+perm.perm_funcionalidade+"VerTodos").iCheck((perm.perm_todos == 1) ? 'check' : 'uncheck');;
       });
       $('#editar-perfil').val(perfil.per_perfil);
       $('#editar-id').val(perfil.per_id);

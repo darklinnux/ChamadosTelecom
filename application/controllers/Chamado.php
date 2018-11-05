@@ -21,26 +21,24 @@ class Chamado extends CI_Controller {
 
 	public function aberto(){
 		$this->controleacesso->verficaPermisaoListar(10);
-		$dados['titulo'] = "Abertos/Andamento";
-		$dados['empresas'] = $this->empresa_model->listarTodos();
-		$dados['filiais'] = $this->filial_model->listarTodos();
-		$dados['sintomas'] = $this->sintoma_model->listarTodos();
-		$dados['niveis'] = $this->chamado_model->getNivelChamado();
-		$dados['status'] = $this->chamado_model->getStatusChamado();
-		$dados['chamados'] = $this->chamado_model->listarTodosAberto();
+		$dados = $this->loadDadosViewDefault('aberto');
+		if($this->controleacesso->verificarPermissaoVerTodos(10)){
+			$dados['chamados'] = $this->chamado_model->listarTodosAberto();	
+		}else{
+			$dados['chamados'] = $this->chamado_model->listarAbertoUsuario();
+		}
 		$this->load->view('template/header');
 		$this->load->view('chamado',$dados);
 	}
 
 	public function fechado(){
 		$this->controleacesso->verficaPermisaoListar(10);
-		$dados['titulo'] = "Fechados";
-		$dados['empresas'] = $this->empresa_model->listarTodos();
-		$dados['filiais'] = $this->filial_model->listarTodos();
-		$dados['sintomas'] = $this->sintoma_model->listarTodos();
-		$dados['niveis'] = $this->chamado_model->getNivelChamado();
-		$dados['status'] = $this->chamado_model->getStatusChamado();
-		$dados['chamados'] = $this->chamado_model->listarTodosFechado();
+		$dados = $this->loadDadosViewDefault('aberto');
+		if($this->controleacesso->verificarPermissaoVerTodos(10)){
+			$dados['chamados'] = $this->chamado_model->listarTodosAberto();	
+		}else{
+			$dados['chamados'] = $this->chamado_model->listarFechadoUsuario();
+		}
 		$this->load->view('template/header');
 		$this->load->view('chamado',$dados);
 	}
@@ -227,6 +225,29 @@ class Chamado extends CI_Controller {
 			[status]→".$this->chamado_model->getStatusId($chamado->cha_status)->stc_status."
 			[usuario]→".$chamado->usu_login."";
 			}
+	}
+
+	private function loadDadosViewDefault($view){
+		
+		if($view == 'aberto'){
+			$dados['titulo'] = "Abertos/Andamento";
+			$dados['empresas'] = $this->empresa_model->listarTodos();
+			$dados['filiais'] = $this->filial_model->listarTodos();
+			$dados['sintomas'] = $this->sintoma_model->listarTodos();
+			$dados['niveis'] = $this->chamado_model->getNivelChamado();
+			$dados['status'] = $this->chamado_model->getStatusChamado();
+		}
+
+		if($view == 'fechado'){
+			$dados['titulo'] = "Fechados";
+			$dados['empresas'] = $this->empresa_model->listarTodos();
+			$dados['filiais'] = $this->filial_model->listarTodos();
+			$dados['sintomas'] = $this->sintoma_model->listarTodos();
+			$dados['niveis'] = $this->chamado_model->getNivelChamado();
+			$dados['status'] = $this->chamado_model->getStatusChamado();
+		}
+		
+		return $dados;
 	}
 	
 }
