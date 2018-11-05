@@ -9,6 +9,7 @@ class Perfil extends CI_Controller {
 		$this->controleacesso->verificaSeEstaLogado();
 		$this->load->model('perfil_model');
 		$this->load->model('permissao_model');
+		$this->load->model('usuario_model');
 	}
 	
 	public function index()
@@ -86,6 +87,13 @@ class Perfil extends CI_Controller {
 	
 	public function remover($id){
 		$this->controleacesso->verficaPermisaoRemover(2);
+		$usuario = $this->usuario_model->contaUsuarioPerfil($id);
+
+		if($usuario->total > 0){
+			$this->session->set_flashdata('error', "Perfil não pode ser excluído. Pois o mesmo está associado á {$usuario->total} usuário(s) ");
+			redirect('perfil');
+		}
+
 		if($this->perfil_model->deletar($id)){
 			$this->session->set_flashdata('sucess', 'Perfil foi removido com sucesso!!!');
 			redirect('perfil');

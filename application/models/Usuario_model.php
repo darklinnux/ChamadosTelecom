@@ -66,4 +66,12 @@ class Usuario_model extends CI_Model
 
     }
 
+    public function contaUsuarioPerfil($perfil)
+    {
+        $this->db->select("count(usu_id) as 'total' ");
+        $this->db->where('usu_perfil', $perfil);
+        return $this->db->get('usuario')->row();
+
+    }
+
 }
