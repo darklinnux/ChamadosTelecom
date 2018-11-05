@@ -11,7 +11,11 @@
 * @repository git://github.com/almasaeed2010/AdminLTE.git
 * @license MIT <http://opensource.org/licenses/MIT>
 */
-
+quantidade = $('#cadastro-menu li').length;
+  console.log(quantidade);
+  if(quantidade == 0){
+    $('#menu-cadastro').addClass('hidden');
+  }
 // Make sure jQuery has been loaded
 if (typeof jQuery === 'undefined') {
 throw new Error('AdminLTE requires jQuery')

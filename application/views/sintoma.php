@@ -226,7 +226,7 @@ $listar = $this->controleacesso->verficaPermisaoListar(3,true);
 <!-- FastClick -->
 <script src="<?=base_url('assets/bower_components/fastclick/lib/fastclick.js')?>"></script>
 <!-- AdminLTE App -->
-<script src="<?=base_url('assets/dist/js/adminlte.min.js')?>"></script>
+<script src="<?=base_url('assets/dist/js/adminlte.js')?>"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?=base_url('assets/dist/js/demo.js')?>"></script>
 <script src="<?=base_url('ajax/ajax_generico.js')?>"></script>

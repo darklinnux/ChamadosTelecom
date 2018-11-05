@@ -434,7 +434,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- Select2 -->
 <script src="<?=base_url("assets/bower_components/select2/dist/js/select2.full.min.js")?>"></script>
 <!-- AdminLTE App -->
-<script src="<?=base_url('assets/dist/js/adminlte.min.js')?>"></script>
+<script src="<?=base_url('assets/dist/js/adminlte.js')?>"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?=base_url('assets/dist/js/demo.js')?>"></script>
 <script src="<?=base_url('ajax/ajax_generico.js')?>"></script>
