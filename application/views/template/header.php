@@ -267,7 +267,7 @@ $metodo = $this->uri->segment(2);
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="<?=base_url('assets/dist/img/avatar.png')?>" class="user-image" alt="User Image">
-              <span class="hidden-xs">Ramon Lima</span>
+              <span class="hidden-xs"><?=$this->session->usu_nome?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -314,25 +314,44 @@ $metodo = $this->uri->segment(2);
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
           </a>
         </li>
-        <li class="treeview <?=($pagina !== "dashboard" && $pagina !== "chamado" && $pagina !== "ChamadoInterno") ? "active menu-open" : null?>">
+        <li id="menu-cadastro" class="treeview <?=($pagina !== "dashboard" && $pagina !== "chamado" && $pagina !== "ChamadoInterno") ? "active menu-open" : null?>">
           <a href="#">
             <i class="fa fa-edit"></i> <span>Cadastros</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
-          <ul class="treeview-menu">
+          <ul id="cadastro-menu" class="treeview-menu">
+            <?php if($this->controleacesso->verficaPermisaoListar(1,true)){ ?>
             <li class="<?=($pagina == "usuario") ? "active" : null?>"><a href="<?=base_url("usuario")?>"><i class="fa fa-circle-o"></i> Usuário</a></li>
+            <?php } ?>
+            <?php if($this->controleacesso->verficaPermisaoListar(2,true)){ ?>
             <li class="<?=($pagina == "perfil") ? "active" : null?>"><a href="<?=base_url("perfil")?>"><i class="fa fa-circle-o"></i> Perfil</a></li>
+            <?php } ?>
+            <?php if($this->controleacesso->verficaPermisaoListar(3,true)){ ?>
             <li class="<?=($pagina == "sintoma") ? "active" : null?>"><a href="<?=base_url("sintoma")?>"><i class="fa fa-circle-o"></i> Sintoma</a></li>
+            <?php } ?>
+            <?php if($this->controleacesso->verficaPermisaoListar(4,true)){ ?>
             <li class="<?=($pagina == "filial") ? "active" : null?>"><a href="<?=base_url("filial")?>"><i class="fa fa-circle-o"></i> Filial</a></li>
+            <?php } ?>
+            <?php if($this->controleacesso->verficaPermisaoListar(5,true)){ ?>
             <li class="<?=($pagina == "cidade") ? "active" : null?>"><a href="<?=base_url("cidade")?>"><i class="fa fa-circle-o"></i> Cidade</a></li>
+            <?php } ?>
+            <?php if($this->controleacesso->verficaPermisaoListar(6,true)){ ?>
             <li class="<?=($pagina == "estado") ? "active" : null?>"><a href="<?=base_url("estado")?>"><i class="fa fa-circle-o"></i> Estado</a></li>
+            <?php } ?>
+            <?php if($this->controleacesso->verficaPermisaoListar(7,true)){ ?>
             <li class="<?=($pagina == "empresa") ? "active" : null?>"><a href="<?=base_url("empresa")?>"><i class="fa fa-circle-o"></i> Empresa</a></li>
+            <?php } ?>
+            <?php if($this->controleacesso->verficaPermisaoListar(8,true)){ ?>
             <li class="<?=($pagina == "setor") ? "active" : null?>"><a href="<?=base_url("setor")?>"><i class="fa fa-circle-o"></i> Setor</a></li>
+            <?php } ?>
+            <?php if($this->controleacesso->verficaPermisaoListar(9,true)){ ?>
             <li class="<?=($pagina == "categoria") ? "active" : null?>"><a href="<?=base_url("categoria")?>"><i class="fa fa-circle-o"></i> Categoria</a></li>
+            <?php } ?>
           </ul>
         </li>
+        <?php if($this->controleacesso->verficaPermisaoListar(10,true)){ ?>
         <li class="treeview <?=($pagina !== "dashboard" && $pagina == "chamado") ? "active menu-open" : null?>">
           <a href="#">
             <i class="fa fa-archive"></i> <span>Chamados</span>
@@ -345,6 +364,8 @@ $metodo = $this->uri->segment(2);
             <li class="<?=($metodo == "fechado" && $pagina == "chamado") ? "active" : null?>"><a href="<?=base_url("chamado/fechado")?>"><i class="fa fa-circle-o"></i> Fechados</a></li>
           </ul>
         </li>
+        <?php } ?>
+        <?php if($this->controleacesso->verficaPermisaoListar(11,true)){ ?>
         <li class="treeview <?=($pagina == "ChamadoInterno") ? "active menu-open" : null?>">
           <a href="#">
             <i class="fa fa-archive"></i> <span>Chamados Internos</span>
@@ -357,11 +378,12 @@ $metodo = $this->uri->segment(2);
             <li class="<?=($metodo == "fechado" && $pagina == "ChamadoInterno") ? "active" : null?>"><a href="<?=base_url("ChamadoInterno/fechado")?>"><i class="fa fa-circle-o"></i> Fechados</a></li>
           </ul>
         </li>
-        <li class="">
+        <?php } ?>
+        <!-- <li class="">
           <a href="#">
             <i class="fa fa-table"></i> <span>Relatórios</span>
           </a>
-        </li>
+        </li> -->
       </ul>
     </section>
     <!-- /.sidebar -->

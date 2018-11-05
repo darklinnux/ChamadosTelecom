@@ -11,6 +11,7 @@ class Usuario extends CI_Controller {
 	}
 
 	public function index(){
+    $this->controleacesso->verficaPermisaoListar(1);
 		$dados['perfis'] = $this->perfil_model->listarTodos();
     $dados['status'] = $this->usuario_model->getStatus();
     $dados['usuarios'] = $this->usuario_model->listar();
@@ -20,6 +21,7 @@ class Usuario extends CI_Controller {
 	}
 
 	public function cadastrar(){
+    $this->controleacesso->verficaPermisaoCadastrar(1);
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro()) {
 			$this->usuario_model->inserir($this->popularUsuario());
 			echo json_encode(array(
@@ -34,11 +36,13 @@ class Usuario extends CI_Controller {
 	}
 
 	public function listar(){
+    $this->controleacesso->verficaPermisaoListar(1);
 		$usuarios = $this->usuario_model->listar();
 		echo json_encode($usuarios);
 	}
 
   public function editar(){
+    $this->controleacesso->verficaPermisaoEditar(1);
     
     if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormEditar()) {
       $usuario = $this->popularUsuario();
@@ -56,12 +60,14 @@ class Usuario extends CI_Controller {
   }
   
   public function remover($id){
+    $this->controleacesso->verficaPermisaoRemover(1);
     $this->usuario_model->deletar($id);
     $this->session->set_flashdata('delete', 'Usuario foi removido com sucesso!!!');
     redirect('usuario');
   }
 
 	public function carregarDadosEditar($id){
+    $this->controleacesso->verficaPermisaoEditar(1);
     $usuario = $this->usuario_model->getUsuarioId($id);
     echo json_encode($usuario);
 		

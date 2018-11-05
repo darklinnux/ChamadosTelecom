@@ -12,6 +12,7 @@ class Sintoma extends CI_Controller {
 	
 	public function index()
 	{
+		$this->controleacesso->verficaPermisaoListar(3);
 		$dados['sintomas'] = $this->sintoma_model->listarTodos();
 		$this->load->view('template/header');
 		$this->load->view('sintoma',$dados);
@@ -19,6 +20,7 @@ class Sintoma extends CI_Controller {
 	}
 
 	public function cadastrar(){
+		$this->controleacesso->verficaPermisaoCadastrar(3);
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro()) {
 			$sintoma = $this->popularSintoma();
 			$this->sintoma_model->inserir($sintoma);
@@ -28,6 +30,7 @@ class Sintoma extends CI_Controller {
 	}
 
 	public function editar(){
+		$this->controleacesso->verficaPermisaoEditar(3);
 		//var_dump($_POST);die();
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro()) {
 			$sintoma = $this->popularSintoma();
@@ -42,12 +45,14 @@ class Sintoma extends CI_Controller {
 
 
 	public function carregarDadosEditar($id){
+		$this->controleacesso->verficaPermisaoEditar(3);
 		$sintoma = $this->sintoma_model->getsintomaId($id);
 		echo json_encode($sintoma);
 			
 	}
 	
 	public function remover($id){
+		$this->controleacesso->verficaPermisaoRemover(3);
 		if($this->sintoma_model->deletar($id)){
 			$this->session->set_flashdata('sucess', 'Sintoma foi removida com sucesso!!!');
 			redirect('sintoma');

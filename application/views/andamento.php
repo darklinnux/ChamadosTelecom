@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+$controle = ($this->controleacesso->verficaPermisaoEditar(12,true)) ? null : 'disabled';
 ?>
 <link rel="stylesheet" href="<?=base_url("assets/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css")?>">
   <div class="content-wrapper">
@@ -60,7 +61,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <div class="form-group">
                         <label>Nivel:</label>
                         <input id="idChamado" type="text" value="<?=$chamado->cha_id?>" hidden  />
-                        <select name="nivel" class="form-control nivel">
+                        <select <?=$controle?> name="nivel" class="form-control nivel">
                           <?php foreach ($niveis as $nivel) {?>
                             <option <?=($nivel->cni_id == $chamado->cha_nivel) ? 'selected' : null?> value="<?=$nivel->cni_id?>"><?=$nivel->cni_nivel?></option>
                           <?php }?>
@@ -75,7 +76,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <div class="input-group-addon">
                           <i class="fa fa-calendar"></i>
                         </div>
-                        <input value="<?=date("d/m/Y",strtotime($chamado->cha_previsao))?>" name="previsao" type="text" class="form-control pull-right previsao" id="datepicker">
+                        <input <?=$controle?> value="<?=date("d/m/Y",strtotime($chamado->cha_previsao))?>" name="previsao" type="text" class="form-control pull-right previsao" id="datepicker">
                       </div>
                       <!-- /.input group -->
                     </div>
@@ -83,7 +84,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label>Status:</label>
-                      <select name="status" class="form-control status">
+                      <select <?=$controle?> name="status" class="form-control status">
                         <?php foreach ($status as $statu) {?>
                           <option <?=($statu->stc_id == $chamado->cha_status) ? 'selected' : null?> value="<?=$statu->stc_id?>"><?=$statu->stc_status?></option>
                         <?php }?>
@@ -133,7 +134,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label>Responsavel:</label>
-                      <select name="responsavel" class="form-control select2 responsavel" style="width: 100%;">
+                      <select <?=$controle?> name="responsavel" class="form-control select2 responsavel" style="width: 100%;">
                           <option value="0">Selecione um Responsavel</option>
                         <?php foreach ($usuarios as $usuario) {?>
                           <option <?=($usuario->usu_id == $chamado->cha_responsavel) ? 'selected' : null?> value="<?=$usuario->usu_id?>"><?=$usuario->usu_nome?></option>
@@ -266,7 +267,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     dia = data[2];
     return dia+"/"+mes+"/"+ano;
   }
-
+<?php if ($this->controleacesso->verficaPermisaoEditar(12,true)){ ?>
   function atualizar(dados,mensagem){
     $("#sucesso").addClass("hidden");
     $("#erro").addClass("hidden");
@@ -321,6 +322,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     }
     atualizar(dados,mensagem);
   });
+<?php } ?>
 </script>
 <script>
   $(function () {

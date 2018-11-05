@@ -13,6 +13,7 @@ class Perfil extends CI_Controller {
 	
 	public function index()
 	{
+		$this->controleacesso->verficaPermisaoListar(2);
 		$dados['perfis'] = $this->perfil_model->listarTodos();
 		$dados['funcionalidades'] = $this->permissao_model->getFuncionalidades();
 		$this->load->view('template/header');
@@ -21,6 +22,7 @@ class Perfil extends CI_Controller {
 	}
 
 	public function cadastrar(){
+		$this->controleacesso->verficaPermisaoCadastrar(2);
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro()) {
 			$perfil = $this->popularPerfil();
 			$this->perfil_model->inserir($perfil);
@@ -42,6 +44,7 @@ class Perfil extends CI_Controller {
 	}
 
 	public function editar(){
+		$this->controleacesso->verficaPermisaoEditar(2);
 		//var_dump($_POST);die();
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro(true)) {
 			$perfil = $this->popularPerfil();
@@ -69,6 +72,7 @@ class Perfil extends CI_Controller {
 
 
 	public function carregarDadosEditar($id){
+		$this->controleacesso->verficaPermisaoEditar(2);
 		$perfil = $this->perfil_model->getPerfilId($id);
 		$permissoes = $this->perfil_model->getPermissaoPerfilId($id);
 		echo json_encode(array(
@@ -79,6 +83,7 @@ class Perfil extends CI_Controller {
 	}
 	
 	public function remover($id){
+		$this->controleacesso->verficaPermisaoRemover(2);
 		if($this->perfil_model->deletar($id)){
 			$this->session->set_flashdata('sucess', 'Perfil foi removido com sucesso!!!');
 			redirect('perfil');

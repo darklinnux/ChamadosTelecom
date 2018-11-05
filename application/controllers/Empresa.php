@@ -14,6 +14,7 @@ class Empresa extends CI_Controller {
 	
 	public function index()
 	{
+		$this->controleacesso->verficaPermisaoListar(7);
 		$dados['empresas'] = $this->empresa_model->listarTodos();
 		$this->load->view('template/header');
 		$this->load->view('empresa',$dados);
@@ -21,6 +22,7 @@ class Empresa extends CI_Controller {
 	}
 
 	public function cadastrar(){
+		$this->controleacesso->verficaPermisaoCadastrar(7);
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro()) {
 			$empresa = $this->popularEmpresa();
 			$this->empresa_model->inserir($empresa);
@@ -33,6 +35,7 @@ class Empresa extends CI_Controller {
 	}
 
 	public function editar(){
+		$this->controleacesso->verficaPermisaoEditar(7);
 		//var_dump($_POST);die();
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro()) {
 			$empresa = $this->popularEmpresa();
@@ -46,12 +49,14 @@ class Empresa extends CI_Controller {
 	}
 
 	public function carregarDadosEditar($id){
+		$this->controleacesso->verficaPermisaoEditar(7);
 		$empresa = $this->empresa_model->getEmpresaId($id);
 		echo json_encode($empresa);
 			
 	}
 
 	public function remover($id){
+		$this->controleacesso->verficaPermisaoRemover(7);
 		if($this->empresa_model->deletar($id)){
 			$this->session->set_flashdata('sucess', 'Empresa foi removida com sucesso!!!');
 			redirect('empresa');

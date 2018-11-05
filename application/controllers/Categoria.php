@@ -14,6 +14,7 @@ class Categoria extends CI_Controller {
 	
 	public function index()
 	{
+		$this->controleacesso->verficaPermisaoListar(9);
 		$dados['categorias'] = $this->categoria_model->listarTodos();
 		$this->load->view('template/header');
 		$this->load->view('categorias',$dados);
@@ -21,6 +22,7 @@ class Categoria extends CI_Controller {
 	}
 
 	public function cadastrar(){
+		$this->controleacesso->verficaPermisaoCadastrar(9);
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro()) {
 			$categoria = $this->popularCategoria();
 			$this->categoria_model->inserir($categoria);
@@ -33,6 +35,7 @@ class Categoria extends CI_Controller {
 	}
 
 	public function editar(){
+		$this->controleacesso->verficaPermisaoEditar(9);
 		//var_dump($_POST);die();
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro()) {
 			$categoria = $this->popularCategoria();
@@ -46,12 +49,14 @@ class Categoria extends CI_Controller {
 	}
 
 	public function carregarDadosEditar($id){
+		$this->controleacesso->verficaPermisaoEditar(9);
 		$categoria = $this->categoria_model->getcategoriaId($id);
 		echo json_encode($categoria);
 			
 	}
 
 	public function remover($id){
+		$this->controleacesso->verficaPermisaoRemover(9);
 		if($this->categoria_model->deletar($id)){
 			$this->session->set_flashdata('sucess', 'categoria foi removida com sucesso!!!');
 			redirect('categoria');

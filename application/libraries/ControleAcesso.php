@@ -35,40 +35,72 @@ class ControleAcesso
         }
     }
 
-    public function verficaPermisaoCadastrar($funcionalidade)
+    public function verficaPermisaoCadastrar($funcionalidade,$view = false)
     {
         $this->CI->load->model('permissao_model');
         $permissao = $this->CI->permissao_model->getPermissaoIdPerfil($this->perfil,$funcionalidade)->perm_cadastrar;
         if(!$permissao){
-            $this->CI->session->set_flashdata('erro', 'Seu usuário não tem permissão para essa funcionalidade.');
-            redirect('dashboard');
+            
+            if($view){
+                return false;
+            }else {
+                $this->CI->session->set_flashdata('error', 'Seu usuário não tem permissão para essa funcionalidade.');
+                redirect('dashboard');
+            }
         }else {
             return true;
         }
 
     }
 
-    public function verficaPermisaoListar($funcionalidade)
+    public function verficaPermisaoEditar($funcionalidade,$view = false)
+    {
+        $this->CI->load->model('permissao_model');
+        $permissao = $this->CI->permissao_model->getPermissaoIdPerfil($this->perfil,$funcionalidade)->perm_editar;
+        if(!$permissao){
+            
+            if($view){
+                return false;
+            }else {
+                $this->CI->session->set_flashdata('error', 'Seu usuário não tem permissão para essa funcionalidade.');
+                redirect('dashboard');
+            }
+        }else {
+            return true;
+        }
+
+    }
+
+    public function verficaPermisaoListar($funcionalidade,$view = false)
     {
         $this->CI->load->model('permissao_model');
         $permissao = $this->CI->permissao_model->getPermissaoIdPerfil($this->perfil,$funcionalidade)->perm_listar;
         //var_dump($permissao);die();
         if(!$permissao){
-            $this->CI->session->set_flashdata('error', 'Seu usuário não tem permissão para essa funcionalidade.');
-            redirect('dashboard');
+            if($view){
+                return false;
+            }else {
+                $this->CI->session->set_flashdata('error', 'Seu usuário não tem permissão para essa funcionalidade.');
+                redirect('dashboard');
+            }
         }else {
             return true;
         }
 
     }
 
-    public function verficaPermisaoRemover($funcionalidade)
+    public function verficaPermisaoRemover($funcionalidade,$view = false)
     {
         $this->CI->load->model('permissao_model');
         $permissao = $this->CI->permissao_model->getPermissaoIdPerfil($this->perfil,$funcionalidade)->perm_remover;
         if(!$permissao){
-            $this->CI->session->set_flashdata('erro', 'Seu usuário não tem permissão para essa funcionalidade.');
-            redirect('dashboard');
+            
+            if($view){
+                return false;
+            }else {
+                $this->CI->session->set_flashdata('error', 'Seu usuário não tem permissão para essa funcionalidade.');
+                redirect('dashboard');
+            }
         }else {
             return true;
         }

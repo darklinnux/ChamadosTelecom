@@ -39,7 +39,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               
               <div>
                 <h3 class="box-title"><?=$titulo?></h3>
+                <?php if($this->controleacesso->verficaPermisaoCadastrar(11,true)){ ?>
                 <button style="float:right;" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-default">Novo Chamado</button>    
+                <?php } ?>
               </div>
               
             </div>
@@ -55,7 +57,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <th>Nivel</th>
                   <th>Status</th>
                   <th>Usuario</th>
-                  <th>Ações</th>
+                  <th id="tituloAcao">Ações</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -67,15 +69,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <td><?=$chamado->niv_nivel?></td>
                     <td><?=$chamado->stc_status?></td>
                     <td><?=$chamado->usu_login?></td>
-                    <td>
+                    <td class="linhaAcao">
                       <div class="btn-group">
                           <button type="button" class="btn btn-primary">Opções</button>
                           <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> <span class="sr-only">Toggle Dropdown</span> </button>
-                          <ul class="dropdown-menu" role="menu">
-                              <li><a href="<?=base_url("ChamadoInterno/andamento/{$chamado->cha_id}")?>">Andamento</a></li>
-                              <li><a onclick="modalEditar(<?=$chamado->cha_id?>);" href="#">Editar</a></li>
+                          <ul id="acaodrop" class="dropdown-menu" role="menu">
+                            <?php if($this->controleacesso->verficaPermisaoListar(12,true)){ ?>
+                            <li><a href="<?=base_url("ChamadoInterno/andamento/{$chamado->cha_id}")?>">Andamento</a></li><?php } ?>
+                              <?php if($this->controleacesso->verficaPermisaoEditar(11,true)){ ?>
+                              <li><a onclick="modalEditar(<?=$chamado->cha_id?>);" href="#">Editar</a></li><?php } ?>
+                              <?php if($this->controleacesso->verficaPermisaoRemover(11,true)){ ?>
                               <li class="divider"></li>
-                              <li><a href="#" onclick="modalRemover(<?=$chamado->cha_id?>)">Remover</a></li>
+                              <li><a href="#" onclick="modalRemover(<?=$chamado->cha_id?>)">Remover</a></li><?php } ?>
                           </ul>
                       </div>
                     </td>
@@ -374,6 +379,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       format: 'dd/mm/yyyy',        
     });
   })
+  quantidade = $("#acaodrop li").length;
+  console.log(quantidade);
+  if(quantidade == 0){
+    $('#tituloAcao').addClass('hidden');
+    $('.linhaAcao').addClass('hidden');
+  }
 </script>
 <script>
   function formatarData(data){
@@ -383,6 +394,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     dia = data[2];
     return dia+"/"+mes+"/"+ano;
   }
+  <?php if($this->controleacesso->verficaPermisaoEditar(11,true)){ ?>
   function modalEditar(id){
     $('#editar-sucesso').addClass('hidden');
     $('#editar-erro').addClass('hidden');
@@ -401,12 +413,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       $('#modal-editar').modal('show');
     });
   }
-
+<?php } ?>
+<?php if($this->controleacesso->verficaPermisaoRemover(11,true)){ ?>
   function modalRemover(id){  
     $('#btn-deletar').attr('href', "<?=base_url('ChamadoInterno/remover/')?>"+id)
     $('#modal-remover').modal('show');
 
   }
+<?php } ?>
 </script>
 <script>
   $(function () {

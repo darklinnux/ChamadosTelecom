@@ -20,6 +20,7 @@ class Chamado extends CI_Controller {
 	}
 
 	public function aberto(){
+		$this->controleacesso->verficaPermisaoListar(10);
 		$dados['titulo'] = "Abertos/Andamento";
 		$dados['empresas'] = $this->empresa_model->listarTodos();
 		$dados['filiais'] = $this->filial_model->listarTodos();
@@ -32,6 +33,7 @@ class Chamado extends CI_Controller {
 	}
 
 	public function fechado(){
+		$this->controleacesso->verficaPermisaoListar(10);
 		$dados['titulo'] = "Fechados";
 		$dados['empresas'] = $this->empresa_model->listarTodos();
 		$dados['filiais'] = $this->filial_model->listarTodos();
@@ -44,6 +46,7 @@ class Chamado extends CI_Controller {
 	}
 	
 	public function cadastrar(){
+		$this->controleacesso->verficaPermisaoCadastrar(10);
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro()) {
 			$chamado = $this->popularChamado();
 			$this->chamado_model->inserir($chamado);
@@ -66,6 +69,7 @@ class Chamado extends CI_Controller {
 	}
 
 	public function editar(){
+		$this->controleacesso->verficaPermisaoEditar(10);
 		//var_dump($_POST);die();
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro()) {
 			$chamado = $this->popularChamado(true);
@@ -92,22 +96,26 @@ class Chamado extends CI_Controller {
 
 
 	public function carregarDadosEditar($id){
+		$this->controleacesso->verficaPermisaoEditar(10);
 		$chamado = $this->chamado_model->getchamadoId($id);
 		echo json_encode($chamado);
 			
 	}
 
 	public function carregarDadosFilialEditar($id){
+		$this->controleacesso->verficaPermisaoEditar(10);
 		$chamado = $this->chamado_model->getFilialChamadoId($id);
 		echo json_encode($chamado);
 	}
 
 	public function carregarDadosSintomaEditar($id){
+		$this->controleacesso->verficaPermisaoEditar(10);
 		$chamado = $this->chamado_model->getSintomaChamadoId($id);
 		echo json_encode($chamado);
 	}
 
 	public function remover($id){
+		$this->controleacesso->verficaPermisaoRemover(10);
 		$this->chamado_model->deletar($id);
 		$this->session->set_flashdata('sucess', 'chamado foi removido com sucesso!!!');
 		redirect('chamado/aberto');

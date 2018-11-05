@@ -71,6 +71,7 @@ class ChamadoInterno extends CI_Controller {
 	}
 	
 	public function cadastrar(){
+		$this->controleacesso->verficaPermisaoCadastrar(11);
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro()) {
 			$chamado = $this->popularChamado();
 			$this->ChamadoInterno_model->inserir($chamado);
@@ -86,7 +87,7 @@ class ChamadoInterno extends CI_Controller {
 	}
 
 	public function editar(){
-		//var_dump($_POST);die();
+		$this->controleacesso->verficaPermisaoEditar(11);
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro()) {
 			$chamado = $this->popularChamado(true);
 			$this->ChamadoInterno_model->update($chamado);
@@ -109,6 +110,8 @@ class ChamadoInterno extends CI_Controller {
 	}
 
 	public function atualizarAndamento(){
+		$this->controleacesso->verficaPermisaoEditar(12);
+
 		$chamado['cha_id'] = $this->input->post("id");
 
 		switch ($this->input->post("campo")) {
@@ -162,6 +165,7 @@ class ChamadoInterno extends CI_Controller {
 	}
 
 	public function remover($id){
+		$this->controleacesso->verficaPermisaoRemover(11);
 		if($this->ChamadoInterno_model->deletar($id)){
 			$this->session->set_flashdata('sucess', 'Chamado foi removido com sucesso!!!');
 			redirect('ChamadoInterno/aberto');

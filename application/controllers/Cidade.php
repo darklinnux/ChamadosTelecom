@@ -13,6 +13,7 @@ class Cidade extends CI_Controller {
 	
 	public function index()
 	{
+		$this->controleacesso->verficaPermisaoListar(5);
 		$dados['cidades'] = $this->cidade_model->listarTodos();
 		$dados['estados'] = $this->estado_model->listarTodos();
 		$this->load->view('template/header');
@@ -21,6 +22,7 @@ class Cidade extends CI_Controller {
 	}
 
 	public function cadastrar(){
+		$this->controleacesso->verficaPermisaoCadastrar(5);
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro()) {
 			$cidade = $this->popularCidade();
 			$this->cidade_model->inserir($cidade);
@@ -33,6 +35,7 @@ class Cidade extends CI_Controller {
 	}
 
 	public function editar(){
+		$this->controleacesso->verficaPermisaoEditar(5);
 		//var_dump($_POST);die();
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro()) {
 			$cidade = $this->popularCidade();
@@ -46,12 +49,14 @@ class Cidade extends CI_Controller {
 	}
 
 	public function carregarDadosEditar($id){
+		$this->controleacesso->verficaPermisaoEditar(5);
 		$cidade = $this->cidade_model->getCidadeId($id);
 		echo json_encode($cidade);
 			
 	}
 
 	public function remover($id){
+		$this->controleacesso->verficaPermisaoRemover(5);
 		if($this->cidade_model->deletar($id)){
 			$this->session->set_flashdata('sucess', 'Cidade foi removida com sucesso!!!');
 			redirect('cidade');

@@ -12,6 +12,7 @@ class Estado extends CI_Controller {
 	
 	public function index()
 	{
+		$this->controleacesso->verficaPermisaoListar(6);
 		$dados['estados'] = $this->estado_model->listarTodos();
 		$this->load->view('template/header');
 		$this->load->view('estado',$dados);
@@ -19,6 +20,7 @@ class Estado extends CI_Controller {
 	}
 
 	public function cadastrar(){
+		$this->controleacesso->verficaPermisaoCadastrar(6);
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro()) {
 			$estado = $this->popularEstado();
 			$this->estado_model->inserir($estado);
@@ -28,6 +30,7 @@ class Estado extends CI_Controller {
 	}
 
 	public function editar(){
+		$this->controleacesso->verficaPermisaoEditar(6);
 		//var_dump($_POST);die();
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro()) {
 			$estado = $this->popularEstado();
@@ -42,12 +45,14 @@ class Estado extends CI_Controller {
 
 
 	public function carregarDadosEditar($id){
+		$this->controleacesso->verficaPermisaoEditar(6);
 		$estado = $this->estado_model->getEstadoId($id);
 		echo json_encode($estado);
 			
 	}
 	
 	public function remover($id){
+		$this->controleacesso->verficaPermisaoRemover(6);
 		if($this->estado_model->deletar($id)){
 			$this->session->set_flashdata('sucess', 'estado foi removido com sucesso!!!');
 			redirect('estado');

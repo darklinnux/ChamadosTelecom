@@ -13,6 +13,7 @@ class Filial extends CI_Controller {
 
 	public function index()
 	{
+		$this->controleacesso->verficaPermisaoListar(4);
 		$dados['cidades'] = $this->cidade_model->listarTodos();
 		$dados['filiais'] = $this->filial_model->listarTodos();
 		$this->load->view('template/header');
@@ -21,6 +22,7 @@ class Filial extends CI_Controller {
 	}
 
 	public function cadastrar(){
+		$this->controleacesso->verficaPermisaoCadastrar(4);
 		//var_dump($_POST);die();
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro()) {
 			$filial = $this->popularFilial();
@@ -34,6 +36,7 @@ class Filial extends CI_Controller {
 	}
 
 	public function editar(){
+		$this->controleacesso->verficaPermisaoEditar(4);
 		//var_dump($_POST);die();
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro(true)) {
 			$filial = $this->popularFilial();
@@ -47,12 +50,14 @@ class Filial extends CI_Controller {
 	}
 
 	public function carregarDadosEditar($id){
+		$this->controleacesso->verficaPermisaoEditar(4);
 		$filial = $this->filial_model->getFilialId($id);
 		echo json_encode($filial);
 			
 	}
 
 	public function remover($id){
+		$this->controleacesso->verficaPermisaoRemover(4);
 		if($this->filial_model->deletar($id)){
 			$this->session->set_flashdata('sucess', 'Filial foi removida com sucesso!!!');
 			redirect('filial');

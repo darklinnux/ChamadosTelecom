@@ -38,6 +38,14 @@
   })
 </script>
 <script>
+
+  quantidade = $('#cadastro-menu li').length;
+  console.log(quantidade);
+  if(quantidade == 0){
+    $('#menu-cadastro').addClass('hidden');
+  }
+</script>
+<script>
   $(function () {
     $('#example1').DataTable()
     $('#example2').DataTable({

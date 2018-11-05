@@ -1,5 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+$cadastrar = $this->controleacesso->verficaPermisaoCadastrar(9,true);
+$editar = $this->controleacesso->verficaPermisaoEditar(9,true);
+$remover = $this->controleacesso->verficaPermisaoRemover(9,true);
+$listar = $this->controleacesso->verficaPermisaoListar(9,true);
 ?>
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -38,7 +42,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               
               <div>
                 <h3 class="box-title">Cadastros</h3>
+                <?php if ($cadastrar) { ?>
                 <button style="float:right;" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-default">Nova Categoria</button>    
+                <?php } ?>
               </div>
               
             </div>
@@ -50,7 +56,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <tr>
                   <th>ID</th>
                   <th>Categoria</th>
-                  <th>Ações</th>
+                  <th id="tituloAcao">Ações</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -58,14 +64,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <tr>
                   <td><?=$categoria->cat_id?></td>
                   <td><?=$categoria->cat_nome?></td>
-                  <td>
+                  <td class="linhaAcao">
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary">Opções</button>
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> <span class="sr-only">Toggle Dropdown</span> </button>
-                        <ul class="dropdown-menu" role="menu">
+                        <ul id="acaodrop" class="dropdown-menu" role="menu">
+                            <?php if ($editar) { ?>
                             <li><a onclick="modalEditar(<?=$categoria->cat_id?>);" href="#">Editar</a></li>
+                            <?php } ?>
+                            <?php if ($remover) { ?>
                             <li class="divider"></li>
                             <li><a href="#" onclick="modalRemover(<?=$categoria->cat_id?>)">Remover</a></li>
+                            <?php } ?>
                         </ul>
                     </div>
                   </td>
@@ -225,9 +235,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
  $(document).ready(function () {
    $('.sidebar-menu').tree()
- })
+ });
+ quantidade = $("#acaodrop li").length;
+  console.log(quantidade);
+  if(quantidade == 0){
+    $('#tituloAcao').addClass('hidden');
+    $('.linhaAcao').addClass('hidden');
+  }
 </script>
 <script>
+  <?php if ($editar) { ?>
   function modalEditar(id){
     $('#editar-sucesso').addClass('hidden');
     $('#editar-erro').addClass('hidden');
@@ -239,11 +256,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       $('#modal-editar').modal('show');
     });
   }
-
+<?php } ?>
+<?php if ($remover) { ?>
   function modalRemover(id){
     $('#btn-deletar').attr('href', "<?=base_url('categoria/remover/')?>"+id)
     $('#modal-remover').modal('show');
   }
+<?php } ?>
 </script>
 <script>
  $(function () {

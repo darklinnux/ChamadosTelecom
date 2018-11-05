@@ -14,6 +14,7 @@ class Setor extends CI_Controller {
 	
 	public function index()
 	{
+		$this->controleacesso->verficaPermisaoListar(8);
 		$dados['setores'] = $this->setor_model->listarTodos();
 		$this->load->view('template/header');
 		$this->load->view('setores',$dados);
@@ -21,6 +22,7 @@ class Setor extends CI_Controller {
 	}
 
 	public function cadastrar(){
+		$this->controleacesso->verficaPermisaoCadastrar(8);
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro()) {
 			$setor = $this->popularSetor();
 			$this->setor_model->inserir($setor);
@@ -33,6 +35,7 @@ class Setor extends CI_Controller {
 	}
 
 	public function editar(){
+		$this->controleacesso->verficaPermisaoEditar(8);
 		//var_dump($_POST);die();
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro()) {
 			$setor = $this->popularSetor();
@@ -52,6 +55,7 @@ class Setor extends CI_Controller {
 	}
 
 	public function remover($id){
+		$this->controleacesso->verficaPermisaoRemover(8);
 		if($this->setor_model->deletar($id)){
 			$this->session->set_flashdata('sucess', 'setor foi removida com sucesso!!!');
 			redirect('setor');
