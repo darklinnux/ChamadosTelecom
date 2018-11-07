@@ -63,7 +63,7 @@ $controle = ($this->controleacesso->verficaPermisaoEditar(12,true)) ? null : 'di
                         <input id="idChamado" type="text" value="<?=$chamado->cha_id?>" hidden  />
                         <select <?=$controle?> name="nivel" class="form-control nivel">
                           <?php foreach ($niveis as $nivel) {?>
-                            <option <?=($nivel->cni_id == $chamado->cha_nivel) ? 'selected' : null?> value="<?=$nivel->cni_id?>"><?=$nivel->cni_nivel?></option>
+                            <option <?=($nivel->niv_id == $chamado->cha_nivel) ? 'selected' : null?> value="<?=$nivel->niv_id?>"><?=$nivel->niv_nivel?></option>
                           <?php }?>
                         </select>
                     </div>

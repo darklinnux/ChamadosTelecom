@@ -73,6 +73,9 @@ class ChamadoInterno extends CI_Controller {
 		$this->controleacesso->verficaPermisaoCadastrar(11);
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro()) {
 			$chamado = $this->popularChamado();
+			/* echo '<pre>';
+			var_dump($chamado);
+			echo '</pre>';die(); */
 			$this->ChamadoInterno_model->inserir($chamado);
 			$id = $this->db->insert_id();
 			//die('sem erro');

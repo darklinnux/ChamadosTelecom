@@ -112,7 +112,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <label>Nivel:</label>
                         <select name="nivel" class="form-control">
                           <?php foreach($niveis as $nivel) { ?>
-                            <option value="<?=$nivel->cni_id?>"><?=$nivel->cni_nivel?></option>
+                            <option value="<?=$nivel->niv_id?>"><?=$nivel->niv_nivel?></option>
                           <?php } ?>
                         </select>
                     </div>
@@ -214,7 +214,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <label>Nivel:</label>
                         <select id="editar-nivel" name="nivel" class="form-control">
                           <?php foreach($niveis as $nivel) { ?>
-                            <option value="<?=$nivel->cni_id?>"><?=$nivel->cni_nivel?></option>
+                            <option value="<?=$nivel->niv_id?>"><?=$nivel->niv_nivel?></option>
                           <?php } ?>
                         </select>
                     </div>
@@ -390,6 +390,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </script>
 <script>
   function formatarData(data){
+    if(!data && typeof data === "object"){
+      return '';
+    }
     data = data.split("-");
     ano = data[0];
     mes = data[1];
