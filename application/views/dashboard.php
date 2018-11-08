@@ -23,8 +23,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <?=$this->session->error?>
               </div>
       <?php } ?>
+      <?php if($provedor) { ?>
+      <h2 class="page-header text-center">Chamados Provedor</h2>
     <div class="row">
-      <div class="col-lg-3 col-xs-6">
+      <div class="col-lg-4 col-xs-6">
         <!-- small box -->
         <div class="small-box bg-aqua">
           <div class="inner">
@@ -33,13 +35,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <p>Novos Chamados</p>
           </div>
           <div class="icon">
-            <i class="ion ion-bag"></i>
+            <i class="ion ion-stats-bars"></i>
+          </div>
+          <a href="<?=base_url("chamado")?>" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+      <div class="col-lg-4 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-yellow">
+          <div class="inner">
+            <h3><?=$total_andamento?></h3>
+
+            <p>Chamados em andamento</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-stats-bars"></i>
           </div>
           <a href="<?=base_url("chamado")?>" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
         </div>
       </div>
       <!-- ./col -->
-      <div class="col-lg-3 col-xs-6">
+      <div class="col-lg-4 col-xs-6">
         <!-- small box -->
         <div class="small-box bg-green">
           <div class="inner">
@@ -50,42 +66,64 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <div class="icon">
             <i class="ion ion-stats-bars"></i>
           </div>
-          <a href="<?=base_url("chamado")?>" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+          <a href="<?=base_url("chamado/fechado")?>" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
         </div>
       </div>
       <!-- ./col -->
-      <div class="col-lg-3 col-xs-6">
+</div>
+<?php } ?>
+<?php if($interno) { ?>
+<!-- Inicio chamados interno -->
+<h2 class="page-header text-center">Chamados Interno</h2>
+<div class="row">
+      <div class="col-lg-4 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-aqua">
+          <div class="inner">
+            <h3><?=$total_aberto_interno?></h3>
+
+            <p>Novos Chamados</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-stats-bars"></i>
+          </div>
+          <a href="<?=base_url("ChamadoInterno/aberto")?>" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+      <div class="col-lg-4 col-xs-6">
         <!-- small box -->
         <div class="small-box bg-yellow">
           <div class="inner">
-            <h3><?=$total_andamento?></h3>
+            <h3><?=$total_andamento_interno?></h3>
 
             <p>Chamados em andamento</p>
           </div>
           <div class="icon">
-            <i class="ion ion-person-add"></i>
+            <i class="ion ion-stats-bars"></i>
           </div>
-          <a href="<?=base_url("chamado")?>" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+          <a href="<?=base_url("ChamadoInterno/aberto")?>" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
         </div>
       </div>
       <!-- ./col -->
-      <div class="col-lg-3 col-xs-6">
+      <div class="col-lg-4 col-xs-6">
         <!-- small box -->
-        <div class="small-box bg-red">
+        <div class="small-box bg-green">
           <div class="inner">
-            <h3>1</h3>
+            <h3><?=$total_fechado_interno?></h3>
 
-            <p>Pedencias</p>
+            <p>Chamados Finalizados</p>
           </div>
           <div class="icon">
-            <i class="ion ion-pie-graph"></i>
+            <i class="ion ion-stats-bars"></i>
           </div>
-          <a href="#" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+          <a href="<?=base_url("ChamadoInterno/fechado")?>" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
         </div>
       </div>
       <!-- ./col -->
 </div>
 
+<!-- Fim chamados interno -->
+<?php } ?>
     </section>
     <!-- /.content -->
   </div>

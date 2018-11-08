@@ -380,12 +380,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       autoclose: true,
       format: 'dd/mm/yyyy',        
     });
-  })
+    novoChamado();
+
+  });
+
   quantidade = $("#acaodrop li").length;
   console.log(quantidade);
   if(quantidade == 0){
     $('#tituloAcao').addClass('hidden');
     $('.linhaAcao').addClass('hidden');
+  }
+
+  function novoChamado(){
+    var urlAtual = window.location.href;
+    urlAtual = urlAtual.split('#');
+    /*verifica se é para execultar a função, se sim, ele a execulta*/
+    if(urlAtual[1] == "modal") {
+      $('#modal-default').modal('show');
+    }
   }
 </script>
 <script>

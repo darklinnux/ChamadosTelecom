@@ -305,7 +305,12 @@ $metodo = $this->uri->segment(2);
           <a href="#"><i class="fa fa-circle text-success"></i> <?=$this->session->usu_perfil?></a>
         </div>
       </div>
-      <a href="<?=base_url('chamado')?>" class="btn btn-block btn-primary" >Novo Chamado</a>
+      <?php if($this->controleacesso->verficaPermisaoListar(10,true)){ ?>
+      <a href="<?=base_url('chamado/aberto#modal')?>" class="btn btn-block btn-primary" >Novo Chamado Provedor</a>
+      <?php } ?>
+      <?php if($this->controleacesso->verficaPermisaoListar(11,true)){ ?>
+      <a href="<?=base_url("ChamadoInterno/aberto#modal")?>" class="btn btn-block btn-primary" >Novo Chamado Interno</a>
+      <?php } ?>
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">Menu de Navegação</li>

@@ -452,7 +452,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       autoclose: true,
       format: 'dd/mm/yyyy',        
     });
-  })
+    novoChamado();
+  });
 
   quantidade = $("#acaodrop li").length;
   console.log(quantidade);
@@ -462,6 +463,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   }
 </script>
 <script>
+  function novoChamado(){
+    var urlAtual = window.location.href;
+    urlAtual = urlAtual.split('#');
+    /*verifica se é para execultar a função, se sim, ele a execulta*/
+    if(urlAtual[1] == "modal") {
+      $('#modal-default').modal('show');
+    }
+  }
   function formatarData(data){
     data = data.split("-");
     ano = data[0];
