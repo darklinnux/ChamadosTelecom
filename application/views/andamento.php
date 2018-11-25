@@ -50,6 +50,7 @@ $controle = ($this->controleacesso->verficaPermisaoEditar(12,true)) ? null : 'di
 
               <div>
                 <h3 class="box-title">Assunto: <?=$chamado->cha_assunto?></h3>
+                <button id="btnImprimir" style="float:right;" class="btn btn-sm btn-primary" onclick="imprimir();">Imprimir</button>
               </div>
 
             </div>
@@ -177,7 +178,7 @@ $controle = ($this->controleacesso->verficaPermisaoEditar(12,true)) ? null : 'di
                 <hr> 
                 <?php } ?>
                                
-              <div class="post clearfix">
+              <div id="formComentario" class="post clearfix">
                 <div class="user-block">
                   <form method="POST" action="<?=base_url("ChamadoInterno/comentar")?>" class="form-horizontal">
                     <div class="form-group margin-bottom-none">
@@ -201,7 +202,7 @@ $controle = ($this->controleacesso->verficaPermisaoEditar(12,true)) ? null : 'di
   </div>
 
 
-        <footer class="main-footer">
+        <footer id="idFooter" class="main-footer">
     <div class="pull-right hidden-xs">
       <b>Version</b> 2.4.0
     </div>
@@ -326,8 +327,17 @@ $controle = ($this->controleacesso->verficaPermisaoEditar(12,true)) ? null : 'di
 </script>
 <script>
   $(function () {
-    
+
   });
+  function imprimir(){
+    $('#formComentario').css('display','none');
+    $('#btnImprimir').css('display','none');
+    $('#idFooter').css('display','none');
+    window.print();
+    $('#btnImprimir').css('display','inline-block');
+    $('#formComentario').css('display','block');
+    $('#idFooter').css('display','block');
+  }
 </script>
 </body>
 </html>

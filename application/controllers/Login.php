@@ -6,7 +6,8 @@ class Login extends CI_Controller {
 	
 	public function __construct()
 	{
-		parent::__construct();
+        parent::__construct();
+        $this->load->helper('getip');
         $this->load->model('usuario_model');
 	}
 	
@@ -37,6 +38,12 @@ class Login extends CI_Controller {
                     $this->session->set_flashdata('erro', 'Usuario ou senha inválida');
                     redirect('login');
                 }
+                $registrologin = array(
+                    'hist_entrada' => date("Y-m-d H:i:s"),
+                    'hist_ip' => getUserIP(),
+                    'hist_usuario' => $usuario->usu_id
+                );
+                $usuarioLogado['registro_id'] = $this->usuario_model->registrarLogin($registrologin);
                 $usuarioLogado['usu_id'] = $usuario->usu_id;
                 $usuarioLogado['usu_login'] = $usuario->usu_login;
                 $usuarioLogado['usu_nome'] = $usuario->usu_nome;
@@ -47,6 +54,9 @@ class Login extends CI_Controller {
                 if($this->session->andamento){
                     redirect($this->session->andamento);
                 }
+                if($this->session->chamado){
+                    redirect($this->session->chamado);
+                }
                 redirect('dashboard');
             }
         }
@@ -54,6 +64,10 @@ class Login extends CI_Controller {
     }
 
     public function deslogar(){
+        $this->usuario_model->registrarSaida(array(
+            'hist_saida' => date("Y-m-d H:i:s")
+        ));
+        $this->session->unset_userdata('registro_id');
         $this->session->unset_userdata('usu_id');
         $this->session->unset_userdata('usu_login');
         $this->session->unset_userdata('usu_nome');

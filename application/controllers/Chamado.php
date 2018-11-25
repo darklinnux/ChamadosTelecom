@@ -7,6 +7,7 @@ class Chamado extends CI_Controller {
 	{
 		parent::__construct();
 		$this->controleacesso->verificaSeEstaLogado();
+		$this->session->unset_userdata('chamado');
 		$this->load->model('chamado_model');
 		$this->load->model('empresa_model');
 		$this->load->model('filial_model');
@@ -57,7 +58,7 @@ class Chamado extends CI_Controller {
 				$this->chamado_model->inserirListaSintoma($sintomas);
 			});
 			//die('sem erro');
-			//sendMessageGrupo($this->getTextMensagem($id));
+			sendMessageGrupo($this->getTextMensagem($id));
 			$this->session->set_flashdata('sucess', 'chamado cadastrado com sucesso!!!');
 			redirect('chamado/aberto');
 		}else {
@@ -83,7 +84,7 @@ class Chamado extends CI_Controller {
 				$this->chamado_model->inserirListaSintoma($sintomas);
 			});
 			//die('sem erro');
-			//sendMessageGrupo($this->getTextMensagem($id,true));
+			sendMessageGrupo($this->getTextMensagem($id,true));
 			$this->session->set_flashdata('sucess', 'chamado atualizado com sucesso!!!');
 			redirect('chamado/aberto');
 		}else {
@@ -209,7 +210,8 @@ class Chamado extends CI_Controller {
 			[Previsão]→".$chamado->cha_previsao."
 			[Nivel]→Nivel ".$chamado->cha_nivel."
 			[status]→".$this->chamado_model->getStatusId($chamado->cha_status)->stc_status."
-			[usuario]→".$chamado->usu_login."";
+			[usuario]→".$chamado->usu_login."
+			[Link]→".base_url("chamado/aberto/".$chamado->cha_id)."";
 		}else {
 			return 
 			"[Chamado]→".$chamado->emp_nome."
@@ -223,7 +225,8 @@ class Chamado extends CI_Controller {
 			[Previsão]→".$chamado->cha_previsao."
 			[Nivel]→Nivel ".$chamado->cha_nivel."
 			[status]→".$this->chamado_model->getStatusId($chamado->cha_status)->stc_status."
-			[usuario]→".$chamado->usu_login."";
+			[usuario]→".$chamado->usu_login."
+			[Link]→".base_url("chamado/aberto/".$chamado->cha_id)."";
 			}
 	}
 

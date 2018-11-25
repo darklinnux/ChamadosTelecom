@@ -29,6 +29,15 @@ class ControleAcesso
             $this->CI->session->set_flashdata('erro', 'Precisa está logado para acessa a pagina!!!');
             redirect('login');
         }
+
+        if( $this->CI->uri->segment(2) == 'aberto' && !$this->is_logado()){
+            $pagina = $this->CI->uri->segment(1);
+            $metodo = $this->CI->uri->segment(2);
+            $parametro = $this->CI->uri->segment(3);
+            $this->CI->session->set_userdata('chamado',$pagina.'/'.$metodo.'#'.$parametro);
+            $this->CI->session->set_flashdata('erro', 'Precisa está logado para acessa a pagina!!!');
+            redirect('login');
+        }
         if (!$this->is_logado()) {
             $this->CI->session->set_flashdata('erro', 'Precisa está logado para acessa a pagina!!!');
             redirect('login');

@@ -64,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <tbody>
                   <?php foreach($chamados as $chamado) {?>
                   <tr>
-                    <td><?=$chamado->fil_numero?>-<?=$chamado->fil_nome?></td>
+                    <td><a onclick="modalEditar(<?=$chamado->cha_id?>);" href="#"><?=$chamado->fil_numero?>-<?=$chamado->fil_nome?></a></td>
                     <td><?=$chamado->cha_assunto?></td>
                     <td><?=$chamado->set_nome?></td>
                     <td><?=$chamado->niv_nivel?></td>
@@ -155,10 +155,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label>Filial</label>
-                      <select name="filial" class="form-control select2" style="width: 100%;">
+                      <select name="filial" class="form-control select2 " style="width: 100%;">
                         <?php foreach($filiais as $filial) { ?>
                           <option value="<?=$filial->fil_id?>"><?=$filial->fil_nome?></option>
                         <?php } ?>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Responsavel:</label>
+                      <select required name="responsavel" class="form-control select2 responsavel" style="width: 100%;">
+                          <option disabled value="0">Selecione um Responsavel</option>
+                        <?php foreach ($usuarios as $usuario) {?>
+                          <option value="<?=$usuario->usu_id?>"><?=$usuario->usu_nome?></option>
+                        <?php }?>
                       </select>
                     </div>
                   </div>

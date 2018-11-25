@@ -81,7 +81,7 @@ class ChamadoInterno extends CI_Controller {
 			//die('sem erro');
 			sendMessageGrupoInterno($this->getTextMensagem($id));
 			$this->session->set_flashdata('sucess', 'chamado cadastrado com sucesso!!!');
-			redirect('ChamadoInterno/aberto');
+			redirect('ChamadoInterno/andamento/'.$id);
 		}else {
 			$this->session->set_flashdata('error', validation_errors());
 			redirect('ChamadoInterno/aberto');
@@ -184,7 +184,7 @@ class ChamadoInterno extends CI_Controller {
 		
 	}
 	private function validaFormCadastro(){
-		
+		$this->form_validation->set_rules('responsavel', 'Responsavel','trim|required');
 		$this->form_validation->set_rules('categoria', 'Categoria','trim|required');
 		$this->form_validation->set_rules('setor', 'Setor','trim|required');
 		$this->form_validation->set_rules('assunto', 'Assunto','trim|required');
@@ -205,6 +205,7 @@ class ChamadoInterno extends CI_Controller {
 		$chamado['cha_descricao'] = $this->input->post('descricao');
 		$chamado['cha_filial'] = $this->input->post('filial');
 		$chamado['cha_nivel'] = $this->input->post('nivel');
+		$chamado['cha_responsavel'] = $this->input->post('responsavel');
 		
 		if($this->input->post('status')){
 			$chamado['cha_status'] = $this->input->post('status');
@@ -267,6 +268,7 @@ class ChamadoInterno extends CI_Controller {
 			$dados['setores'] = $this->setor_model->listarTodos();
 			$dados['niveis'] = $this->ChamadoInterno_model->getNivelChamado();
 			$dados['status'] = $this->ChamadoInterno_model->getStatusChamado();
+			$dados['usuarios'] = $this->usuario_model->listar();
 		}
 
 		if($view == 'fechado'){
@@ -276,6 +278,7 @@ class ChamadoInterno extends CI_Controller {
 			$dados['setores'] = $this->setor_model->listarTodos();
 			$dados['niveis'] = $this->ChamadoInterno_model->getNivelChamado();
 			$dados['status'] = $this->ChamadoInterno_model->getStatusChamado();
+			$dados['usuarios'] = $this->usuario_model->listar();
 		}
 		
 		return $dados;

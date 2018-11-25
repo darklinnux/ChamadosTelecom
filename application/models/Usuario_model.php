@@ -74,4 +74,14 @@ class Usuario_model extends CI_Model
 
     }
 
+    public function registrarLogin($registro){
+        $this->db->insert('historico_login', $registro);
+        return $this->db->insert_id();
+    }
+
+    public function registrarSaida($registro){
+        $this->db->where('hist_id', $this->session->registro_id);
+        $this->db->update('historico_login', $registro);
+    }
+
 }

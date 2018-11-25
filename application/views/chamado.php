@@ -452,6 +452,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       autoclose: true,
       format: 'dd/mm/yyyy',        
     });
+    abrirModalEditar();
     novoChamado();
   });
 
@@ -469,6 +470,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     /*verifica se é para execultar a função, se sim, ele a execulta*/
     if(urlAtual[1] == "modal") {
       $('#modal-default').modal('show');
+    }
+    
+  }
+
+  function abrirModalEditar(){
+    var urlAtual = window.location.href;
+    urlAtual2 = urlAtual.split('aberto/');
+    if($.isNumeric(urlAtual2[1])){
+      modalEditar(urlAtual2[1]);
     }
   }
   function formatarData(data){
