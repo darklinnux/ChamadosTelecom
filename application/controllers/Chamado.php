@@ -72,6 +72,7 @@ class Chamado extends CI_Controller {
 		//var_dump($_POST);die();
 		if ($this->input->server('REQUEST_METHOD') === 'POST' && $this->validaFormCadastro()) {
 			$chamado = $this->popularChamado(true);
+			//var_dump($chamado);die();
 			$this->chamado_model->update($chamado);
 			$id = $chamado['cha_id'];
 			$this->chamado_model->deletarFiliaisChamado($id);
@@ -84,7 +85,7 @@ class Chamado extends CI_Controller {
 				$this->chamado_model->inserirListaSintoma($sintomas);
 			});
 			//die('sem erro');
-			sendMessageGrupo($this->getTextMensagem($id,true));
+			//sendMessageGrupo($this->getTextMensagem($id,true));
 			$this->session->set_flashdata('sucess', 'chamado atualizado com sucesso!!!');
 			redirect('chamado/aberto');
 		}else {
@@ -153,11 +154,16 @@ class Chamado extends CI_Controller {
 		if($this->input->post('id')){
 			$chamado['cha_id'] = $this->input->post('id');
 		}
-
+		
 		if(!$editar){
 			$chamado['cha_usuario'] = $this->session->usu_id;
 			$chamado['cha_data_inicio'] = date("Y-m-d H:i:s");
+		}else {
+			if($this->input->post('status') === '3'){
+				$chamado['cha_data_fim'] = date("Y-m-d H:i:s");
+			}
 		}
+		
 		return $chamado;
 	}
 
