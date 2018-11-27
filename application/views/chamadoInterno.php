@@ -280,6 +280,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   </div>
                 </div>
                 <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Responsavel:</label>
+                      <select id="resp_id"required name="responsavel" class="form-control select2 responsavel" style="width: 100%;">
+                          <option disabled value="0">Selecione um Responsavel</option>
+                        <?php foreach ($usuarios as $usuario) {?>
+                          <option value="<?=$usuario->usu_id?>"><?=$usuario->usu_nome?></option>
+                        <?php }?>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
                   <div class="col-sm-8">
                     <div class="form-group">
                       <label>Assunto:</label>
@@ -434,7 +447,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       $('#editar-assunto').val(chamado.cha_assunto);
       $('#editar-nivel').val(chamado.cha_nivel);
       $('#editar-previsao').val(formatarData(chamado.cha_previsao));
-      $('#editar-filial').val(chamado.cha_filial);
+      $('#editar-filial').val(chamado.cha_filial).trigger('change');
+      $('#resp_id').val(chamado.cha_responsavel).trigger('change');
       $('#editar-categoria').val(chamado.cha_categoria);
       $('#editar-setor').val(chamado.cha_setor);
       $('#editar-descricao').val(chamado.cha_descricao);

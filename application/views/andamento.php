@@ -119,7 +119,7 @@ $controle = ($this->controleacesso->verficaPermisaoEditar(12,true)) ? null : 'di
                       <label>Filial</label>
                       <select disabled name="filial" class="form-control select2" style="width: 100%;">
                         <?php foreach ($filiais as $filial) {?>
-                          <option value="<?=$filial->fil_id?>"><?=$filial->fil_numero.'-'.$filial->fil_nome?></option>
+                          <option <?=($filial->fil_id == $chamado->cha_filial) ? 'selected' : null ?> value="<?=$filial->fil_id?>"><?=$filial->fil_numero.'-'.$filial->fil_nome?></option>
                         <?php }?>
                       </select>
                     </div>
