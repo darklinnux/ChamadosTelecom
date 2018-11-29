@@ -85,7 +85,11 @@ class Chamado extends CI_Controller {
 				$this->chamado_model->inserirListaSintoma($sintomas);
 			});
 			//die('sem erro');
-			//sendMessageGrupo($this->getTextMensagem($id,true));
+			if($chamado['cha_status'] == 3){
+				sendMessageGrupo($this->getTextMensagem($id,true),false,false,true);
+			}else {
+				sendMessageGrupo($this->getTextMensagem($id,true),false,true,false);
+			}
 			$this->session->set_flashdata('sucess', 'chamado atualizado com sucesso!!!');
 			redirect('chamado/aberto');
 		}else {

@@ -64,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <tbody>
                   <?php foreach($chamados as $chamado) {?>
                   <tr>
-                    <td><a onclick="modalEditar(<?=$chamado->cha_id?>);" href="#"><?=$chamado->fil_numero?>-<?=$chamado->fil_nome?></a></td>
+                    <td><a href="<?=base_url("ChamadoInterno/andamento/{$chamado->cha_id}")?>"><?=$chamado->fil_numero?>-<?=$chamado->fil_nome?></a></td>
                     <td><?=$chamado->cha_assunto?></td>
                     <td><?=$chamado->set_nome?></td>
                     <td><?=$chamado->niv_nivel?></td>
@@ -218,7 +218,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="modal-header bg-blue">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Novo Chamado Interno</h4>
+                <h4 class="modal-title">Editar Chamado Interno</h4>
               </div>
               <div class="modal-body">
                 <div class="row">

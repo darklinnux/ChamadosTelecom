@@ -86,8 +86,6 @@ class Usuario extends CI_Controller {
 
 	private function validaFormEditar(){
     
-    $this->form_validation->set_rules('senha', 'senha', 'required|min_length[6]');
-		$this->form_validation->set_rules('conf_senha', 'senhas devem ser iguais', 'required|matches[senha]');
     $this->form_validation->set_rules('perfil', 'Perfil','trim|required');
     $this->form_validation->set_rules('id', 'id','trim|required');
 		$this->form_validation->set_rules('status', 'Status','trim|required');
@@ -116,18 +114,24 @@ class Usuario extends CI_Controller {
                     },
                 ),
             )
-        );
-        return $this->form_validation->run();
+    );
+    if(!empty($this->input->post('senha'))){
+      $this->form_validation->set_rules('senha', 'senha', 'required|min_length[6]');
+		  $this->form_validation->set_rules('conf_senha', 'senhas devem ser iguais', 'required|matches[senha]');
+    }
+    return $this->form_validation->run();
 	}
 	
 	private function popularUsuario(){
 		$usuario['usu_nome'] = $this->input->post('nome');
 		$usuario['usu_login'] = $this->input->post('login');
-		$usuario['usu_senha'] = md5($this->input->post('senha'));
 		$usuario['usu_status'] = $this->input->post('status');
     $usuario['usu_perfil'] = $this->input->post('perfil');
     if($this->input->post('id')){
       $usuario['usu_id'] = $this->input->post('id');
+    }
+    if(!empty($this->input->post('senha'))){
+      $usuario['usu_senha'] = md5($this->input->post('senha'));
     }
 		return $usuario;
 	}

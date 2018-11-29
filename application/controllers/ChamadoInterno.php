@@ -95,7 +95,11 @@ class ChamadoInterno extends CI_Controller {
 			$this->ChamadoInterno_model->update($chamado);
 			$id = $chamado['cha_id'];
 			//die('sem erro');
-			//sendMessageGrupoInterno($this->getTextMensagem($id,true));
+			if($chamado['cha_status'] == 3){
+				sendMessageGrupoInterno($this->getTextMensagem($id,true),false,false,true);
+			}else {
+				sendMessageGrupoInterno($this->getTextMensagem($id,true),false,true,false);
+			}
 			$this->session->set_flashdata('sucess', 'chamado atualizado com sucesso!!!');
 			redirect('ChamadoInterno/aberto');
 		}else {
@@ -139,7 +143,11 @@ class ChamadoInterno extends CI_Controller {
 		}
 		/* var_dump($chamado);die(); */
 		if($this->ChamadoInterno_model->update($chamado)){
-			//sendMessageGrupoInterno($this->getTextMensagem($chamado['cha_id'],true));
+			if($chamado['cha_status'] == 3){
+				sendMessageGrupoInterno($this->getTextMensagem($chamado['cha_id'],true),false,false,true);
+			}else {
+				sendMessageGrupoInterno($this->getTextMensagem($chamado['cha_id'],true),false,true,false);
+			}
 			echo json_encode(true);
 		}else {
 			echo json_encode(false);
