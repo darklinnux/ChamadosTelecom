@@ -37,7 +37,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <!-- /.login-logo -->
   <div class="login-box-body">
      <div class="login-logo">
-    <a href="#"><b>Chamados</b>Telecom</a>
+    <a href="#"><b>Prime</b>Ticket</a>
   </div>
   <?php if (!empty(validation_errors())) {?>
     <div class="alert alert-danger alert-dismissible">

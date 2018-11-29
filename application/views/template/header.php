@@ -55,7 +55,7 @@ $metodo = $this->uri->segment(2);
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>A</b>LT</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Chamados</b>Telecom</span>
+      <span class="logo-lg"><b>Prime</b>Ticket</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
